@@ -1,0 +1,29 @@
+<?php
+
+namespace Quill\{{moduleName}};
+
+use Vellum\Module\Quill;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\ServiceProvider;
+use Quill\{{moduleName}}\Listeners\Register{{moduleName}}Module;
+use Quill\{{moduleName}}\Models\{{moduleName}}Resource;
+use Quill\{{moduleName}}\Models\{{moduleName}}Observer;
+
+class {{moduleName}}ServiceProvider extends ServiceProvider
+{
+
+    public function boot()
+    {
+        $this->loadRoutesFrom(__DIR__ . '/routes/{{moduleNameSingularLowerCase}}.php');
+        $this->loadViewsFrom(__DIR__ . '/views', '{{moduleNameSingularLowerCase}}');
+        $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
+        $this->mergeConfigFrom(__DIR__ . '/config/{{moduleNameSingularLowerCase}}.php', '{{moduleNameSingularLowerCase}}');
+    
+        {{moduleName}}Resource::observe({{moduleName}}Observer::class);
+    }
+
+    public function register()
+    {
+        Event::listen(Quill::MODULE, Register{{moduleName}}Module::class);
+    }
+}

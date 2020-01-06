@@ -1,0 +1,31 @@
+<?php
+
+namespace Quill\{{moduleName}};
+
+use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use Quill\{{moduleName}}\Models\Policies\{{moduleName}}Policy;
+use Quill\{{moduleName}}\Models\{{moduleName}};
+
+class {{moduleName}}AuthServiceProvider extends ServiceProvider
+{
+    /**
+     * The policy mappings for the afpplication.
+     *
+     * @var array
+     */
+    protected $policies = [
+        {{moduleName}}::class => {{moduleName}}Policy::class,
+    ];
+
+    /**
+     * Register any application authentication / authorization services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        $this->registerPolicies();
+
+        //
+    }
+}

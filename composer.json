@@ -1,0 +1,26 @@
+{
+    "name": "vellum/core",
+    "description": "Vellum Core",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Summit Digital",
+            "email": "spci.redesign@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Vellum\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Quill\\Post\\PostServiceProvider"
+            ]
+        }
+    }
+}

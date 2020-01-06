@@ -1,0 +1,41 @@
+<?php
+
+namespace Quill\{{moduleName}}\Filters;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
+
+
+class {{filterName}}Filter
+{
+
+    /**
+     * Additional query builder
+     * @param  Builder $builder Current eloquent query
+     * @param  mixed  $value   Value to be used for the query
+     * @return Builder           
+     */
+    public function apply(Builder $builder, $value)
+    {
+        return $builder;
+    }
+
+    /**
+     * Key to be used for select name and param url
+     * @return string
+     */
+    public function key()
+    {
+        // ...
+    }
+
+    /**
+     * List of values in the dropdown
+     * @return array 
+     */
+    public function options()
+    {
+        // ...
+    }
+
+}

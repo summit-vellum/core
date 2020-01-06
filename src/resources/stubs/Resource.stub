@@ -1,0 +1,39 @@
+<?php
+
+namespace Quill\{{moduleName}}\Resource;
+
+use Quill\Html\Fields\ID;
+use Quill\Html\Fields\Select;
+use Quill\Status\Models\Status;
+use Quill\{{moduleName}}\Models\{{moduleName}};
+use Vellum\Contracts\Formable;
+
+class {{moduleName}}Resource extends {{moduleName}} implements Formable
+{
+    public function fields()
+    {
+        return [
+            ID::make()->sortable()->searchable(),
+            
+            Select::make('Status','status_id')
+                ->options(Status::class)
+        ];
+    }
+
+    public function filters()
+    {
+        return [
+            //
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            new \Vellum\Actions\EditAction,
+            new \Vellum\Actions\ViewAction,
+            new \Vellum\Actions\DeleteAction,
+        ];
+    }
+
+}

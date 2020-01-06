@@ -1,0 +1,48 @@
+<?php
+
+namespace Quill\{{moduleName}}\Models;
+
+use Illuminate\Support\Str;
+use Quill\{{moduleName}}\Models\{{moduleName}};
+
+/**
+ * Sample event trigger
+ * 
+ * event(new {{moduleName}}Created(${{moduleNameSingularLowerCase}}));
+ * 
+ */
+
+class {{moduleName}}Observer
+{
+
+    public function creating({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // creating logic...
+    }
+
+    public function created({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // created logic...
+    }
+
+    public function saving({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // saving logic...
+    }
+
+    public function saved({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // saved logic...
+    }
+
+    public function updating({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // updating logic...
+    }
+
+    public function updated({{moduleName}} ${{moduleNameSingularLowerCase}})
+    {
+        // updated logic...
+    }
+
+}
