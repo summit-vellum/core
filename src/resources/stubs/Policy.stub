@@ -11,7 +11,7 @@ class {{moduleName}}Policy
 
     use HandlesAuthorization;
 
-    protected $module = '{{moduleNameSingularLowerCase}}';
+    protected $module = '{{moduleNameSlug}}';
 
     /**
      * Determine if the given resource can be viewed by the user.

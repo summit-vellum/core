@@ -2,19 +2,20 @@
 
 namespace Vellum\Providers;
 
-use Vellum\Repositories\ResourceRepository;
-use Vellum\Composers\FilterComposer;
-use Vellum\Contracts\FormRequestContract;
-use Vellum\Contracts\Formable;
-use Vellum\Contracts\Resource;
-use Vellum\Module\Quill;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use Vellum\Composers\FilterComposer;
+use Vellum\Contracts\FormRequestContract;
+use Vellum\Contracts\Formable;
+use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
+use Vellum\Module\Quill;
+use Vellum\Repositories\ResourceRepository;
 
 class ModuleServiceProvider extends ServiceProvider
 {
@@ -32,7 +33,7 @@ class ModuleServiceProvider extends ServiceProvider
 
         $segment = $this->app->request->segment(1);
 
-        $entity = studly_case($segment);
+        $entity = Str::studly(Str::slug($segment,'_'));
 
         $moduleDetails = collect($modules)->filter(
             function($module) use ($segment) {

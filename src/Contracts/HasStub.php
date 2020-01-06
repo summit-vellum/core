@@ -139,7 +139,7 @@ trait HasStub
     {
         $routeTemplate = str_replace(
             ['{{moduleNameSingularLowerCase}}'],
-            [strtolower($this->module)],
+            [strtolower(Str::kebab($this->module))],
             $this->getStub('Route'));
 
         $this->createStubToFile("routes/".strtolower($this->module).".php", $routeTemplate);
@@ -238,11 +238,13 @@ trait HasStub
         $policyTemplate = str_replace(
             [
                 '{{moduleName}}',
-                '{{moduleNameSingularLowerCase}}'
+                '{{moduleNameSingularLowerCase}}',
+                '{{moduleNameSlug}}'
             ],
             [
                 $this->module,
-                strtolower($this->module)
+                strtolower($this->module),
+                strtolower(Str::kebab($this->module))
             ],
             $this->getStub('Policy')
         );
@@ -259,7 +261,7 @@ trait HasStub
             ],
             [
                 $this->module,
-                strtolower($this->module)
+                strtolower(Str::kebab($this->module))
             ],
             $this->getStub('RegisterModule')
         );
