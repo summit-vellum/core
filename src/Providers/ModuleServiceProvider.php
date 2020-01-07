@@ -115,7 +115,7 @@ class ModuleServiceProvider extends ServiceProvider
         // app('router')->pushMiddlewareToGroup('web', \Vellum\Middleware\ModuleAccess::class);
 
         // set the global default blade for pagination
-        Paginator::defaultView('vendor.pagination.tailwind');
+        Paginator::defaultView('vendor.vellum.pagination.tailwind');
     }
 
     public function loadPackageSettings()
@@ -129,17 +129,17 @@ class ModuleServiceProvider extends ServiceProvider
 
 		$this->publishes([
 		    __DIR__.'/../resources/views' => resource_path('views/vendor/vellum'),
-		]);
+		], 'vellum.views');
 
 		$this->publishes([
 		    __DIR__.'/../config/filters.php' => config_path('filters.php'),
 		    __DIR__.'/../config/shortcodes.php' => config_path('shortcodes.php'),
 		    __DIR__.'/../config/table.php' => config_path('table.php'),
-		]);
+		], 'vellum.config');
 
 		$this->publishes([
 		    __DIR__.'/../public' => public_path('vendor/vellum'),
-		], 'public');
+		], 'vellum.public');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
