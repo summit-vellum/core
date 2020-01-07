@@ -13,14 +13,14 @@ class Search extends Filter
 
 	public function __construct(Resource $resource)
 	{
-		$this->searchFields = $resource->attributes['searchable'];
+		$this->searchFields = collect($resource->attributes['searchable']);
 	}
 
 	protected function applyFilter(Builder $builder)
 	{
 		$firstField = $this->searchFields->shift();
-		
-		
+
+
 		$builder->where(function($builder) use($firstField){
 			$builder->where($firstField, 'like', "%".request($this->filterName())."%");
 
