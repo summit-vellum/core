@@ -19,6 +19,7 @@ class ResourceController extends Controller
     protected $resource;
     public $currentRouteName;
     public $data = [];
+    public $module;
 
     public function __construct(Resource $resource, Module $module)
     {
@@ -30,6 +31,7 @@ class ResourceController extends Controller
         $this->resource = $resource;
         $this->data['model'] = $this->resource->getModel();
         $this->data['actions'] = $this->resource->getActions();
+        $this->module = $module;
 
         view()->composer('*', function ($view) {
             $view->with('routeName', $this->currentRouteName);
@@ -62,7 +64,7 @@ class ResourceController extends Controller
         $this->authorize('create', $this->resource->getModel());
 
         $this->data['data'] = [];
-        $this->data['routeUrl'] = route(app('module')['name'].'.store');
+        $this->data['routeUrl'] = route($this->module->getName().'.store');
         $this->data['attributes'] = $this->resource->getAttributes();
 
         // $this->data['data'] = factory(\Quill\Post\Models\Post::class)->make();
@@ -86,7 +88,7 @@ class ResourceController extends Controller
 
         $data = $this->resource->save($request->all());
 
-        return redirect()->route(app('module')['name'].'.show', $data['id']);
+        return redirect()->route($this->module->getName().'.show', $data['id']);
     }
 
     /**
@@ -101,7 +103,7 @@ class ResourceController extends Controller
 
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['data'] = $this->resource->findById($id);
-        $this->data['routeUrl'] = route(app('module')['name'].'.update', $id);
+        $this->data['routeUrl'] = route($this->module->getName().'.update', $id);
 
         return view('vellum::form', $this->data);
     }
@@ -118,7 +120,7 @@ class ResourceController extends Controller
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['attributes'] = $this->resource->getAttributes();
-        $this->data['routeUrl'] = route(app('module')['name'].'.update', $id);
+        $this->data['routeUrl'] = route($this->module->getName().'.update', $id);
 
         return view('vellum::form', $this->data);
     }
@@ -136,7 +138,7 @@ class ResourceController extends Controller
 
         $data = $this->resource->save($request->all(), $id);
 
-        return redirect()->route(app('module')['name'].'.show', $id);
+        return redirect()->route($this->module->getName().'.show', $id);
     }
 
     /**
