@@ -115,7 +115,7 @@ class ModuleServiceProvider extends ServiceProvider
         // app('router')->pushMiddlewareToGroup('web', \Vellum\Middleware\ModuleAccess::class);
 
         // set the global default blade for pagination
-        Paginator::defaultView('vendor.pagination.tailwind');
+        Paginator::defaultView('vellum::vendor.pagination.tailwind');
     }
 
     public function loadPackageSettings()
@@ -124,9 +124,22 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'vellum');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/../config/filters.php', 'filters');
-        $this->mergeConfigFrom(__DIR__ . '/../config/theme.php', 'theme');
         $this->mergeConfigFrom(__DIR__ . '/../config/shortcodes.php', 'shortcodes');
         $this->mergeConfigFrom(__DIR__ . '/../config/table.php', 'table');
+
+		$this->publishes([
+		    __DIR__.'/../resources/views' => resource_path('views/vendor/core'),
+		]);
+
+		$this->publishes([
+		    __DIR__.'/../config/filters.php' => config_path('filters.php'),
+		    __DIR__.'/../config/shortcodes.php' => config_path('shortcodes.php'),
+		    __DIR__.'/../config/table.php' => config_path('table.php'),
+		]);
+
+		$this->publishes([
+		    __DIR__.'/../public' => public_path('vendor/courier'),
+		], 'public');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
