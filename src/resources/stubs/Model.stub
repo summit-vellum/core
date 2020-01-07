@@ -2,13 +2,10 @@
 
 namespace Quill\{{moduleName}}\Models;
 
-use App\Http\Models\{{moduleName}}Tag;
-use Quill\Seo\Traits\HasSeo;
 use Vellum\Models\BaseModel;
 
 class {{moduleName}} extends BaseModel
 {
-    use HasSeo;
 
     protected $table = '{{moduleNamePluralLowerCase}}';
 
