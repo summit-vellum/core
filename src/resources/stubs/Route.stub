@@ -12,13 +12,7 @@
 */
 
 Route::group(['middleware' => 'web'], function() {
-    
-    Route::resource('{{moduleNameSingularLowerCase}}', 'App\Http\Controllers\ResourceController');
 
-    Route::group(['prefix' => 'modal'], function(){
-        Route::name('modal.')->group(function(){
-            Route::resource('{{moduleNameSingularLowerCase}}', 'App\Http\Controllers\ResourceController');
-        });
-    });
+    // ... Route logic goes here
 
 });
