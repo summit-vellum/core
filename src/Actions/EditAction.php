@@ -10,7 +10,7 @@ class EditAction extends BaseAction implements Actionable
 {
     public function icon()
     {
-        return view('icons.icon')->with(['icon' => 'edit'])->render();
+        return view('vellum::icons.icon')->with(['icon' => 'edit'])->render();
     }
 
     public function link($id, $data = [])

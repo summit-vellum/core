@@ -10,7 +10,7 @@ class DeleteAction extends BaseAction implements Actionable
 {
     public function icon()
     {
-        return view('icons.icon')->with(['icon' => 'trash'])->render();
+        return view('vellum::icons.icon')->with(['icon' => 'trash'])->render();
     }
 
     public function link($id, $data = [])
