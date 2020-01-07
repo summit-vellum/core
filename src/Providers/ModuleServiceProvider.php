@@ -128,7 +128,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/table.php', 'table');
 
 		$this->publishes([
-		    __DIR__.'/../resources/views' => resource_path('views/vendor/core'),
+		    __DIR__.'/../resources/views' => resource_path('views/vendor/vellum'),
 		]);
 
 		$this->publishes([
@@ -138,7 +138,7 @@ class ModuleServiceProvider extends ServiceProvider
 		]);
 
 		$this->publishes([
-		    __DIR__.'/../public' => public_path('vendor/courier'),
+		    __DIR__.'/../public' => public_path('vendor/vellum'),
 		], 'public');
 
         if ($this->app->runningInConsole()) {
