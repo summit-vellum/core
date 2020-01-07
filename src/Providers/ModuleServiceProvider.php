@@ -115,7 +115,7 @@ class ModuleServiceProvider extends ServiceProvider
         // app('router')->pushMiddlewareToGroup('web', \Vellum\Middleware\ModuleAccess::class);
 
         // set the global default blade for pagination
-        Paginator::defaultView('vellum::vendor.pagination.tailwind');
+        Paginator::defaultView('vendor.pagination.tailwind');
     }
 
     public function loadPackageSettings()
