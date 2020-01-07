@@ -64,8 +64,8 @@ class ModuleServiceProvider extends ServiceProvider
             return new $resource;
         });
 
-        $this->app->bind(Module::class, function($app){
-            return new Module($this->module);
+        $this->app->singleton(Module::class, function($app) use($moduleDetails) {
+            return new Module($moduleDetails);
         });
 
         Blade::if('form', function() {

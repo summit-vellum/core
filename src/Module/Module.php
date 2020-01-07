@@ -18,7 +18,9 @@ class Module
 
     public function __construct($properties)
     {
-        // dd($properties);
+        foreach ($properties as $key => $value) {
+        	$this->$key = $value;
+        }
     }
 
     public function setName($value)
