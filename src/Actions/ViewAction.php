@@ -10,7 +10,7 @@ class ViewAction extends BaseAction implements Actionable
 {
     public function icon()
     {
-        return view('icons.icon')->with(['icon' => 'preview'])->render();
+        return view('vellum::icons.icon')->with(['icon' => 'preview'])->render();
     }
 
     public function link($id, $data = [])

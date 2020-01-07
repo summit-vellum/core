@@ -48,9 +48,8 @@ class ResourceController extends Controller
 
         $this->data['collections'] = $this->resource->getRowsData();
         $this->data['attributes'] = $this->resource->getAttributes();
-        $this->data['page_title'] = 'Post';
 
-        return view('catalog', $this->data);
+        return view('vellum::catalog', $this->data);
     }
 
     /**
@@ -70,7 +69,7 @@ class ResourceController extends Controller
         // $this->data['data']['id'] = null;
         // $this->data['data']['published_at'] = \Carbon\Carbon::now()->toDateTimeString();
 
-        return view('form', $this->data);
+        return view('vellum::form', $this->data);
     }
 
     /**
@@ -104,7 +103,7 @@ class ResourceController extends Controller
         $this->data['data'] = $this->resource->findById($id);
         $this->data['routeUrl'] = route(app('module')['name'].'.update', $id);
 
-        return view('form', $this->data);
+        return view('vellum::form', $this->data);
     }
 
     /**
@@ -121,7 +120,7 @@ class ResourceController extends Controller
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route(app('module')['name'].'.update', $id);
 
-        return view('form', $this->data);
+        return view('vellum::form', $this->data);
     }
 
     /**

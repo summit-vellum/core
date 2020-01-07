@@ -120,8 +120,8 @@ class ModuleServiceProvider extends ServiceProvider
 
     public function loadPackageSettings()
     {
-//        $this->loadRoutesFrom(__DIR__ . '/routes/web.php');
-        $this->loadViewsFrom(__DIR__ . '/../views', 'vellum');
+       	$this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'vellum');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/../config/filters.php', 'filters');
         $this->mergeConfigFrom(__DIR__ . '/../config/theme.php', 'theme');
