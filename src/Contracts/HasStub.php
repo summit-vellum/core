@@ -89,7 +89,7 @@ trait HasStub
             ],
             [
                 $this->module,
-                strtolower(str_plural($this->module)),
+                strtolower(Str::plural($this->module)),
             ],
             $this->getStub('Model'));
 
@@ -155,7 +155,7 @@ trait HasStub
             ],
             [
                 $this->module,
-                strtolower(str_plural($this->module)),
+                strtolower(Str::plural($this->module)),
                 strtolower($this->module)
             ],
             $this->getStub('Controller')
@@ -213,7 +213,7 @@ trait HasStub
             ],
             [
                 $this->module,
-                strtolower(str_plural($this->module)),
+                strtolower(Str::plural($this->module)),
                 strtolower($this->module)
             ],
             $this->getStub('ServiceProvider')
@@ -302,7 +302,7 @@ trait HasStub
         $this->info('Creating a migration script.');
         $module = strtolower($this->module);
         $migrationPath = 'modules/'.$this->modulePath.'database/migrations';
-        $modulePlural = str_plural($module);
+        $modulePlural = Str::plural($module);
 
         Artisan::call("make:migration create_{$module}_table --path={$migrationPath} --create={$modulePlural}");
         Artisan::call("make:seeder {$this->module}TableSeeder");
