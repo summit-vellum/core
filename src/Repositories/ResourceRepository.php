@@ -5,6 +5,7 @@ namespace Vellum\Repositories;
 
 use App\Http\Controllers\QuillBuilderController;
 use App\Repositories\Exception;
+use Debugbar;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Pipeline\Pipeline;
@@ -13,10 +14,9 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Vellum\Contracts\HasCrud;
 use Vellum\Contracts\Resource;
+use Vellum\Module\Module;
 use Vellum\Services\FileUploadService;
 use Vellum\Uploader\UploadTrait;
-
-use Debugbar;
 
 
 class ResourceRepository implements Resource, HasCrud
@@ -36,12 +36,11 @@ class ResourceRepository implements Resource, HasCrud
     {
         $this->model = $model;
 
-        $this->config = config(app('module')['name']);
         $this->attributes = app(Pipeline::class)
                     ->send([])
                     ->through($this->model->fields())
                     ->thenReturn();
-                    
+
         $this->attributes['collections'] = array_reverse($this->attributes['collections']);
 
         // dd($this->attributes);
