@@ -1,0 +1,18 @@
+<?php
+
+use Illuminate\Database\Seeder;
+use Quill\{{moduleName}}\Models\{{moduleName}};
+
+class {{moduleName}}TableSeeder extends Seeder
+{
+   	/**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+        factory({{moduleName}}::class, 10)->create();
+    }
+
+}

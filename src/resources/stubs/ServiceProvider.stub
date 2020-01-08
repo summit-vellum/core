@@ -6,7 +6,7 @@ use Vellum\Module\Quill;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Quill\{{moduleName}}\Listeners\Register{{moduleName}}Module;
-use Quill\{{moduleName}}\Models\{{moduleName}}Resource;
+use Quill\{{moduleName}}\Resource\{{moduleName}}Resource;
 use Quill\{{moduleName}}\Models\{{moduleName}}Observer;
 
 class {{moduleName}}ServiceProvider extends ServiceProvider
@@ -18,8 +18,13 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
         $this->loadViewsFrom(__DIR__ . '/views', '{{moduleNameSingularLowerCase}}');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/config/{{moduleNameSingularLowerCase}}.php', '{{moduleNameSingularLowerCase}}');
-    
+
         {{moduleName}}Resource::observe({{moduleName}}Observer::class);
+
+        $this->publishes([
+        	__DIR__ . '/database/factories/{{moduleName}}Factory.php' => database_path('factories/{{moduleName}}Factory.php'),
+            __DIR__ . '/database/seeds/{{moduleName}}TableSeeder.php' => database_path('seeds/{{moduleName}}TableSeeder.php'),
+        ], 'vellum.migration.{{moduleName}}');
     }
 
     public function register()

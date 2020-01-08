@@ -60,6 +60,8 @@ trait HasStub
         $this->disk->makeDirectory($source.'Http/Controllers');
         $this->disk->makeDirectory($source.'Http/Requests');
         $this->disk->makeDirectory($source.'database/migrations');
+        $this->disk->makeDirectory($source.'database/factories');
+        $this->disk->makeDirectory($source.'database/seeds');
 
         $this->info("{$this->module} module directory created successfuly.");
     }
@@ -297,17 +299,52 @@ trait HasStub
         $this->createStubToFile("{$this->module}/../composer.json", $composerTemplate);
     }
 
+    protected function seed()
+    {
+    	$this->info('Creating seeder file.');
+        $seederTemplate = str_replace(
+        	[
+        		'{{moduleName}}'
+        	],
+        	[
+        		$this->module
+        	],
+        	$this->getStub('Seed')
+        );
+
+        $this->createStubToFile("database/seeds/{$this->module}TableSeeder.php", $seederTemplate);
+    }
+
+    protected function factory()
+    {
+    	$this->info('Creating factory file.');
+        $factoryTemplate = str_replace(
+        	[
+        		'{{moduleName}}'
+        	],
+        	[
+        		$this->module
+        	],
+        	$this->getStub('Factory')
+        );
+
+        $this->createStubToFile("database/factories/{$this->module}Factory.php", $factoryTemplate);
+    }
+
     protected function migrate()
     {
-        $this->info('Creating a migration script.');
+
         $module = strtolower($this->module);
         $migrationPath = 'modules/'.$this->modulePath.'database/migrations';
         $modulePlural = Str::plural($module);
 
+        $this->info('Creating a migration scripts.');
         Artisan::call("make:migration create_{$module}_table --path={$migrationPath} --create={$modulePlural}");
-        Artisan::call("make:seeder {$this->module}TableSeeder");
-        Artisan::call("make:factory {$this->module}Factory --model={$this->module}");
 
+        $this->seed();
+        $this->factory();
+        // Artisan::call("make:seeder {$this->module}TableSeeder");
+        // Artisan::call("make:factory {$this->module}Factory --model={$this->module}");
 
         $hasPivot = $this->anticipate('Is your table requires pivot table(Yes or No)?',['Yes','No']);
 

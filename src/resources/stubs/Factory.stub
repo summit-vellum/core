@@ -1,0 +1,12 @@
+<?php
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
+
+use Quill\{{moduleName}}\Models\{{moduleName}};
+use Faker\Generator as Faker;
+
+$factory->define({{moduleName}}::class, function (Faker $faker) {
+    return [
+        //
+    ];
+});
+

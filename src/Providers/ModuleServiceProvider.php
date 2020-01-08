@@ -139,7 +139,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/vellum'),
         ], 'vellum.public');
-   
+
         $this->publishes([
             __DIR__ . '/../Models/User.php' => app_path('User.php'),
         ], 'vellum.models');
