@@ -108,9 +108,6 @@ class ModuleServiceProvider extends ServiceProvider
      */
     public function loadModuleSettings()
     {
-        foreach (config('filestorage') as $key => $val) {
-            config(['filesystems.disks.' . $key => $val]);
-        }
         // This will push the middleware forcely to the web variable array
         // in protected $middlewareGroups in Kernel.php
         app('router')->pushMiddlewareToGroup('web', \Vellum\Middleware\CleanParamRequests::class);
@@ -125,7 +122,6 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'vellum');
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->mergeConfigFrom(__DIR__ . '/../config/filestorage.php', 'filestorage');
         $this->mergeConfigFrom(__DIR__ . '/../config/filters.php', 'filters');
         $this->mergeConfigFrom(__DIR__ . '/../config/shortcodes.php', 'shortcodes');
         $this->mergeConfigFrom(__DIR__ . '/../config/table.php', 'table');
@@ -135,7 +131,6 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'vellum.views');
 
         $this->publishes([
-            __DIR__ . '/../config/filestorage.php' => config_path('filestorage.php'),
             __DIR__ . '/../config/filters.php' => config_path('filters.php'),
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
