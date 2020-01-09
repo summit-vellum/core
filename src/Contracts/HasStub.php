@@ -18,10 +18,17 @@ trait HasStub
 
     protected $modulePath;
 
+    protected $mainModulePath;
+
 
     protected function setModulePath($module)
     {
         $this->modulePath .= $module.'/src/';
+    }
+
+     protected function setMainModulePath($module)
+    {
+        $this->mainModulePath .= $module;
     }
 
     protected function isModule($module)
@@ -296,7 +303,7 @@ trait HasStub
             $this->getStub('Composer')
         );
 
-        $this->createStubToFile("{$this->module}/../composer.json", $composerTemplate);
+        $this->createStubToFile("{$this->module}/composer.json", $composerTemplate, true);
     }
 
     protected function seed()
@@ -415,10 +422,16 @@ trait HasStub
         $this->createStubToFile($filename, $filterTemplate);
     }
 
-    protected function createStubToFile($file, $template)
+    protected function createStubToFile($file, $template, $mainDirectory = false)
     {
+    	$path = $this->modulePath;
+
+    	if ($mainDirectory) {
+    		$path = $this->mainModulePath;
+    	}
+
         $this->disk->put(
-            $this->modulePath . $file,
+            $path . $file,
             $template
         );
 
