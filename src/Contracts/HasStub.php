@@ -424,11 +424,7 @@ trait HasStub
 
     protected function createStubToFile($file, $template, $mainDirectory = false)
     {
-    	$path = $this->modulePath;
-
-    	if ($mainDirectory) {
-    		$path = $this->mainModulePath;
-    	}
+    	$path = ($mainDirectory) ? $this->mainModulePath : $this->modulePath;
 
         $this->disk->put(
             $path . $file,
