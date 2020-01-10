@@ -10,7 +10,7 @@
     <title>@yield('title')</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <!-- <script src="{{ asset('vendor/vellum/js/app.js') }}" defer></script> -->
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -49,9 +49,9 @@
 
     @include('vellum::components.modalElement')
 
-	<script type="text/javascript" src="{{ asset('js/vendor/jquery.min.js') }}"></script>
-    <script src="{{ asset('js/vendor/popper.min.js') }}"></script>
-    <script src="{{ asset('js/vendor/bootstrap.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('vendor/vellum/js/vendor/jquery.min.js') }}"></script>
+    <script src="{{ asset('vendor/vellum/js/vendor/popper.min.js') }}"></script>
+    <script src="{{ asset('vendor/vellum/js/vendor/bootstrap.min.js') }}"></script>
 
     @stack('scripts')
 </body>
