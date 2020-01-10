@@ -8,7 +8,7 @@ use Vellum\Contracts\Resource;
 class BaseFormRequest extends FormRequest
 {
     private $messages = [];
-    
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -30,12 +30,34 @@ class BaseFormRequest extends FormRequest
 
         array_key_exists('messages', $fields) ? $this->setMessages($fields) : '';
 
-        return array_key_exists('rules', $fields) ? $fields['rules'] : [];
-    } 
+        return array_key_exists('rules', $fields) ? $this->methodValidations($fields) : [];
+    }
 
     public function messages()
     {
         return $this->messages;
+    }
+
+    private function methodValidations($fields)
+    {
+        if (request()->isMethod('put')) {
+            $methodKeys = 'updateRules';
+        } else if (request()->isMethod('post')) {
+            $methodKeys = 'createRules';
+        }
+
+        $mergedRules = [];
+        
+        foreach ($fields['rules'] as $key => $value) {
+            $collect = array_key_exists($methodKeys, $fields) ?  $fields[$methodKeys] : [];
+            if (collect($collect)->has($key)) {
+                $mergedRules[$key] = $value . '|' . collect($collect)->get($key);
+            } else {
+                $mergedRules[$key] = $value;
+            }
+        } 
+
+        return $mergedRules;
     }
 
     private function setMessages($fields)
