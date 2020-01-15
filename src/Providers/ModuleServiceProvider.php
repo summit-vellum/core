@@ -135,7 +135,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
         ], 'vellum.config');
-
+        
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/vellum'),
         ], 'vellum.public');
