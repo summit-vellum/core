@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Quill\{{moduleName}}\Models\{{moduleName}};
 
-class {{moduleName}}Created
+class {{className}}
 {
     // use Dispatchable, InteractsWithSockets, 
     use SerializesModels;

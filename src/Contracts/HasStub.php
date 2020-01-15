@@ -377,6 +377,26 @@ trait HasStub
         $this->info('Migration script created.');
     }
 
+    protected function event()
+    {
+        $observerEvents = ['Creating', 'Created', 'Saving', 'Saved', 'Updating', 'Updated'];
+
+        foreach ($observerEvents as $events) {
+            $eventTemplate = str_replace(
+                [
+                    '{{className}}',
+                    '{{moduleName}}',
+                ],
+                [
+                    $this->module.$events,
+                    $this->module,
+                ],
+                $this->getStub('Event')
+            );
+            $this->createStubToFile("Events/{$this->module}{$events}.php", $eventTemplate);
+        }
+    }
+
     protected function eventServiceProvider()
     {
         $hasEventServiceProvider = $this->anticipate('Do you wish to create Event Service Provider(Yes or No)?', ['Yes', 'No']);
@@ -395,24 +415,9 @@ trait HasStub
 
             $this->createStubToFile("{$this->module}EventServiceProvider.php", $eventServiceProviderTemplate);
 
-            $this->event();
             $this->eventSubscriber();
         }
-    }
-
-    protected function event()
-    {
-        $eventTemplate = str_replace(
-            [
-                '{{moduleName}}',
-            ],
-            [
-                $this->module,
-            ],
-            $this->getStub('Event')
-        );
-        $this->createStubToFile("Events/{$this->module}Created.php", $eventTemplate);
-    }
+    } 
 
     protected function eventSubscriber()
     {
@@ -503,6 +508,7 @@ trait HasStub
         $this->registerModule();
         $this->serviceProvider();
         // $this->authServiceProvider();
+        $this->event();
         $this->eventServiceProvider();
         $this->migrate();
     }
