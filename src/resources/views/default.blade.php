@@ -20,6 +20,9 @@
     <link href="{{ asset('vendor/vellum/css/app.css') }}" rel="stylesheet">
     {{-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> --}}
 
+    <link href="{{ asset('vendor/html/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('vendor/html/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
+
 
     @stack('css')
 
@@ -52,6 +55,13 @@
 	<script type="text/javascript" src="{{ asset('vendor/vellum/js/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/vellum/js/vendor/popper.min.js') }}"></script>
     <script src="{{ asset('vendor/vellum/js/vendor/bootstrap.min.js') }}"></script>
+
+    <!-- Tagsinput -->
+    {{-- @source: visit http://twitter.github.io/typeahead.js/examples/ for more information about the plugin --}}
+	<script type="text/javascript" src="{{ asset('vendor/html/js/tagsinput/typeahead.bundle.js') }}"></script>
+	{{-- @source: visit https://bootstrap-tagsinput.github.io/bootstrap-tagsinput/examples/ for more information about the plugin --}}
+	<script type="text/javascript" src="{{ asset('vendor/html/js/tagsinput/bootstrap-tagsinput.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('vendor/html/js/tagsinput.js') }}"></script>
 
     @stack('scripts')
 </body>
