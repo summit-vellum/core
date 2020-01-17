@@ -58,6 +58,7 @@ trait HasStub
         $this->disk->makeDirectory($source . 'routes');
         $this->disk->makeDirectory($source . 'Listeners');
         $this->disk->makeDirectory($source . 'Commands');
+        $this->disk->makeDirectory($source . 'Jobs');
         $this->disk->makeDirectory($source . 'Resource');
         $this->disk->makeDirectory($source . 'Events');
         $this->disk->makeDirectory($source . 'Filters');
@@ -356,7 +357,7 @@ trait HasStub
         // Artisan::call("make:seeder {$this->module}TableSeeder");
         // Artisan::call("make:factory {$this->module}Factory --model={$this->module}");
 
-        $hasPivot = $this->anticipate('Is your table requires pivot table(Yes or No)?', ['Yes', 'No']);
+        $hasPivot = $this->anticipate('Is your table requires pivot table (Yes or No)?', ['Yes', 'No']);
 
         if (strtolower($hasPivot) === 'yes') {
             $pivot = $this->ask('Pivot to what Module(table name)?');
@@ -400,7 +401,7 @@ trait HasStub
 
     protected function eventServiceProvider()
     {
-        $hasEventServiceProvider = $this->anticipate('Do you wish to create Event Service Provider(Yes or No)?', ['Yes', 'No']);
+        $hasEventServiceProvider = $this->anticipate('Do you wish to create event service provider (Yes or No)?', ['Yes', 'No']);
 
         if (strtolower($hasEventServiceProvider) === 'yes') {
 
@@ -437,7 +438,7 @@ trait HasStub
 
     protected function command()
     {
-        $hasCommand = $this->anticipate('Do you wish to create command(Yes or No)?', ['Yes', 'No']);
+        $hasCommand = $this->anticipate('Do you wish to create command (Yes or No)?', ['Yes', 'No']);
 
         if (strtolower($hasCommand) === 'yes') {
             $commandTemplate = str_replace(
@@ -453,6 +454,27 @@ trait HasStub
             );
     
             $this->createStubToFile("Commands/{$this->module}Command.php", $commandTemplate);
+        }
+    }
+
+    protected function jobs()
+    {
+        $hasJob = $this->anticipate('Do you wish to create job (Yes or No)?', ['Yes', 'No']);
+
+        if (strtolower($hasJob) === 'yes') {
+            $jobTemplate = str_replace(
+                [
+                    '{{moduleName}}',
+                    '{{moduleNameSingularLowerCase}}'
+                ],
+                [
+                    $this->module,
+                    strtolower($this->module),
+                ],
+                $this->getStub('Job')
+            );
+    
+            $this->createStubToFile("Jobs/{$this->module}Job.php", $jobTemplate);
         }
     }
 
@@ -532,6 +554,7 @@ trait HasStub
         // $this->authServiceProvider();
         $this->event();
         $this->eventServiceProvider();
+        $this->jobs();
         $this->command();
         $this->migrate();
     }
