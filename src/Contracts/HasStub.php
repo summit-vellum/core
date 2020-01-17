@@ -57,6 +57,7 @@ trait HasStub
         // $this->disk->makeDirectory($source.'Presenters');
         $this->disk->makeDirectory($source . 'routes');
         $this->disk->makeDirectory($source . 'Listeners');
+        $this->disk->makeDirectory($source . 'Commands');
         $this->disk->makeDirectory($source . 'Resource');
         $this->disk->makeDirectory($source . 'Events');
         $this->disk->makeDirectory($source . 'Filters');
@@ -388,7 +389,7 @@ trait HasStub
                     '{{moduleName}}',
                 ],
                 [
-                    $this->module.$events,
+                    $this->module . $events,
                     $this->module,
                 ],
                 $this->getStub('Event')
@@ -417,11 +418,11 @@ trait HasStub
 
             $this->eventSubscriber();
         }
-    } 
+    }
 
     protected function eventSubscriber()
     {
-        $eventSubscriber = str_replace(
+        $eventSubscriberTemplate = str_replace(
             [
                 '{{moduleName}}',
             ],
@@ -431,7 +432,28 @@ trait HasStub
             $this->getStub('EventSubscriber')
         );
 
-        $this->createStubToFile("Listeners/{$this->module}EventSubscriber.php", $eventSubscriber);
+        $this->createStubToFile("Listeners/{$this->module}EventSubscriber.php", $eventSubscriberTemplate);
+    }
+
+    protected function command()
+    {
+        $hasCommand = $this->anticipate('Do you wish to create command(Yes or No)?', ['Yes', 'No']);
+
+        if (strtolower($hasCommand) === 'yes') {
+            $commandTemplate = str_replace(
+                [
+                    '{{moduleName}}',
+                    '{{moduleNameSingularLowerCase}}'
+                ],
+                [
+                    $this->module,
+                    strtolower($this->module),
+                ],
+                $this->getStub('Command')
+            );
+    
+            $this->createStubToFile("Commands/{$this->module}Command.php", $commandTemplate);
+        }
     }
 
     protected function filter($name)
@@ -510,6 +532,7 @@ trait HasStub
         // $this->authServiceProvider();
         $this->event();
         $this->eventServiceProvider();
+        $this->command();
         $this->migrate();
     }
 }

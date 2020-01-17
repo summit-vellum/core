@@ -14,12 +14,17 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
 
     public function boot()
     {
+        $this->loadModuleCommands();
         $this->loadRoutesFrom(__DIR__ . '/routes/{{moduleNameSingularLowerCase}}.php');
         $this->loadViewsFrom(__DIR__ . '/views', '{{moduleNameSingularLowerCase}}');
         $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         $this->mergeConfigFrom(__DIR__ . '/config/{{moduleNameSingularLowerCase}}.php', '{{moduleNameSingularLowerCase}}');
 
         {{moduleName}}Resource::observe({{moduleName}}Observer::class);
+
+        // $this->publishes([
+        //     __DIR__ . '/config/{{moduleNameSingularLowerCase}}.php' => config_path('{{moduleNameSingularLowerCase}}.php'),
+        // ]);
 
         $this->publishes([
         	__DIR__ . '/database/factories/{{moduleName}}Factory.php' => database_path('factories/{{moduleName}}Factory.php'),
@@ -30,5 +35,14 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
     public function register()
     {
         Event::listen(Quill::MODULE, Register{{moduleName}}Module::class);
+    }
+
+    public function loadModuleCommands()
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands([
+                
+            ]);
+        }
     }
 }
