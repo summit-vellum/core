@@ -135,7 +135,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
         ], 'vellum.config');
-        
+
         $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/vellum'),
         ], 'vellum.public');
@@ -148,7 +148,8 @@ class ModuleServiceProvider extends ServiceProvider
             $this->commands([
                 \Vellum\Commands\ModuleGenerator::class,
                 \Vellum\Commands\FilterGenerator::class,
-                \Vellum\Commands\ActionGenerator::class
+                \Vellum\Commands\ActionGenerator::class,
+                \Vellum\Commands\PusherEventGenerator::class
             ]);
         }
     }

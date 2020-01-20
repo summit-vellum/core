@@ -1,0 +1,11 @@
+// Subscribe to the channel we specified in our Laravel Event
+var {{pusherEventNameLower}} = pusher.subscribe('{{pusherEventNameSlug}}');
+
+// Bind a function to a Event (the full Laravel class)
+{{pusherEventNameLower}}.bind('Quill\\{{moduleName}}\\Events\\{{pusherEventName}}', function(data) {
+
+});
+
+{{pusherEventNameLower}}.bind('pusher:subscription_succeeded', function(members) {
+
+});

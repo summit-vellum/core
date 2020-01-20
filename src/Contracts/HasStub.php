@@ -81,6 +81,14 @@ trait HasStub
         }
     }
 
+    protected function fileExists($path)
+    {
+    	$module  = $this->module;
+    	$source = $module . '/src/';
+
+    	return $this->disk->exists($source . $path);
+    }
+
     protected function getStub($type)
     {
         return File::get(base_path("core/src/resources/stubs/$type.stub"));
@@ -417,7 +425,7 @@ trait HasStub
 
             $this->eventSubscriber();
         }
-    } 
+    }
 
     protected function eventSubscriber()
     {
@@ -432,6 +440,60 @@ trait HasStub
         );
 
         $this->createStubToFile("Listeners/{$this->module}EventSubscriber.php", $eventSubscriber);
+    }
+
+    public function pusherEvent($name)
+    {
+    	$this->info('Notes:');
+    	$this->info('(1) Make sure to install pusher/pusher-php-server for the pusher event to work');
+    	$this->info('(2) Add PUSHER_APP_ID, PUSHER_APP_KEY, PUSHER_APP_SECRET, PUSHER_LOG credentials to your .env file');
+    	$this->info('(3) Update the value of BROADCAST_DRIVER to pusher');
+
+    	$pusherTemplate = str_replace(
+            [
+                '{{moduleName}}',
+                '{{pusherEventName}}',
+                '{{pusherEventNameSlug}}'
+            ],
+            [
+                $this->module,
+                $name,
+                strtolower(Str::kebab($name))
+            ],
+            $this->getStub('PusherEvent')
+        );
+
+        $this->createStubToFile("Events/{$name}.php", $pusherTemplate);
+    }
+
+    public function pusherEventJs($name)
+    {
+    	$pusherEventJsTemplate = str_replace(
+    		[
+    			'{{moduleName}}',
+    			'{{pusherEventName}}',
+    			'{{pusherEventNameSlug}}',
+    			'{{pusherEventNameLower}}'
+    		],
+    		[
+    			$this->module,
+    			$name,
+    			strtolower(Str::kebab($name)),
+    			lcfirst($name)
+    		],
+            $this->getStub('PusherEventJs')
+        );
+
+        $this->createStubToFile("public/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
+    }
+
+    public function pusherMainJs()
+    {
+    	$pusherMainJsTemplate = str_replace([],[],
+            $this->getStub('pusherMainJs')
+        );
+
+        $this->createStubToFile("public/pusher-main.js", $pusherMainJsTemplate);
     }
 
     protected function filter($name)
