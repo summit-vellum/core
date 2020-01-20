@@ -4,6 +4,7 @@ namespace Quill\{{moduleName}}\Models\Policies;
 
 use App\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Auth\Access\Response;
 use Quill\{{moduleName}}\Models\{{moduleName}};
 
 class {{moduleName}}Policy
@@ -35,8 +36,11 @@ class {{moduleName}}Policy
      */
     public function update(User $user, {{moduleName}} ${{moduleNameSingularLowerCase}})
     {
-        return $user->permissions($this->module)->contains('*') ||
-                $user->permissions($this->module)->contains('update');
+        return ($user->permissions($this->module)->contains('*') ||
+                $user->permissions($this->module)->contains('update'))
+                && ($user->id == ${{moduleNameSingularLowerCase}}->user_id || ${{moduleNameSingularLowerCase}}->user_id == 0)
+                ? Response::allow()
+                : Response::deny('This content is locked.');
     }
 
     /**
@@ -61,8 +65,11 @@ class {{moduleName}}Policy
      */
     public function delete(User $user, {{moduleName}} ${{moduleNameSingularLowerCase}})
     {
-        return $user->permissions($this->module)->contains('*') ||
-                $user->permissions($this->module)->contains('delete');
+        return ($user->permissions($this->module)->contains('*') ||
+                $user->permissions($this->module)->contains('delete'))
+                && ($user->id == ${{moduleNameSingularLowerCase}}->user_id || ${{moduleNameSingularLowerCase}}->user_id == 0)
+                ? Response::allow()
+                : Response::deny('This content is locked.');
     }
 
 }

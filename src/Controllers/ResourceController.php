@@ -12,6 +12,7 @@ use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
+use Illuminate\Support\Facades\Schema;
 
 class ResourceController extends Controller
 {
@@ -116,7 +117,20 @@ class ResourceController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update', $this->resource->getModel());
+        $this->authorize('update', $this->resource->getModel()->find($id));
+        
+        // Check if module can lock content
+        if(in_array($this->module->getName(), config('resource_lock')))
+        {
+            //Check if user_id column is available in table
+            if(Schema::hasColumn($this->resource->getModel()->getTable(), 'user_id'))
+            {
+                $this->resource->findById($id)
+                    ->update([
+                        'user_id'=> auth()->user()->id
+                        ]);
+            } 
+        }   
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['attributes'] = $this->resource->getAttributes();
@@ -149,7 +163,7 @@ class ResourceController extends Controller
      */
     public function destroy($id)
     {
-        $this->authorize('delete', $this->resource->getModel());
+        $this->authorize('delete', $this->resource->getModel()->find($id));
 
         $this->resource->delete($id);
     }

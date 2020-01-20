@@ -27,6 +27,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'd-inline-block',
                 'text-red-400',
                 'hover:text-red-500',
+                'btn-delete'
             ],
             'button' => [
                 'bg-red-500',
@@ -39,6 +40,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'shadow',
                 'inline-flex',
                 'items-center mr-2',
+                'btn-delete'
             ],
         ]);
     }

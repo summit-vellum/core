@@ -92,11 +92,11 @@ class ResourceRepository implements Resource, HasCrud
 
     public function delete(int $id = 0)
     {
-        if($int === 0) {
+        if($id === 0) {
             throw new Exception("Invalid resource id.", 1);
         }
 
-        return $this->model->findById($id)->delete();
+        return $this->model->find($id)->delete();
     }
 
 }
