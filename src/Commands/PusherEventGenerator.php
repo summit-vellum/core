@@ -55,7 +55,7 @@ class PusherEventGenerator extends Command
         }
 
         if ($this->fileExists('public/pusher/pusher-main.js')) {
-        	$this->info('pusherMain.js file already exists and will not be overridden');
+        	$this->info('pusher-main.js file already exists and will not be overridden');
         } else {
         	$this->pusherMainJs();
         }
