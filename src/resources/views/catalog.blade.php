@@ -47,30 +47,6 @@
 </div> 
 @endsection
 
-
 @push('scripts')
-<script>
-    $(function() {
-        $('.btn-delete').click(function(e) {
-
-
-
-            $.ajax({
-                url: $(this).attr('href'),
-                type: 'POST',
-                data: {
-                    _method: "delete",
-                    _token: $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    console.log(response);
-                },
-                error: function(status) {
-                    console.log(status);
-                }
-            });
-            e.preventDefault();
-        });
-    });
-</script>
+<script src="{{asset('js/destroy.js')}}"></script>
 @endpush

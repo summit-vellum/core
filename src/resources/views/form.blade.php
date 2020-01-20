@@ -72,10 +72,11 @@
 </form>
 
 @endsection
-
-
+@push('scripts') 
+<script src="{{asset('js/destroy.js')}}"></script>
+@endpush
 @form
-    @push('scripts')
+    @push('scripts') 
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
