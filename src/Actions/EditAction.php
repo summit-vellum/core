@@ -16,6 +16,12 @@ class EditAction extends BaseAction implements Actionable
     public function link($id, $data = [])
     {
         $module = explode('.', Route::current()->getName())[0];
+        $this->isLock($data, $module);
+
+        if ($this->isLockIcon) {
+            return 'javascript:void(0)';
+         }
+        
         return route($module . '.edit', $id);
     }
 
@@ -24,9 +30,10 @@ class EditAction extends BaseAction implements Actionable
         return collect([
             'normal' => [
                 'mx-1',
-                'd-inline-block',
-                'text-teal-400',
+                'd-inline-block', 
                 'hover:text-gray-500',
+                ($this->isLockIcon) ? 'cursor-not-allowed text-gray-400' : 'text-teal-400',
+                ($this->isLockIcon) ? 'cursor-not-allowed' : ''
             ],
             'button' => [
                 'bg-blue-500',
@@ -39,6 +46,7 @@ class EditAction extends BaseAction implements Actionable
                 'shadow',
                 'inline-flex',
                 'items-center mr-2',
+                ($this->isLockIcon) ? 'cursor-not-allowed' : ''
             ],
         ]);
     }
@@ -64,5 +72,4 @@ class EditAction extends BaseAction implements Actionable
     {
         return 'update';
     }
-
 }

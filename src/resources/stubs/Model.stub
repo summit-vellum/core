@@ -9,4 +9,14 @@ class {{moduleName}} extends BaseModel
 
     protected $table = '{{moduleNamePluralLowerCase}}';
 
+    public function history()
+    {
+        return $this->morphOne('Quill\History\Models\History', 'historyable');
+    }
+
+    public function resourceLock()
+    {
+        return $this->morphOne('Vellum\Models\ResourceLock', 'resourceable');
+    }
+
 }

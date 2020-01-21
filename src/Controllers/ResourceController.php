@@ -12,19 +12,19 @@ use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
-use Illuminate\Support\Facades\Schema;
 
 class ResourceController extends Controller
 {
 
     protected $resource;
+    protected $resourceLock;
     public $currentRouteName;
     public $data = [];
     public $module;
 
     public function __construct(Resource $resource, Module $module)
     {
-        if(!$resource) return null;
+        if (!$resource) return null;
 
         $this->middleware('auth');
 
@@ -32,12 +32,11 @@ class ResourceController extends Controller
         $this->resource = $resource;
         $this->data['model'] = $this->resource->getModel();
         $this->data['actions'] = $this->resource->getActions();
-        $this->module = $module;
+        $this->module = $module; 
 
         view()->composer('*', function ($view) {
             $view->with('routeName', $this->currentRouteName);
         });
-
     }
 
     /**
@@ -65,7 +64,7 @@ class ResourceController extends Controller
         $this->authorize('create', $this->resource->getModel());
 
         $this->data['data'] = [];
-        $this->data['routeUrl'] = route($this->module->getName().'.store');
+        $this->data['routeUrl'] = route($this->module->getName() . '.store');
         $this->data['attributes'] = $this->resource->getAttributes();
 
         // $this->data['data'] = factory(\Quill\Post\Models\Post::class)->make();
@@ -89,7 +88,7 @@ class ResourceController extends Controller
 
         $data = $this->resource->save($request->all());
 
-        return redirect()->route($this->module->getName().'.show', $data['id']);
+        return redirect()->route($this->module->getName() . '.show', $data['id']);
     }
 
     /**
@@ -104,7 +103,7 @@ class ResourceController extends Controller
 
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['data'] = $this->resource->findById($id);
-        $this->data['routeUrl'] = route($this->module->getName().'.update', $id);
+        $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
         return view('vellum::form', $this->data);
     }
@@ -118,23 +117,20 @@ class ResourceController extends Controller
     public function edit($id)
     {
         $this->authorize('update', $this->resource->getModel()->find($id));
-        
+
         // Check if module can lock content
-        if(in_array($this->module->getName(), config('resource_lock')))
-        {
-            //Check if user_id column is available in table
-            if(Schema::hasColumn($this->resource->getModel()->getTable(), 'user_id'))
-            {
-                $this->resource->findById($id)
-                    ->update([
-                        'user_id'=> auth()->user()->id
-                        ]);
-            } 
-        }   
+        if (in_array($this->module->getName(), config('resource_lock'))) {
+
+            $this->resource->getModel()->find($id)->resourceLock()->updateOrCreate([
+                'user_id' => auth()->user()->id,
+                'name' => auth()->user()->name
+            ]);
+            
+        }
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['attributes'] = $this->resource->getAttributes();
-        $this->data['routeUrl'] = route($this->module->getName().'.update', $id);
+        $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
         return view('vellum::form', $this->data);
     }
@@ -152,7 +148,7 @@ class ResourceController extends Controller
 
         $data = $this->resource->save($request->all(), $id);
 
-        return redirect()->route($this->module->getName().'.show', $id);
+        return redirect()->route($this->module->getName() . '.show', $id);
     }
 
     /**
@@ -168,4 +164,14 @@ class ResourceController extends Controller
         $this->resource->delete($id);
     }
 
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function unlock($id)
+    {
+        $this->resource->getModel()->find($id)->resourceLock()->forceDelete();
+    }
 }

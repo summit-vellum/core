@@ -48,5 +48,5 @@
 @endsection
 
 @push('scripts')
-<script src="{{asset('js/destroy.js')}}"></script>
+<script src="{{asset('js/custom.js')}}"></script>
 @endpush
