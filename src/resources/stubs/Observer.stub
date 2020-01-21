@@ -3,46 +3,51 @@
 namespace Quill\{{moduleName}}\Models;
 
 use Illuminate\Support\Str;
+use Quill\{{moduleName}}\Events\{{moduleName}}Creating;
+use Quill\{{moduleName}}\Events\{{moduleName}}Created;
+use Quill\{{moduleName}}\Events\{{moduleName}}Saving;
+use Quill\{{moduleName}}\Events\{{moduleName}}Saved;
+use Quill\{{moduleName}}\Events\{{moduleName}}Updating;
+use Quill\{{moduleName}}\Events\{{moduleName}}Updated;
 use Quill\{{moduleName}}\Models\{{moduleName}};
-
-/**
- * Sample event trigger
- * 
- * event(new {{moduleName}}Created(${{moduleNameSingularLowerCase}}));
- * 
- */
 
 class {{moduleName}}Observer
 {
 
     public function creating({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
-        // creating logic...
+        // creating logic... 
+        event(new {{moduleName}}Creating(${{moduleNameSingularLowerCase}}));
     }
 
     public function created({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
         // created logic...
+        event(new {{moduleName}}Created(${{moduleNameSingularLowerCase}}));
     }
 
     public function saving({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
         // saving logic...
+        event(new {{moduleName}}Saving(${{moduleNameSingularLowerCase}}));
     }
 
     public function saved({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
         // saved logic...
+        event(new {{moduleName}}Saved(${{moduleNameSingularLowerCase}}));
     }
 
     public function updating({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
         // updating logic...
+        event(new {{moduleName}}Updating(${{moduleNameSingularLowerCase}}));
     }
 
     public function updated({{moduleName}} ${{moduleNameSingularLowerCase}})
     {
         // updated logic...
+        event(new {{moduleName}}Updated(${{moduleNameSingularLowerCase}}));
     }
 
 }

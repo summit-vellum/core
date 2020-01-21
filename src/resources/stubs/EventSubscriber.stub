@@ -1,0 +1,28 @@
+<?php
+
+namespace Quill\{{moduleName}}\Listeners;
+use Illuminate\Support\Facades\Log;
+
+class {{moduleName}}EventSubscriber
+{
+    /**
+     * Handle the event.
+     */
+    public function handleCreated($event) 
+    {
+        //
+    } 
+
+    /**
+     * Register the listeners for the subscriber.
+     *
+     * @param  \Illuminate\Events\Dispatcher  $events
+     */
+    public function subscribe($events)
+    {
+        $events->listen(
+            'Quill\{{moduleName}}\Events\{{moduleName}}Created',
+            'Quill\{{moduleName}}\Listeners\{{moduleName}}EventSubscriber@handleCreated'
+        ); 
+    }
+}

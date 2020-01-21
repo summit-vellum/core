@@ -23,10 +23,10 @@ trait HasStub
 
     protected function setModulePath($module)
     {
-        $this->modulePath .= $module.'/src/';
+        $this->modulePath .= $module . '/src/';
     }
 
-     protected function setMainModulePath($module)
+    protected function setMainModulePath($module)
     {
         $this->mainModulePath .= $module;
     }
@@ -45,43 +45,50 @@ trait HasStub
     {
         $module  = $this->module;
 
-        if($this->isModule($module))
-        {
+        if ($this->isModule($module)) {
             $this->info('Module is already exists.');
             exit();
         }
 
-        $source = $module.'/src/';
+        $source = $module . '/src/';
         $this->disk->makeDirectory($source);
-        $this->disk->makeDirectory($source.'Models');
-        $this->disk->makeDirectory($source.'Models/Policies');
+        $this->disk->makeDirectory($source . 'Models');
+        $this->disk->makeDirectory($source . 'Models/Policies');
         // $this->disk->makeDirectory($source.'Presenters');
-        $this->disk->makeDirectory($source.'routes');
-        $this->disk->makeDirectory($source.'Listeners');
-        $this->disk->makeDirectory($source.'Resource');
-        $this->disk->makeDirectory($source.'Events');
-        $this->disk->makeDirectory($source.'Filters');
-        $this->disk->makeDirectory($source.'Actions');
-        $this->disk->makeDirectory($source.'config');
-        $this->disk->makeDirectory($source.'Http');
-        $this->disk->makeDirectory($source.'Http/Controllers');
-        $this->disk->makeDirectory($source.'Http/Requests');
-        $this->disk->makeDirectory($source.'database/migrations');
-        $this->disk->makeDirectory($source.'database/factories');
-        $this->disk->makeDirectory($source.'database/seeds');
+        $this->disk->makeDirectory($source . 'routes');
+        $this->disk->makeDirectory($source . 'Listeners');
+        $this->disk->makeDirectory($source . 'Commands');
+        $this->disk->makeDirectory($source . 'Jobs');
+        $this->disk->makeDirectory($source . 'Resource');
+        $this->disk->makeDirectory($source . 'Events');
+        $this->disk->makeDirectory($source . 'Filters');
+        $this->disk->makeDirectory($source . 'Actions');
+        $this->disk->makeDirectory($source . 'config');
+        $this->disk->makeDirectory($source . 'Http');
+        $this->disk->makeDirectory($source . 'Http/Controllers');
+        $this->disk->makeDirectory($source . 'Http/Requests');
+        $this->disk->makeDirectory($source . 'database/migrations');
+        $this->disk->makeDirectory($source . 'database/factories');
+        $this->disk->makeDirectory($source . 'database/seeds');
 
         $this->info("{$this->module} module directory created successfuly.");
     }
 
     protected function rollback()
     {
-		if($this->isModule($this->module))
-        {
+        if ($this->isModule($this->module)) {
             $this->disk->deleteDirectory($this->module);
 
-        	$this->info("Process successfully rollback, module deleted.");
-
+            $this->info("Process successfully rollback, module deleted.");
         }
+    }
+
+    protected function fileExists($path)
+    {
+    	$module  = $this->module;
+    	$source = $module . '/src/';
+
+    	return $this->disk->exists($source . $path);
     }
 
     protected function getStub($type)
@@ -100,7 +107,8 @@ trait HasStub
                 $this->module,
                 strtolower(Str::plural($this->module)),
             ],
-            $this->getStub('Model'));
+            $this->getStub('Model')
+        );
 
         $this->createStubToFile("Models/{$this->module}.php", $modelTemplate);
     }
@@ -118,9 +126,10 @@ trait HasStub
                 Str::studly($pivotName),
                 $pivotName,
             ],
-            $this->getStub('Model'));
+            $this->getStub('Model')
+        );
 
-        $this->createStubToFile("Models/".Str::studly($pivotName).".php", $modelTemplate);
+        $this->createStubToFile("Models/" . Str::studly($pivotName) . ".php", $modelTemplate);
     }
 
     protected function presenter()
@@ -128,7 +137,8 @@ trait HasStub
         $presenterTemplate = str_replace(
             ['{{moduleName}}'],
             [$this->module],
-            $this->getStub('Presenter'));
+            $this->getStub('Presenter')
+        );
 
         $this->createStubToFile("Presenters/{$this->module}Presenter.php", $presenterTemplate);
     }
@@ -138,9 +148,10 @@ trait HasStub
         $moduleTemplate = str_replace(
             ['{{moduleName}}'],
             [$this->module],
-            $this->getStub('Config'));
+            $this->getStub('Config')
+        );
 
-        $this->createStubToFile("config/".strtolower($this->module).".php", $moduleTemplate);
+        $this->createStubToFile("config/" . strtolower($this->module) . ".php", $moduleTemplate);
     }
 
 
@@ -149,9 +160,10 @@ trait HasStub
         $routeTemplate = str_replace(
             ['{{moduleNameSingularLowerCase}}'],
             [strtolower(Str::kebab($this->module))],
-            $this->getStub('Route'));
+            $this->getStub('Route')
+        );
 
-        $this->createStubToFile("routes/".strtolower($this->module).".php", $routeTemplate);
+        $this->createStubToFile("routes/" . strtolower($this->module) . ".php", $routeTemplate);
     }
 
     protected function controller()
@@ -308,15 +320,15 @@ trait HasStub
 
     protected function seed()
     {
-    	$this->info('Creating seeder file.');
+        $this->info('Creating seeder file.');
         $seederTemplate = str_replace(
-        	[
-        		'{{moduleName}}'
-        	],
-        	[
-        		$this->module
-        	],
-        	$this->getStub('Seed')
+            [
+                '{{moduleName}}'
+            ],
+            [
+                $this->module
+            ],
+            $this->getStub('Seed')
         );
 
         $this->createStubToFile("database/seeds/{$this->module}TableSeeder.php", $seederTemplate);
@@ -324,15 +336,15 @@ trait HasStub
 
     protected function factory()
     {
-    	$this->info('Creating factory file.');
+        $this->info('Creating factory file.');
         $factoryTemplate = str_replace(
-        	[
-        		'{{moduleName}}'
-        	],
-        	[
-        		$this->module
-        	],
-        	$this->getStub('Factory')
+            [
+                '{{moduleName}}'
+            ],
+            [
+                $this->module
+            ],
+            $this->getStub('Factory')
         );
 
         $this->createStubToFile("database/factories/{$this->module}Factory.php", $factoryTemplate);
@@ -342,7 +354,7 @@ trait HasStub
     {
 
         $module = strtolower($this->module);
-        $migrationPath = 'modules/'.$this->modulePath.'database/migrations';
+        $migrationPath = 'modules/' . $this->modulePath . 'database/migrations';
         $modulePlural = Str::plural($module);
 
         $this->info('Creating a migration scripts.');
@@ -353,27 +365,179 @@ trait HasStub
         // Artisan::call("make:seeder {$this->module}TableSeeder");
         // Artisan::call("make:factory {$this->module}Factory --model={$this->module}");
 
-        $hasPivot = $this->anticipate('Is your table requires pivot table(Yes or No)?',['Yes','No']);
+        $hasPivot = $this->anticipate('Is your table requires pivot table (Yes or No)?', ['Yes', 'No']);
 
-        if(strtolower($hasPivot) === 'yes'){
-        	$pivot = $this->ask('Pivot to what Module(table name)?');
+        if (strtolower($hasPivot) === 'yes') {
+            $pivot = $this->ask('Pivot to what Module(table name)?');
 
-	        if(!$this->isModule($pivot)) {
-	            $this->info("{$pivot} module does not exists.");
-	            exit();
-	        }
+            if (!$this->isModule($pivot)) {
+                $this->info("{$pivot} module does not exists.");
+                exit();
+            }
 
-	        $arrayNames = [strtolower($pivot), $module];
-	        sort($arrayNames);
-	        $pivotTableName = implode('_', $arrayNames);
+            $arrayNames = [strtolower($pivot), $module];
+            sort($arrayNames);
+            $pivotTableName = implode('_', $arrayNames);
 
-	        Artisan::call("make:migration create_{$pivotTableName}_table --path={$migrationPath} --create={$pivotTableName}");
+            Artisan::call("make:migration create_{$pivotTableName}_table --path={$migrationPath} --create={$pivotTableName}");
 
-	        $this->modelPivot($pivotTableName);
-
-	    }
+            $this->modelPivot($pivotTableName);
+        }
 
         $this->info('Migration script created.');
+    }
+
+    protected function event()
+    {
+        $observerEvents = ['Creating', 'Created', 'Saving', 'Saved', 'Updating', 'Updated'];
+
+        foreach ($observerEvents as $events) {
+            $eventTemplate = str_replace(
+                [
+                    '{{className}}',
+                    '{{moduleName}}',
+                ],
+                [
+                    $this->module . $events,
+                    $this->module,
+                ],
+                $this->getStub('Event')
+            );
+            $this->createStubToFile("Events/{$this->module}{$events}.php", $eventTemplate);
+        }
+    }
+
+    protected function eventServiceProvider()
+    {
+        $hasEventServiceProvider = $this->anticipate('Do you wish to create event service provider (Yes or No)?', ['Yes', 'No']);
+
+        if (strtolower($hasEventServiceProvider) === 'yes') {
+
+            $eventServiceProviderTemplate = str_replace(
+                [
+                    '{{moduleName}}',
+                ],
+                [
+                    $this->module,
+                ],
+                $this->getStub('EventServiceProvider')
+            );
+
+            $this->createStubToFile("{$this->module}EventServiceProvider.php", $eventServiceProviderTemplate);
+
+            $this->eventSubscriber();
+        }
+    }
+
+    protected function eventSubscriber()
+    {
+        $eventSubscriberTemplate = str_replace(
+            [
+                '{{moduleName}}',
+            ],
+            [
+                $this->module,
+            ],
+            $this->getStub('EventSubscriber')
+        );
+
+        $this->createStubToFile("Listeners/{$this->module}EventSubscriber.php", $eventSubscriberTemplate);
+    }
+
+    protected function command()
+    {
+        $hasCommand = $this->anticipate('Do you wish to create command (Yes or No)?', ['Yes', 'No']);
+
+        if (strtolower($hasCommand) === 'yes') {
+            $commandTemplate = str_replace(
+                [
+                    '{{moduleName}}',
+                    '{{moduleNameSingularLowerCase}}'
+                ],
+                [
+                    $this->module,
+                    strtolower($this->module),
+                ],
+                $this->getStub('Command')
+            );
+    
+            $this->createStubToFile("Commands/{$this->module}Command.php", $commandTemplate);
+        }
+    }
+
+    protected function jobs()
+    {
+        $hasJob = $this->anticipate('Do you wish to create job (Yes or No)?', ['Yes', 'No']);
+
+        if (strtolower($hasJob) === 'yes') {
+            $jobTemplate = str_replace(
+                [
+                    '{{moduleName}}',
+                    '{{moduleNameSingularLowerCase}}'
+                ],
+                [
+                    $this->module,
+                    strtolower($this->module),
+                ],
+                $this->getStub('Job')
+            );
+    
+            $this->createStubToFile("Jobs/{$this->module}Job.php", $jobTemplate);
+        }
+    }
+
+    public function pusherEvent($name)
+    {
+    	$this->info('Notes:');
+    	$this->info('(1) Make sure to install pusher/pusher-php-server for the pusher event to work');
+    	$this->info('(2) Add PUSHER_APP_ID, PUSHER_APP_KEY, PUSHER_APP_SECRET, PUSHER_LOG credentials to your .env file');
+    	$this->info('(3) Update the value of BROADCAST_DRIVER to pusher');
+
+    	$pusherTemplate = str_replace(
+            [
+                '{{moduleName}}',
+                '{{pusherEventName}}',
+                '{{pusherEventNameSlug}}'
+            ],
+            [
+                $this->module,
+                $name,
+                strtolower(Str::kebab($name))
+            ],
+            $this->getStub('PusherEvent')
+        );
+
+        $this->createStubToFile("Events/{$name}.php", $pusherTemplate);
+    }
+
+    public function pusherEventJs($name)
+    {
+    	$pusherEventJsTemplate = str_replace(
+    		[
+    			'{{moduleName}}',
+    			'{{pusherEventName}}',
+    			'{{pusherEventNameSlug}}',
+    			'{{pusherEventNameLower}}'
+    		],
+    		[
+    			$this->module,
+    			$name,
+    			strtolower(Str::kebab($name)),
+    			lcfirst($name)
+    		],
+            $this->getStub('PusherEventJs')
+        );
+
+        $this->createStubToFile("public/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
+    }
+
+    public function pusherMainJs()
+    {
+    	$pusherMainJsTemplate = str_replace([],[],
+            $this->getStub('pusherMainJs')
+        );
+
+        $this->createStubToFile("public/pusher-main.js", $pusherMainJsTemplate);
     }
 
     protected function filter($name)
@@ -397,9 +561,9 @@ trait HasStub
     {
 
         $filename = "Actions/{$name}Action.php";
-        $files = $this->disk->files($this->modulePath.'Actions');
+        $files = $this->disk->files($this->modulePath . 'Actions');
 
-        if(in_array($filename, $files)) {
+        if (in_array($filename, $files)) {
             $this->info("{$filename} already exists, please enter a unique action name.");
             exit();
         }
@@ -424,7 +588,7 @@ trait HasStub
 
     protected function createStubToFile($file, $template, $mainDirectory = false)
     {
-    	$path = ($mainDirectory) ? $this->mainModulePath : $this->modulePath;
+        $path = ($mainDirectory) ? $this->mainModulePath : $this->modulePath;
 
         $this->disk->put(
             $path . $file,
@@ -450,6 +614,10 @@ trait HasStub
         $this->registerModule();
         $this->serviceProvider();
         // $this->authServiceProvider();
+        $this->event();
+        $this->eventServiceProvider();
+        $this->jobs();
+        $this->command();
         $this->migrate();
     }
 }

@@ -5,7 +5,7 @@ namespace Vellum\Services;
 use Vellum\Uploader\UploadTrait;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
-
+use Illuminate\Support\Str;
 
 class FileUploadService 
 {
@@ -25,7 +25,7 @@ class FileUploadService
 
     public static function upload(UploadedFile $uploadedFile, $folder = null, $disk = 'public', $filename = null)
     {
-        $name = !is_null($filename) ? $filename : str_random(25);
+        $name = !is_null($filename) ? $filename : Str::random(25);
 
         $file = $uploadedFile->storeAs($folder, $name.'.'.$uploadedFile->getClientOriginalExtension(), $disk);
 

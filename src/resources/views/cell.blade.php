@@ -19,7 +19,7 @@
         @if($data->{$key})
            {!! $data->{$attributes['id']} !!}
         @else
-            {!! $data->{$attributes['columns']} !!}
+            {!! isset($attributes['columns']) ? $data->{$attributes['columns']} : '' !!}
         @endif
     @endif
 

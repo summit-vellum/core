@@ -114,6 +114,7 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/filters.php', 'filters');
         $this->mergeConfigFrom(__DIR__ . '/../config/shortcodes.php', 'shortcodes');
         $this->mergeConfigFrom(__DIR__ . '/../config/table.php', 'table');
+        $this->mergeConfigFrom(__DIR__ . '/../config/resource_lock.php', 'resource_lock');
 
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/vellum'),
@@ -123,6 +124,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../config/filters.php' => config_path('filters.php'),
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
+            __DIR__ . '/../config/resource_lock.php' => config_path('resource_lock.php'),
         ], 'vellum.config');
 
         $this->publishes([
@@ -137,7 +139,8 @@ class ModuleServiceProvider extends ServiceProvider
             $this->commands([
                 \Vellum\Commands\ModuleGenerator::class,
                 \Vellum\Commands\FilterGenerator::class,
-                \Vellum\Commands\ActionGenerator::class
+                \Vellum\Commands\ActionGenerator::class,
+                \Vellum\Commands\PusherEventGenerator::class
             ]);
         }
     }

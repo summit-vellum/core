@@ -5,14 +5,14 @@
         @if ($paginator->onFirstPage())
             <li class="float-left text-center py-2 px-4 text-gray-400 font-semibold" class="disabled" aria-disabled="true" aria-label="{{ __('pagination.previous') }}">
             	<span class="py-2 flex item-center">
-	                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg> 
-	                <span>{{ __('pagination.previous') }}</span>
+	                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg>
+	                <span>{!! __('pagination.previous') !!}</span>
             	</span>
             </li>
         @else
             <li class="float-left text-center py-2 text-gray-600 font-semibold hover:bg-gray-300">
-                <a class="py-2 px-4 flex item-center rounded-tl rounded-bl" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="{{ __('pagination.previous') }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg> 
-                <span>{{ __('pagination.previous') }}</span></a>
+                <a class="py-2 px-4 flex item-center rounded-tl rounded-bl" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="{{ __('pagination.previous') }}"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M14.7 15.3a1 1 0 0 1-1.4 1.4l-4-4a1 1 0 0 1 0-1.4l4-4a1 1 0 0 1 1.4 1.4L11.42 12l3.3 3.3z"/></svg>
+                <span>{!! __('pagination.previous') !!}</span></a>
             </li>
         @endif
 
@@ -38,11 +38,11 @@
         {{-- Next Page Link --}}
         @if ($paginator->hasMorePages())
             <li class="float-right text-center py-2 text-gray-600 font-semibold hover:bg-gray-300">
-                <a class="py-2 px-4 hover:bg-gray-300 flex item-center " href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="{{ __('pagination.next') }}"><span>{{ __('pagination.next') }}</span> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/></svg></a>
+                <a class="py-2 px-4 hover:bg-gray-300 flex item-center " href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="{{ __('pagination.next') }}"><span>{!! __('pagination.next') !!}</span> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/></svg></a>
             </li>
         @else
             <li class="float-right flex item-center text-center py-2 text-gray-600 font-semibold hover:bg-gray-300 hover:bg-gray-300" class="disabled" aria-disabled="true" aria-label="{{ __('pagination.next') }}">
-                <span>{{ __('pagination.next') }}</span> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/></svg>
+                <span>{!! __('pagination.next') !!}</span> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="fill-current w-4 h-4 mx-3"><path class="heroicon-ui" d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/></svg>
             </li>
         @endif
     </ul>

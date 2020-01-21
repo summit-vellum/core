@@ -4,14 +4,15 @@ namespace Quill\{{moduleName}}\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Vellum\Contracts\Resource;
 
 class {{moduleName}}Controller extends Controller
 {
-    protected ${{moduleNameSingularLowerCase}};  
+    protected ${{moduleNameSingularLowerCase}};
 
-    public function __construct({{moduleName}} ${{moduleNameSingularLowerCase}})
+    public function __construct(Resource $resource)
     {
-        $this->{{moduleNameSingularLowerCase}} = ${{moduleNameSingularLowerCase}};
+        $this->{{moduleNameSingularLowerCase}} = $resource;
     }
 
     /**
