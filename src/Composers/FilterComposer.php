@@ -22,7 +22,7 @@ class FilterComposer
             $className = $class->options();
             $key = 'select_'.$class->key();
             $options = Cache::remember($key, 60, function() use($className){
-                return (new $className)->all()->pluck('name', 'id')->toArray(); 
+                return (new $className)->all()->pluck('name', 'id')->toArray();
             });
             $this->filters[$class->key()] = $options;
         }

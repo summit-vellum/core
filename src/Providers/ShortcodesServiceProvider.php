@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Vellum\Contracts\Shortcode;
+use Vellum\Repositories\ResourceRepository;
 
 class ShortcodesServiceProvider extends ServiceProvider
 {
@@ -14,34 +15,19 @@ class ShortcodesServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $segment = $this->app->request->segment(1);
+        $segment = $this->app->request->segment(2);
+        $module = $this->app->request->segment(1);
+        $module = Str::studly(Str::slug($module, '_'));
 
-        if(!$segment) return ;
+        if(!$segment || in_array($segment, ['create','edit','delete'])) return ;
 
-        $this->app->bind(Shortcode::class, function() use ($segment) {
-            $resource = 'Quill\Post\Shortcode\\'.Str::studly($segment).'Shortcode';
-            return new $resource;
+        $this->app->bind(Shortcode::class, function() use ($segment, $module) {
+            $shortcode = 'Quill\\'.$module.'\Shortcode\\'.Str::studly($segment).'Shortcode';
+            $resource = 'Quill\\' . $module . '\Resource\\' . $module . 'Resource';
+
+            return new $shortcode(new ResourceRepository(new $resource));
         });
-
-
-        $this->loadShortcodes();
-
     }
-
-
-    public function loadShortcodes()
-    {
-    	$shortcodes = config('shortcodes');
-
-    	$this->shortcodes = collect($shortcodes)->map(function($shortcode){
-    		return resolve($shortcode);
-    	});
-
-    	view()->composer('field::tinymce', function($view) {
-    		$view->with('shortcodes', $this->shortcodes);
-    	});
-    }
-
 
     public function register() { }
 }

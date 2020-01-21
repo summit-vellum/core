@@ -4,7 +4,7 @@
 		@icon(['icon' => 'trash'])
 	</a>
 
-	<span class="text-sm text-gray-500">Maxime</span>
-	<div class="font-bold leading-tight">Sunt nisi sed perferendis aut. Ipsam fuga esse doloremque aut qui quam harum.</div>
-	<span class="text-sm text-gray-700">Oct 03, 19 12:10 PM</span>
+	<span class="text-sm text-gray-500">{{ $data->section ?? 'Section'}}</span>
+	<div class="font-bold leading-tight">{{ $data->title ?? 'Title'}}</div>
+	<span class="text-sm text-gray-700">{{ $data->publish_at ?? 'Date Publish'}}</span>
 </div>

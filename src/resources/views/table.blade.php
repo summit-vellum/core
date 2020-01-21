@@ -19,7 +19,6 @@
     <div class="table w-full">
 
         <div class="table-row border-b-2 border-t-2">
-
             @foreach($attributes['collections'] as $key=>$column)
                 <div class="table-cell font-bold p-3 text-xs uppercase
                     text-gray-600 bg-gray-100 border-b border-t

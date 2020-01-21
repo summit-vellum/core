@@ -85,7 +85,6 @@ class ResourceController extends Controller
         $this->authorize('create', $this->resource->getModel());
 
         $validator = $request->validated();
-
         $data = $this->resource->save($request->all());
 
         return redirect()->route($this->module->getName().'.show', $data['id']);

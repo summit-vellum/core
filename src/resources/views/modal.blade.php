@@ -26,9 +26,6 @@
 <body class="bg-gray-200 pb-10 font-body">
 
     <div>
-<!--         <header>
-            @include('nav')
-        </header> -->
 
         <div class="px-10">
             @yield('content')

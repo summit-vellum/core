@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Vellum\Composers\FilterComposer;
+use Vellum\Composers\ShortcodeComposer;
 use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
@@ -29,29 +30,28 @@ class ModuleServiceProvider extends ServiceProvider
         $this->loadPackageSettings();
 
         $modules = event(Quill::MODULE);
-        $shortcodes = event(Quill::SHORTCODE);
-
         $segment = $this->app->request->segment(1);
-
         $entity = Str::studly(Str::slug($segment, '_'));
 
-        $moduleDetails = collect($modules)->filter(
-            function ($module) use ($segment) {
+        $moduleDetails = collect($modules)->filter(function ($module) use ($segment) {
                 return $module['name'] == $segment;
-            }
-        )->first();
-
-        if (!$moduleDetails) return;
+        })->first();
 
         $this->module = $moduleDetails;
 
-        $this->app->bind(Resource::class, function () use ($entity) {
+        $this->app->bind(Resource::class, function() use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
 
             if (class_exists($resource)) {
                 return new ResourceRepository(new $resource);
             }
         });
+
+        $this->app->singleton(Module::class, function($app) use ($moduleDetails) {
+            return new Module($moduleDetails);
+        });
+
+	    // if ($this->app->request->segment(2)) return;
 
         $this->app->bind(Formable::class, function () use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
@@ -63,10 +63,6 @@ class ModuleServiceProvider extends ServiceProvider
             $resource = 'Quill\\' . $entity . '\Http\Requests\\' . $entity . 'Request';
 
             return new $resource;
-        });
-
-        $this->app->singleton(Module::class, function ($app) use ($moduleDetails) {
-            return new Module($moduleDetails);
         });
 
         Blade::if('form', function () {
@@ -86,20 +82,13 @@ class ModuleServiceProvider extends ServiceProvider
         });
 
         view()->composer('filter', FilterComposer::class);
-
-        view()->composer('field::tinymce', function ($view) use ($shortcodes) {
-            $shortcodeInstance = [];
-
-            foreach (config('shortcodes') as $shortcode) {
-                $shortcodeInstance[] = new $shortcode;
-            }
-
-            $view->with('shortcodes', $shortcodeInstance);
-        });
+        view()->composer('field::tinymce', ShortcodeComposer::class);
     }
 
     public function register()
-    { }
+    {
+        // logic...
+    }
 
     /**
      *  Load all necessary global module configurations.
