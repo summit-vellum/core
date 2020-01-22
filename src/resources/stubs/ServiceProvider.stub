@@ -24,12 +24,16 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
 
         // $this->publishes([
         //     __DIR__ . '/config/{{moduleNameSingularLowerCase}}.php' => config_path('{{moduleNameSingularLowerCase}}.php'),
-        // ]);
+        // ], '{{moduleNamePluralLowerCase}}.config');
+
+        // $this->publishes([
+        //    __DIR__ . '/views' => resource_path('views/vendor/{{moduleNameSingularLowerCase}}'),
+        // ], '{{moduleNamePluralLowerCase}}.views');
 
         $this->publishes([
         	__DIR__ . '/database/factories/{{moduleName}}Factory.php' => database_path('factories/{{moduleName}}Factory.php'),
             __DIR__ . '/database/seeds/{{moduleName}}TableSeeder.php' => database_path('seeds/{{moduleName}}TableSeeder.php'),
-        ], 'migration.{{moduleNamePluralLowerCase}}');
+        ], '{{moduleNamePluralLowerCase}}.migration');
     }
 
     public function register()
