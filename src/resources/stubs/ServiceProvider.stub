@@ -27,7 +27,7 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
         // ], '{{moduleNamePluralLowerCase}}.config');
 
         // $this->publishes([
-        //    __DIR__ . '/views' => resource_path('views/vendor/{{moduleNameSingularLowerCase}}'),
+        //    __DIR__ . '/views' => resource_path('/vendor/{{moduleNameSingularLowerCase}}'),
         // ], '{{moduleNamePluralLowerCase}}.views');
 
         $this->publishes([
