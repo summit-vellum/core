@@ -73,6 +73,11 @@
 
 @endsection
 @push('scripts') 
+
+@foreach(array_unique(Arr::flatten($attributes['assets']['script'])) as $key)
+<script src="{{asset($key)}}"></script>
+@endforeach
+
 <script src="{{asset('vendor/vellum/js/custom.js')}}"></script>
 @endpush
 @form
