@@ -1,7 +1,12 @@
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
+@push('css') 
 
+@foreach(array_unique(Arr::flatten($attributes['assets']['style'])) as $key)
+<link href="{{asset($key)}}" rel="stylesheet">
+@endforeach 
+@endpush
 @section('content')
 
     <h1 class="text-4xl font-bold mb-5 mt-10">
@@ -75,10 +80,10 @@
 @push('scripts')
 
 @foreach(array_unique(Arr::flatten($attributes['assets']['script'])) as $key)
-<script src="{{asset($key)}}"></script>
+<script type="text/javascript" src="{{asset($key)}}"></script>
 @endforeach
 
-<script src="{{asset('vendor/vellum/js/custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('vendor/vellum/js/custom.js')}}"></script>
 @endpush
 @form
     @push('scripts')
