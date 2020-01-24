@@ -8,11 +8,10 @@
         {{ $label }}
     </label>
 
-    <div 
-        class="flex-auto w-4/5">
+    <div class="flex-auto w-4/5">
 
         {{ $slot }}
-        
+
         @form
             <small class="font-sm text-gray-500 block mt-1">{{ $help ?? '' }}</small>
         @endform

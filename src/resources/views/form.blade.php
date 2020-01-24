@@ -72,7 +72,7 @@
 </form>
 
 @endsection
-@push('scripts') 
+@push('scripts')
 
 @foreach(array_unique(Arr::flatten($attributes['assets']['script'])) as $key)
 <script src="{{asset($key)}}"></script>
@@ -81,7 +81,7 @@
 <script src="{{asset('vendor/vellum/js/custom.js')}}"></script>
 @endpush
 @form
-    @push('scripts') 
+    @push('scripts')
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {

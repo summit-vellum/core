@@ -15,36 +15,13 @@
 @endpush
 
 @section('content')
+	@include('vellum::maintenance')
+    @include('vellum::search')
+    @include('vellum::table', ['collections' => $collections, 'attributes' => $attributes])
 
-<div class="">
-
-    <h1 class="text-4xl font-bold mb-5 mt-10">{{ $details['title'] }}</h1>
-
-    <form action="">
-
-        <div class="flex mb-10">
-
-            <div class="w-3/4">
-                @include('vellum::search')
-            </div>
-
-            @can('create', $details['model'])
-
-            <div class="w-1/4 text-right">
-
-                @button(['action'=>'create', 'icon'=>'plus','color'=>'blue','label'=>'Create new'])
-
-            </div>
-
-            @endcan
-
-        </div>
-
-        @include('vellum::table', ['collections' => $collections, 'attributes' => $attributes])
-
-    </form>
-
-</div> 
+    @section('actions')
+    	@button(['action'=>'create', 'color'=>'blue','label'=>'+ New'])
+    @append
 @endsection
 
 @push('scripts')

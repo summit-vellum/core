@@ -32,7 +32,7 @@ class ResourceController extends Controller
         $this->resource = $resource;
         $this->data['model'] = $this->resource->getModel();
         $this->data['actions'] = $this->resource->getActions();
-        $this->module = $module; 
+        $this->module = $module;
 
         view()->composer('*', function ($view) {
             $view->with('routeName', $this->currentRouteName);
@@ -50,6 +50,7 @@ class ResourceController extends Controller
 
         $this->data['collections'] = $this->resource->getRowsData();
         $this->data['attributes'] = $this->resource->getAttributes();
+        $this->data['module'] = $this->module;
 
         return view('vellum::catalog', $this->data);
     }
@@ -66,6 +67,7 @@ class ResourceController extends Controller
         $this->data['data'] = [];
         $this->data['routeUrl'] = route($this->module->getName() . '.store');
         $this->data['attributes'] = $this->resource->getAttributes();
+        $this->data['module'] = $this->module;
 
         // $this->data['data'] = factory(\Quill\Post\Models\Post::class)->make();
         // $this->data['data']['id'] = null;
@@ -124,7 +126,7 @@ class ResourceController extends Controller
                 'user_id' => auth()->user()->id,
                 'name' => auth()->user()->name
             ]);
-            
+
         }
 
         $this->data['data'] = $this->resource->findById($id);
