@@ -19,4 +19,5 @@ return [
     'image_library'             => '',
     'image_path'                => '',
     'pagination_items'			=> [],
+    'pagination_limit'			=> '',
 ];
