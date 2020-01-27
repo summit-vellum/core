@@ -175,4 +175,27 @@ class ResourceController extends Controller
     {
         $this->resource->getModel()->find($id)->resourceLock()->forceDelete();
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function autosave(FormRequestContract $request, $id)
+    {
+        $res['method'] = $request->method();
+        if ($request->method() == 'PUT'){
+            $this->authorize('update', $this->resource->getModel());
+            $this->resource->save($request->all(), $id);
+            $res['redirect'] = null;
+        } else {
+            $this->authorize('create', $this->resource->getModel());
+            $validator = $request->validated();
+            $data = $this->resource->save($request->all());
+            $res['redirect'] = route($this->module->getName() . '.update', $data->id);
+        }
+
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
+    }
 }
