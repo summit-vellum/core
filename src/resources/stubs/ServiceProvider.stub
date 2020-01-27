@@ -6,6 +6,7 @@ use Vellum\Module\Quill;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Quill\{{moduleName}}\Listeners\Register{{moduleName}}Module;
+use Quill\{{moduleName}}\Listeners\Register{{moduleName}}PermissionModule;
 use Quill\{{moduleName}}\Resource\{{moduleName}}Resource;
 use Quill\{{moduleName}}\Models\{{moduleName}}Observer;
 
@@ -39,6 +40,7 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
     public function register()
     {
         Event::listen(Quill::MODULE, Register{{moduleName}}Module::class);
+        Event::listen(Quill::PERMISSION, Register{{moduleName}}PermissionModule::class);
     }
 
     public function loadModuleCommands()
