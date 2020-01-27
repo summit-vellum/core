@@ -1,0 +1,13 @@
+$positions: absolute, relative, fixed;
+
+/**
+ * > Positions
+ */
+@mixin position {
+    @for $i from 1 through length($positions) {
+        $item: nth($positions, $i);
+          .#{$item} {
+            position: #{$item};
+          }
+    }
+}

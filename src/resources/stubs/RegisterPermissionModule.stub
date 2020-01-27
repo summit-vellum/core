@@ -1,0 +1,15 @@
+<?php
+
+namespace Quill\{{moduleName}}\Listeners;
+
+class Register{{moduleName}}PermissionModule
+{ 
+    public function handle()
+    {
+        return [
+            '{{moduleName}}' => [
+                'view'
+            ]
+        ];
+    }
+}
