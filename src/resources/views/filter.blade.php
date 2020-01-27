@@ -36,7 +36,6 @@
 
         @endforeach
 
-
         <div class="flex item-center">
             <label for="filter" class="flex-auto mr-1 rounded font-sm text-center font-semibold text-white bg-gray-500 px-4 py-2">Cancel</label>
             <button class="flex-auto ml-1 rounded font-sm font-semibold text-white bg-blue-500 px-4 py-2">Filter</button>

@@ -32,11 +32,13 @@ class ResourceController extends Controller
         $this->resource = $resource;
         $this->data['model'] = $this->resource->getModel();
         $this->data['actions'] = $this->resource->getActions();
-        $this->module = $module; 
+        $this->module = $module;
 
         view()->composer('*', function ($view) {
             $view->with('routeName', $this->currentRouteName);
         });
+
+        // dd($this->resource->getAttributes());
     }
 
     /**
@@ -51,7 +53,7 @@ class ResourceController extends Controller
         $this->data['collections'] = $this->resource->getRowsData();
         $this->data['attributes'] = $this->resource->getAttributes();
 
-        return view('vellum::catalog', $this->data);
+        return view()->first([$this->module->getName().'::catalog', 'vellum::catalog'], $this->data);
     }
 
     /**
@@ -71,7 +73,7 @@ class ResourceController extends Controller
         // $this->data['data']['id'] = null;
         // $this->data['data']['published_at'] = \Carbon\Carbon::now()->toDateTimeString();
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**
@@ -104,7 +106,7 @@ class ResourceController extends Controller
         $this->data['data'] = $this->resource->findById($id);
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**
@@ -124,14 +126,13 @@ class ResourceController extends Controller
                 'user_id' => auth()->user()->id,
                 'name' => auth()->user()->name
             ]);
-            
         }
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**

@@ -21,7 +21,6 @@
     enctype="multipart/form-data"
     >
 
-
     @csrf
 
     @empty($data)
@@ -72,11 +71,11 @@
 </form>
 
 @endsection
-@push('scripts') 
+@push('scripts')
 <script src="{{asset('js/custom.js')}}"></script>
 @endpush
 @form
-    @push('scripts') 
+    @push('scripts')
         <script>
         // Example starter JavaScript for disabling form submissions if there are invalid fields
         (function() {
