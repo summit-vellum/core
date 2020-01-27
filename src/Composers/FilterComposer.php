@@ -17,7 +17,7 @@ class FilterComposer
     {
         if(!$resource) return null;
 
-        foreach($resource->getFilterFields() as $filter) {
+        foreach ($resource->getFilterFields() as $filter) {
             $class = new $filter;
             $className = $class->options();
             $key = 'select_'.$class->key();
@@ -27,7 +27,6 @@ class FilterComposer
             $this->filters[$class->key()] = $options;
         }
     }
-
 
     public function compose(View $view)
     {

@@ -2,19 +2,12 @@
 
 namespace Vellum\Module;
 
-
 class Module
 {
-
     protected $name;
-
     protected $title;
-
     protected $path;
-
     protected $model;
-
-
 
     public function __construct($properties)
     {
@@ -62,5 +55,4 @@ class Module
     {
         return $this->model;
     }
-
 }

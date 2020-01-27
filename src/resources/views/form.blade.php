@@ -27,7 +27,6 @@
     enctype="multipart/form-data"
     >
 
-
     @csrf
 
     @empty($data)

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Vellum\Repositories;
 
 use App\Http\Controllers\QuillBuilderController;
@@ -17,7 +16,6 @@ use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
 use Vellum\Services\FileUploadService;
 use Vellum\Uploader\UploadTrait;
-use Illuminate\Http\Request;
 
 class ResourceRepository implements Resource, HasCrud
 {
@@ -27,23 +25,17 @@ class ResourceRepository implements Resource, HasCrud
     protected $class;
     protected $uploadService;
     private $config;
-
     public $attributes;
-
     protected $modify = [];
 
     public function __construct(Model $model)
     {
         $this->model = $model;
-
         $this->attributes = app(Pipeline::class)
                     ->send([])
                     ->through($this->model->fields())
                     ->thenReturn();
 
-        $this->attributes['collections'] = array_reverse($this->attributes['collections']);
-
-        //dd($this->attributes);
     }
 
     public function getAttributes()
@@ -78,12 +70,10 @@ class ResourceRepository implements Resource, HasCrud
 
     public function save(array $data, int $id = 0)
     {
-        $data = FileUploadService::make($data);
-
+        // $data = FileUploadService::make($data);
         $class = get_class($this->model);
-
         $instance = $class::updateOrCreate(
-            [ 'id' => $data['id'] ?? 0 ],
+            ['id' => $data['id'] ?? 0],
             $data
         );
 
@@ -92,11 +82,10 @@ class ResourceRepository implements Resource, HasCrud
 
     public function delete(int $id = 0)
     {
-        if($id === 0) {
+        if ($id === 0) {
             throw new Exception("Invalid resource id.", 1);
         }
 
         return $this->model->find($id)->delete();
     }
-
 }

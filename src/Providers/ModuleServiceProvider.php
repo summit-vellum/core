@@ -25,7 +25,6 @@ class ModuleServiceProvider extends ServiceProvider
 
     public function boot()
     {
-
         $this->loadModuleSettings();
         $this->loadPackageSettings();
 
@@ -83,7 +82,7 @@ class ModuleServiceProvider extends ServiceProvider
             $view->with('site', $this->site);
         });
 
-        view()->composer('filter', FilterComposer::class);
+        view()->composer('vellum::filter', FilterComposer::class);
         view()->composer('field::tinymce', ShortcodeComposer::class);
     }
 

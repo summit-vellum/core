@@ -37,6 +37,8 @@ class ResourceController extends Controller
         view()->composer('*', function ($view) {
             $view->with('routeName', $this->currentRouteName);
         });
+
+        // dd($this->resource->getAttributes());
     }
 
     /**
@@ -52,7 +54,7 @@ class ResourceController extends Controller
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['module'] = $this->module;
 
-        return view('vellum::catalog', $this->data);
+        return view()->first([$this->module->getName().'::catalog', 'vellum::catalog'], $this->data);
     }
 
     /**
@@ -73,7 +75,7 @@ class ResourceController extends Controller
         // $this->data['data']['id'] = null;
         // $this->data['data']['published_at'] = \Carbon\Carbon::now()->toDateTimeString();
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**
@@ -106,7 +108,7 @@ class ResourceController extends Controller
         $this->data['data'] = $this->resource->findById($id);
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**
@@ -133,7 +135,7 @@ class ResourceController extends Controller
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view('vellum::form', $this->data);
+        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
     }
 
     /**
