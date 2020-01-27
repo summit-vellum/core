@@ -493,7 +493,7 @@ trait HasStub
                 ],
                 $this->getStub('Command')
             );
-    
+
             $this->createStubToFile("Commands/{$this->module}Command.php", $commandTemplate);
         }
     }
@@ -514,7 +514,7 @@ trait HasStub
                 ],
                 $this->getStub('Job')
             );
-    
+
             $this->createStubToFile("Jobs/{$this->module}Job.php", $jobTemplate);
         }
     }
@@ -561,7 +561,7 @@ trait HasStub
             $this->getStub('PusherEventJs')
         );
 
-        $this->createStubToFile("public/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
+        $this->createStubToFile("public/js/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
     }
 
     public function pusherMainJs()
@@ -570,7 +570,7 @@ trait HasStub
             $this->getStub('pusherMainJs')
         );
 
-        $this->createStubToFile("public/pusher-main.js", $pusherMainJsTemplate);
+        $this->createStubToFile("public/js/pusher-main.js", $pusherMainJsTemplate);
     }
 
     protected function filter($name)

@@ -75,7 +75,7 @@ class BaseModel extends Model
 
     public function allData(array $fields, $request)
     {
-    	$pageLimit = is_numeric($request->get('limit')) ? $request->get('limit') : $this->site['pagination_limit'];
+    	$pageLimit = ($request && is_numeric($request->get('limit'))) ? $request->get('limit') : $this->site['pagination_limit'];
     	$classBaseName = get_class($this);
     	$baseModelClass = $classBaseName::query();
     	$pipeline = app(Pipeline::class)
