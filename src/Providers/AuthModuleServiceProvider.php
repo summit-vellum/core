@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Log;
 use Quill\Permission\Listeners\RegisterPermission;
 use Vellum\Module\Quill;
+use Illuminate\Support\Arr;
 
 class AuthModuleServiceProvider extends ServiceProvider
 {
@@ -36,11 +37,13 @@ class AuthModuleServiceProvider extends ServiceProvider
             return $path;
         });
 
-        $permissions = ['view'];
-        foreach ($permissions as $key) {
-            $key = strtolower($key);
-            $policy = "Quill\\Permission\\Models\\Policies\\PermissionGate@{$key}";
-            Gate::define("{$key}", $policy);
+        $permissionsEvent = event(Quill::PERMISSION);
+        $permissions = Arr::collapse($permissionsEvent);
+        foreach ($permissions as $moduleName => $gates) {
+            foreach ($gates as $gates) {
+                $policy = "Quill\\{$moduleName}\\Models\\Gates\\{$moduleName}Gate@{$gates}";
+                Gate::define("{$gates}", $policy);
+            }
         }
     }
 }
