@@ -18,6 +18,7 @@ class Register{{moduleName}}Module
             'title' => '{{moduleName}}',
             'class' => 'font-xl text-blue-500',
             'module' => '{{moduleName}}',
+            'parent' => '',
             'model' => \Quill\{{moduleName}}\Models\{{moduleName}}::class
         ];
     }

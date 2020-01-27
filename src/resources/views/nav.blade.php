@@ -19,12 +19,31 @@
         		<li>
         			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Tools</strong></a>
         			<ul class="dropdown-menu mobile-dropdown-menu">
-                        @foreach($modules as $module)
-				            @if(Auth::user()->modules()->contains($module['name']))
-				            <li><a href="{{ route($module['name'].'.index') }}">{{ $module['title'] }}</a></li>
-                        	<li class="divider"></li>
-				            @endif
-				        @endforeach
+					@foreach(collect($modules)->where('parent', "") as $parent)
+						@if(Auth::user()->modules()->contains($parent['name']))
+
+						@if(collect($modules)->where('parent', $parent['name'])->count() <= 0)
+						<li>
+							<a href="{{ route($parent['name'].'.index') }}">{{ $parent['title'] }}</a>
+						</li>
+						@else
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ route($parent['name'].'.index') }}" data-menu="bg" data-toggle="toggle">
+								{{ $parent['title'] }}<span style="font-size:10px;margin-top:3px;float:right;" class="glyphicon glyphicon-triangle-right"></span>
+							</a> 
+							<ul class="dropdown-menu"  style="left: 100%; margin-top: -40px; display: none;">
+								@foreach(collect($modules)->where('parent', $parent['name']) as $child)
+								<li><a href="{{ route($child['name'].'.index') }}" data-menu="bg">{{ $child['title'] }}</a></li>
+								@endforeach 
+							</ul>  
+						</li>
+						@endif 
+						
+						@if(!$loop->last)
+						<li class="divider"></li>
+						@endif
+						@endif
+						@endforeach
         			</ul>
         		</li>
         	</ul>
