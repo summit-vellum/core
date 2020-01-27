@@ -18,6 +18,6 @@ return [
     'image_domain'              => '',
     'image_library'             => '',
     'image_path'                => '',
-    'pagination_items'			=> [],
-    'pagination_limit'			=> '',
+    'pagination_items'			=> [30, 60, 90],
+    'pagination_limit'			=> 30,
 ];

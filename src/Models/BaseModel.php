@@ -16,6 +16,10 @@ class BaseModel extends Model
     protected $guarded = ['id'];
     protected $perPage = 5;
 
+    public function __construct()
+    {
+    	$this->site = config('site');
+    }
 
     /**
      * Retrieves an eloquent relationships nested property
@@ -69,15 +73,16 @@ class BaseModel extends Model
         return $this->hasOne(Status::class, 'id', 'status_id');
     }
 
-    public function allData(array $fields)
+    public function allData(array $fields, $request)
     {
+    	$pageLimit = ($request && is_numeric($request->get('limit'))) ? $request->get('limit') : $this->site['pagination_limit'];
     	$classBaseName = get_class($this);
     	$baseModelClass = $classBaseName::query();
     	$pipeline = app(Pipeline::class)
     		->send($baseModelClass->select($fields))
     		->through(array_merge(config('filters'), $this->filters()))
     		->thenReturn()
-    		->paginate();
+    		->paginate($pageLimit);
 
     	return $pipeline;
     }
