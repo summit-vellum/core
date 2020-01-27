@@ -54,6 +54,7 @@ trait HasStub
         $this->disk->makeDirectory($source);
         $this->disk->makeDirectory($source . 'Models');
         $this->disk->makeDirectory($source . 'Models/Policies');
+        $this->disk->makeDirectory($source . 'Models/Gates');
         // $this->disk->makeDirectory($source.'Presenters');
         $this->disk->makeDirectory($source . 'routes');
         $this->disk->makeDirectory($source . 'Listeners');
@@ -273,6 +274,23 @@ trait HasStub
         $this->createStubToFile("Models/Policies/{$this->module}Policy.php", $policyTemplate);
     }
 
+    protected function gate()
+    {
+        $gateTemplate = str_replace(
+            [
+                '{{moduleName}}',
+                '{{moduleNameSlug}}'
+            ],
+            [
+                $this->module,
+                strtolower(Str::kebab($this->module))
+            ],
+            $this->getStub('Gate')
+        );
+
+        $this->createStubToFile("Models/Gates/{$this->module}Gate.php", $gateTemplate);
+    }
+
     protected function registerModule()
     {
         $registerModuleTemplate = str_replace(
@@ -288,6 +306,21 @@ trait HasStub
         );
 
         $this->createStubToFile("Listeners/Register{$this->module}Module.php", $registerModuleTemplate);
+    }
+
+    protected function registerPermissionModule()
+    {
+        $registerPermissionModuleTemplate = str_replace(
+            [
+                '{{moduleName}}'
+            ],
+            [
+                $this->module
+            ],
+            $this->getStub('RegisterPermissionModule')
+        );
+
+        $this->createStubToFile("Listeners/Register{$this->module}PermissionModule.php", $registerPermissionModuleTemplate);
     }
 
     protected function composer()
@@ -460,7 +493,7 @@ trait HasStub
                 ],
                 $this->getStub('Command')
             );
-    
+
             $this->createStubToFile("Commands/{$this->module}Command.php", $commandTemplate);
         }
     }
@@ -481,7 +514,7 @@ trait HasStub
                 ],
                 $this->getStub('Job')
             );
-    
+
             $this->createStubToFile("Jobs/{$this->module}Job.php", $jobTemplate);
         }
     }
@@ -528,7 +561,7 @@ trait HasStub
             $this->getStub('PusherEventJs')
         );
 
-        $this->createStubToFile("public/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
+        $this->createStubToFile("public/js/pusher/".strtolower(Str::kebab($name)).".js", $pusherEventJsTemplate);
     }
 
     public function pusherMainJs()
@@ -537,7 +570,7 @@ trait HasStub
             $this->getStub('pusherMainJs')
         );
 
-        $this->createStubToFile("public/pusher-main.js", $pusherMainJsTemplate);
+        $this->createStubToFile("public/js/pusher-main.js", $pusherMainJsTemplate);
     }
 
     protected function filter($name)
@@ -606,12 +639,14 @@ trait HasStub
         $this->config();
         $this->routes();
         $this->policy();
+        $this->gate();
         // $this->presenter();
         $this->controller();
         $this->request();
         $this->observer();
         $this->resource();
         $this->registerModule();
+        $this->registerPermissionModule();
         $this->serviceProvider();
         // $this->authServiceProvider();
         $this->event();

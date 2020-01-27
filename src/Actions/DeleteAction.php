@@ -11,7 +11,7 @@ class DeleteAction extends BaseAction implements Actionable
     public function icon()
     {
         if ($this->isLockIcon) {
-            
+
             $editedBy = (auth()->user()->id == $this->user['user_id']) ? 'You are ' : $this->user['name'] . ' is';
 
             return view('vellum::icons.icon')->with(['icon' => 'unlock'])->render() . $editedBy . ' currently editing this article.';
@@ -56,6 +56,9 @@ class DeleteAction extends BaseAction implements Actionable
                 'inline-flex',
                 'items-center mr-2',
                 'whitespace-no-wrap',
+                'icon-link',
+                'd-inline-block',
+                'mx-2',
                 ($this->isLockIcon) ? 'hover:bg-green-700' : 'hover:bg-red-700',
                 ($this->isLockIcon) ? 'bg-green-500' : 'bg-red-500',
                 ($this->isLockIcon) ? 'btn-unlock' : 'btn-delete',

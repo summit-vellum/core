@@ -1,7 +1,12 @@
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
+@push('css') 
 
+@foreach(array_unique(Arr::flatten($attributes['assets']['style'])) as $key)
+<link href="{{asset($key)}}" rel="stylesheet">
+@endforeach 
+@endpush
 @section('content')
 
     <h1 class="text-4xl font-bold mb-5 mt-10">
@@ -13,6 +18,7 @@
     </h1>
 
 <form
+	id="form-{{$module}}"
     class="needs-validation
     @if($errors->any()) {{ 'was-validated' }} @endif"
     novalidate
@@ -32,14 +38,16 @@
     <div class="clearfix mb-5">
 
         <div class="float-left">
-            @button(['action'=>'index', 'icon'=>'chevron-left','color'=>'gray','label'=>'Back to dashboard'])
+            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard'])
         </div>
 
         <div class="text-right float-right">
-
             @form
 
-                @button(['element'=>'button', 'icon'=>'new','color'=>'blue','label'=>'Save'])
+            	@section('actions')
+	        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
+
+	        	@append
 
             @else
 
@@ -50,29 +58,28 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-5">
-
-        @foreach($attributes['collections'] as $key=>$field)
-
-
-            @includeIf(
-                    'field::' . $field['element'],
-                    [
-                        'attributes' => $field,
-                        'data' => $data,
-                        'value' => $data ? ($data->$key) ?? '' : ''
-                    ]
-                )
-
-        @endforeach
-
-    </div>
+    @foreach($attributes['collections'] as $key=>$field)
+		@includeIf(
+            'field::' . $field['element'],
+            [
+                'attributes' => $field,
+                'data' => $data,
+                'value' => $data ? ($data->$key) ?? '' : ''
+            ]
+        )
+    @endforeach
 
 </form>
 
 @endsection
 @push('scripts')
-<script src="{{asset('js/custom.js')}}"></script>
+
+@foreach(array_unique(Arr::flatten($attributes['assets']['script'])) as $key)
+<script type="text/javascript" src="{{asset($key)}}"></script>
+@endforeach
+
+<script type="text/javascript" src="{{asset('vendor/vellum/js/custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('vendor/vellum/js/form.js')}}"></script>
 @endpush
 @form
     @push('scripts')
@@ -116,7 +123,6 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
     @endpush
 @endform

@@ -35,9 +35,7 @@ class ResourceRepository implements Resource, HasCrud
                     ->send([])
                     ->through($this->model->fields())
                     ->thenReturn();
-        $this->attributes['collections'] = array_reverse(
-            $this->attributes['collections']
-        );
+
     }
 
     public function getAttributes()
@@ -60,9 +58,9 @@ class ResourceRepository implements Resource, HasCrud
         return $this->model->filters();
     }
 
-    public function getRowsData()
+    public function getRowsData($request = [])
     {
-    	return $this->model->allData(array_keys($this->attributes['collections']));
+    	return $this->model->allData(array_keys($this->attributes['collections']), $request);
     }
 
     public function findById($id)

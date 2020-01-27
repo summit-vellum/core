@@ -46,12 +46,13 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('view', $this->resource->getModel());
 
-        $this->data['collections'] = $this->resource->getRowsData();
+        $this->data['collections'] = $this->resource->getRowsData($request);
         $this->data['attributes'] = $this->resource->getAttributes();
+        $this->data['module'] = $this->module;
 
         return view()->first([$this->module->getName().'::catalog', 'vellum::catalog'], $this->data);
     }
@@ -68,6 +69,7 @@ class ResourceController extends Controller
         $this->data['data'] = [];
         $this->data['routeUrl'] = route($this->module->getName() . '.store');
         $this->data['attributes'] = $this->resource->getAttributes();
+        $this->data['module'] = $this->module;
 
         // $this->data['data'] = factory(\Quill\Post\Models\Post::class)->make();
         // $this->data['data']['id'] = null;
@@ -126,6 +128,7 @@ class ResourceController extends Controller
                 'user_id' => auth()->user()->id,
                 'name' => auth()->user()->name
             ]);
+
         }
 
         $this->data['data'] = $this->resource->findById($id);
@@ -173,5 +176,28 @@ class ResourceController extends Controller
     public function unlock($id)
     {
         $this->resource->getModel()->find($id)->resourceLock()->forceDelete();
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function autosave(FormRequestContract $request, $id)
+    {
+        $res['method'] = $request->method();
+        if ($request->method() == 'PUT'){
+            $this->authorize('update', $this->resource->getModel());
+            $this->resource->save($request->all(), $id);
+            $res['redirect'] = null;
+        } else {
+            $this->authorize('create', $this->resource->getModel());
+            $validator = $request->validated();
+            $data = $this->resource->save($request->all());
+            $res['redirect'] = route($this->module->getName() . '.update', $data->id);
+        }
+
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
 }

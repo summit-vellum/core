@@ -31,6 +31,7 @@ class ModuleServiceProvider extends ServiceProvider
         $modules = event(Quill::MODULE);
         $segment = $this->app->request->segment(1);
         $entity = Str::studly(Str::slug($segment, '_'));
+        $this->site = config('site');
 
         $moduleDetails = collect($modules)->filter(function ($module) use ($segment) {
                 return $module['name'] == $segment;
@@ -78,6 +79,7 @@ class ModuleServiceProvider extends ServiceProvider
             $view->with('module', $segment);
             $view->with('details', $moduleDetails);
             $view->with('modules', $modules);
+            $view->with('site', $this->site);
         });
 
         view()->composer('vellum::filter', FilterComposer::class);
@@ -102,7 +104,7 @@ class ModuleServiceProvider extends ServiceProvider
         // app('router')->pushMiddlewareToGroup('web', \Vellum\Middleware\ModuleAccess::class);
 
         // set the global default blade for pagination
-        Paginator::defaultView('vellum::pagination.tailwind');
+        Paginator::defaultView('vellum::pagination.paginate');
     }
 
     public function loadPackageSettings()
@@ -124,6 +126,7 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
             __DIR__ . '/../config/resource_lock.php' => config_path('resource_lock.php'),
+            __DIR__ . '/../config/site.php' => config_path('site.php'),
         ], 'vellum.config');
 
         $this->publishes([

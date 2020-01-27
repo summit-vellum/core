@@ -1,27 +1,29 @@
-
-<div class="flex item-center border-b py-5
+<div class="form-group mb-5
+	@if(isset($hidden) && $hidden != '') hide @endif
     @if(isset($id) && in_array($id, config('table.force_exclude_fields')))
         hidden
     @endif
 ">
-    <label for="{{ $id }}" class="w-40 text-gray-500 font-semibold text-sm">
+    <label for="{{ $id }}" class="cf-label">
         {{ $label }}
     </label>
 
-    <div 
-        class="flex-auto w-4/5">
+    {{ $slot }}
 
-        {{ $slot }}
-        
-        @form
-            <small class="font-sm text-gray-500 block mt-1">{{ $help ?? '' }}</small>
-        @endform
+    @form
+    	@if($help != '')
+    	<div class="mt-2">
+	    	@icon(['icon' => 'info', 'classes'=>'pull-left'])
+	        <small class="cf-note">{{ $help ?? '' }}</small>
+	    </div>
+	    @endif
+    @endform
 
-        <div class="invalid-feedback">
-            {{ $errors->first($id) ?? null }}
-        </div>
-
-        <div>{{ $extra ?? '' }}</div>
+    <div class="invalid-feedback">
+        {{ $errors->first($id) ?? null }}
     </div>
+
+    <div>{{ $extra ?? '' }}</div>
+
 
 </div>
