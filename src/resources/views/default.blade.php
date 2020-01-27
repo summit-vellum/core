@@ -27,9 +27,6 @@
     <!-- <link href="{{ asset('vendor/html/css/bootstrap.min.css') }}" rel="stylesheet"> -->
 	<link href="{{ asset('vendor/html/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
 
-	<!-- Latest compiled and minified CSS -->
-	<link href="{{ asset('vendor/vellum/css/vendor/bootstrap-select.min.css') }}" rel="stylesheet">
-
 
     @stack('css')
 
