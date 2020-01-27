@@ -1,18 +1,58 @@
-<div class="fixed w-full sticky top-0 bg-gray-700 p-3">
-    <div class="flex ml-64">
-        <div class="flex item-center font-xs ml-12 w-3/4 text-white font-bold font-xl uppercase tracking-wide">
-            Quill Vellum
+<nav class="navbar navbar-default navbar-fixed-top navbar-main">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        	<ul class="navbar-brand mb-0">
+                <div class="dropdown">
+                    <div class="site-logo-container dropdown-toggle hide-mobile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background:{{ $site['color'] }}" onClick="location.href='/'" title="Exit This Page">
+                    	@icon(['icon' => 'topgear-logo', 'isRaw' => true])
+                        <svg class="site-logo dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background:{{$site['color']}}">
+                                <use xlink:href="#{{$site['code_name']}}-logo"></use>
+                        </svg>
+                    </div>
+                </div>
+            </ul>
         </div>
-        <span class="float-right w-1/4">
-            <a href="#" class="text-white inline-block">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="fill-current"><path class="heroicon-ui" d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"/></svg>
-            </a>
-            <span class="text-white inline-block">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16" height="16" class="fill-current"><path class="heroicon-ui" d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/></svg>
-            </span>
-        </span>
-        {{-- <span class="text-white uppercase ">
-            {{ $module }}
-        </span> --}}
+
+        <div class="navbar-collapse collapse navbar-left">
+        	<ul class="nav navbar-nav">
+        		<li class="active"><a href=""><strong>Content</strong></a></li>
+        		<li>
+        			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Tools</strong></a>
+        			<ul class="dropdown-menu mobile-dropdown-menu">
+					@foreach(collect($modules)->where('parent', "") as $parent)
+						@if(Auth::user()->modules()->contains($parent['name']))
+
+						@if(collect($modules)->where('parent', $parent['name'])->count() <= 0)
+						<li>
+							<a href="{{ route($parent['name'].'.index') }}">{{ $parent['title'] }}</a>
+						</li>
+						@else
+						<li class="dropdown-submenu">
+							<a tabindex="-1" href="{{ route($parent['name'].'.index') }}" data-menu="bg" data-toggle="toggle">
+								{{ $parent['title'] }}<span style="font-size:10px;margin-top:3px;float:right;" class="glyphicon glyphicon-triangle-right"></span>
+							</a> 
+							<ul class="dropdown-menu"  style="left: 100%; margin-top: -40px; display: none;">
+								@foreach(collect($modules)->where('parent', $parent['name']) as $child)
+								<li><a href="{{ route($child['name'].'.index') }}" data-menu="bg">{{ $child['title'] }}</a></li>
+								@endforeach 
+							</ul>  
+						</li>
+						@endif 
+						
+						@if(!$loop->last)
+						<li class="divider"></li>
+						@endif
+						@endif
+						@endforeach
+        			</ul>
+        		</li>
+        	</ul>
+        </div>
+
+        <div id="navbar" class="navbar-collapse collapse navbar-right">
+        	<ul class="nav navbar-nav">
+			    @yield('actions')
+        	</ul>
+        </div>
     </div>
-</div>  
+</nav>

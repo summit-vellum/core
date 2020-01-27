@@ -1,0 +1,31 @@
+$spacing: 0 5px 10px 15px 20px 30px 40px 70px 90px;
+$positions: top right bottom left;
+
+@mixin spacing() {
+    $options: padding margin;
+    @for $o from 1 through length($options) {
+        $option: nth($options, $o);
+        $optionPrefix: str-slice($option, 1, 1);
+        @for $i from 1 through length($spacing) {
+            $space: nth($spacing, $i);
+            .#{$optionPrefix}-#{$i - 1} {
+                #{$option}: #{$space};
+            }
+            @for $j from 1 through length($positions) {
+                $position: nth($positions, $j);
+                $positionPrefix: str-slice($position, 1, 1);
+                .#{$optionPrefix}#{$positionPrefix}-#{$i - 1} {
+                    #{$option}-#{$position}: #{$space};
+                }
+            }
+            .#{$optionPrefix}x-#{$i - 1} {
+                @extend .#{$optionPrefix}l-#{$i - 1};
+                @extend .#{$optionPrefix}r-#{$i - 1};
+            }
+            .#{$optionPrefix}y-#{$i - 1} {
+                @extend .#{$optionPrefix}t-#{$i - 1};
+                @extend .#{$optionPrefix}b-#{$i - 1};
+            }
+        }
+    }
+}

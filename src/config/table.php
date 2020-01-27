@@ -38,8 +38,8 @@ return [
      */
     'default_sort_icons' => [
         'sort_icon' => '<i class="fas fa-sort ml-2"></i>',
-        'asc_sort_icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="current-fill w-3"><path class="heroicon-ui" d="M8.7 14.7a1 1 0 0 1-1.4-1.4l4-4a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1-1.4 1.4L12 11.42l-3.3 3.3z"/></svg>',
-        'desc_sort_icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="current-fill w-3"><path class="heroicon-ui" d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/></svg>'
+        'asc_sort_icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="current-fill w-3 icon"><path class="heroicon-ui" d="M8.7 14.7a1 1 0 0 1-1.4-1.4l4-4a1 1 0 0 1 1.4 0l4 4a1 1 0 0 1-1.4 1.4L12 11.42l-3.3 3.3z"/></svg>',
+        'desc_sort_icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="current-fill w-3 icon"><path class="heroicon-ui" d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/></svg>'
     ],
 
 
