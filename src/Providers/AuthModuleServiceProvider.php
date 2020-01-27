@@ -39,7 +39,7 @@ class AuthModuleServiceProvider extends ServiceProvider
         $permissions = ['view'];
         foreach ($permissions as $key) {
             $key = strtolower($key);
-            $policy = "Quill\\Permission\\Models\\Policies\\PermissionGate@{$key}";
+            $policy = "Quill\\Permission\\Models\\Gates\\PermissionGate@{$key}";
             Gate::define("{$key}", $policy);
         }
     }
