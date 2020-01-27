@@ -11,5 +11,5 @@ class Quill
 
     const SHORTCODE = 'quill.shortcode';
 
-
+    const PERMISSION = 'quill.permission';
 }
