@@ -29,7 +29,7 @@ class AuthModuleServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        Gate::guessPolicyNamesUsing(function ($class) { 
+        Gate::guessPolicyNamesUsing(function ($class) {
             $classBaseName = class_basename($class);
             $className = explode('\\', $class)[1];
             $path = "Quill\\{$className}\Models\Policies\\{$className}Policy";
@@ -38,13 +38,12 @@ class AuthModuleServiceProvider extends ServiceProvider
         });
 
         $permissionsEvent = event(Quill::PERMISSION);
-        $collapse = Arr::collapse($permissionsEvent);
-        $flatten = Arr::flatten($collapse); 
-        $permissions = array_unique($flatten);
-        foreach ($permissions as $key) {
-            $key = strtolower($key);
-            $policy = "Quill\\Permission\\Models\\Gates\\PermissionGate@{$key}";
-            Gate::define("{$key}", $policy);
+        $permissions = Arr::collapse($permissionsEvent);
+        foreach ($permissions as $moduleName => $gates) {
+            foreach ($gates as $gates) {
+                $policy = "Quill\\{$moduleName}\\Models\\Gates\\{$moduleName}Gate@{$gates}";
+                Gate::define("{$gates}", $policy);
+            }
         }
     }
 }
