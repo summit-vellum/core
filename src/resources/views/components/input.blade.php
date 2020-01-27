@@ -11,7 +11,7 @@
     {{ $slot }}
 
     @form
-    	@if($help != '')
+    	@if(isset($help) && $help != '')
     	<div class="mt-2">
 	    	@icon(['icon' => 'info', 'classes'=>'pull-left'])
 	        <small class="cf-note">{{ $help ?? '' }}</small>
