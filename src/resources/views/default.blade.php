@@ -14,21 +14,28 @@
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Arimo:400,400i,700,700i" />
 
     <!-- Styles -->
-    <link href="{{ asset('vendor/vellum/css/app.css') }}" rel="stylesheet">
+    <!-- Quill css -->
+    <link href="{{ asset('vendor/vellum/css/desktop.css') }}" rel="stylesheet">
+
+    <!-- Vellum css -->
+    <!-- <link href="{{ asset('vendor/vellum/css/app.css') }}" rel="stylesheet"> -->
     {{-- <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet"> --}}
 
-    <link href="{{ asset('vendor/html/css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- <link href="{{ asset('vendor/html/css/bootstrap.min.css') }}" rel="stylesheet"> -->
 	<link href="{{ asset('vendor/html/css/bootstrap-tagsinput.css') }}" rel="stylesheet">
+
+	<!-- Latest compiled and minified CSS -->
+	<link href="{{ asset('vendor/vellum/css/vendor/bootstrap-select.min.css') }}" rel="stylesheet">
 
 
     @stack('css')
 
 </head>
 
-<body class="bg-gray-200 pb-10 font-body">
+<body>
     <!-- <div class="container-fluid"> -->
 
     <div>
@@ -36,16 +43,12 @@
             @include('vellum::nav')
         </header>
 
-        <sidebar>
+        <!-- <sidebar>
             @include('vellum::sidebar')
-        </sidebar>
+        </sidebar> -->
 
-        <div class="container mx-auto">
+        <div class="container px-0 container-max-width">
             @yield('content')
-
-            <div class="pt-10 text-sm text-gray-400 text-center">
-                &copy; 2019 Summit Media Digital.
-            </div>
         </div>
     </div>
 

@@ -18,6 +18,7 @@
     </h1>
 
 <form
+	id="form-{{$module}}"
     class="needs-validation
     @if($errors->any()) {{ 'was-validated' }} @endif"
     novalidate
@@ -38,14 +39,16 @@
     <div class="clearfix mb-5">
 
         <div class="float-left">
-            @button(['action'=>'index', 'icon'=>'chevron-left','color'=>'gray','label'=>'Back to dashboard'])
+            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard'])
         </div>
 
         <div class="text-right float-right">
-
             @form
 
-                @button(['element'=>'button', 'icon'=>'new','color'=>'blue','label'=>'Save'])
+            	@section('actions')
+	        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
+
+	        	@append
 
             @else
 
@@ -56,23 +59,16 @@
         </div>
     </div>
 
-    <div class="bg-white rounded-lg shadow-md p-5">
-
-        @foreach($attributes['collections'] as $key=>$field)
-
-
-            @includeIf(
-                    'field::' . $field['element'],
-                    [
-                        'attributes' => $field,
-                        'data' => $data,
-                        'value' => $data ? ($data->$key) ?? '' : ''
-                    ]
-                )
-
-        @endforeach
-
-    </div>
+    @foreach($attributes['collections'] as $key=>$field)
+		@includeIf(
+            'field::' . $field['element'],
+            [
+                'attributes' => $field,
+                'data' => $data,
+                'value' => $data ? ($data->$key) ?? '' : ''
+            ]
+        )
+    @endforeach
 
 </form>
 
