@@ -17,7 +17,7 @@ use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
 use Vellum\Services\FileUploadService;
 use Vellum\Uploader\UploadTrait;
-
+use Illuminate\Http\Request;
 
 class ResourceRepository implements Resource, HasCrud
 {
@@ -43,7 +43,7 @@ class ResourceRepository implements Resource, HasCrud
 
         $this->attributes['collections'] = array_reverse($this->attributes['collections']);
 
-        // dd($this->attributes);
+        //dd($this->attributes);
     }
 
     public function getAttributes()
@@ -66,9 +66,9 @@ class ResourceRepository implements Resource, HasCrud
         return $this->model->filters();
     }
 
-    public function getRowsData()
+    public function getRowsData($request = [])
     {
-    	return $this->model->allData(array_keys($this->attributes['collections']));
+    	return $this->model->allData(array_keys($this->attributes['collections']), $request);
     }
 
     public function findById($id)

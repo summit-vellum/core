@@ -44,11 +44,11 @@ class ResourceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $this->authorize('view', $this->resource->getModel());
 
-        $this->data['collections'] = $this->resource->getRowsData();
+        $this->data['collections'] = $this->resource->getRowsData($request);
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['module'] = $this->module;
 
