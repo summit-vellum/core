@@ -4,7 +4,7 @@
         	<ul class="navbar-brand mb-0">
                 <div class="dropdown">
                     <div class="site-logo-container dropdown-toggle hide-mobile" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background:{{ $site['color'] }}" onClick="location.href='/'" title="Exit This Page">
-                    	@icon(['icon' => $site['code_name'].'-logo', 'isRaw' => true])
+                    	@if(isset($site['code_name']) && !empty($site['code_name'])) @icon(['icon' => $site['code_name'].'-logo', 'isRaw' => true]) @endif
                         <svg class="site-logo dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="background:{{$site['color']}}">
                                 <use xlink:href="#{{$site['code_name']}}-logo"></use>
                         </svg>
