@@ -80,6 +80,7 @@
 @endforeach
 
 <script type="text/javascript" src="{{asset('vendor/vellum/js/custom.js')}}"></script>
+<script type="text/javascript" src="{{asset('vendor/vellum/js/form.js')}}"></script>
 @endpush
 @form
     @push('scripts')
@@ -123,7 +124,6 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
     </script>
     @endpush
 @endform
