@@ -44,7 +44,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'whitespace-no-wrap',
                 ($this->isLockIcon) ? 'hover:text-green-500' : 'hover:text-red-500',
                 ($this->isLockIcon) ? 'text-green-400' : 'text-red-400',
-                ($this->isLockIcon) ? 'btn-unlock' : 'btn-delete',
+                'btn-unlock',
             ],
             'button' => [
                 'rounded',
@@ -61,15 +61,17 @@ class DeleteAction extends BaseAction implements Actionable
                 'mx-2',
                 ($this->isLockIcon) ? 'hover:bg-green-700' : 'hover:bg-red-700',
                 ($this->isLockIcon) ? 'bg-green-500' : 'bg-red-500',
-                ($this->isLockIcon) ? 'btn-unlock' : 'btn-delete',
+                'btn-unlock',
             ],
         ]);
     }
 
-    public function attributes()
+    public function attributes($data = [])
     {
         return [
-            //...
+            'data-toggle' => 'modal',
+            'data-target' => '#deleteResourceDialog',
+            'data-ajax-modal' => '{"items":{"title":"Are you sure you want to disable this item?","author":"","header":"Disable","dismiss":"Cancel and go back","continue":"Continue and disable","subtext":""},"params":{"url":"'.$this->link($data->id, $data).'","type":"DELETE"}}'
         ];
     }
 
@@ -88,5 +90,10 @@ class DeleteAction extends BaseAction implements Actionable
     public function permission()
     {
         return 'delete';
+    }
+
+    public function withDialog()
+    {
+    	return true;
     }
 }

@@ -8,7 +8,7 @@ function non_breaking($string)
 
 function selected($attributes, $value, $currentValue)
 {
-    return old($attributes['id'], $value) == $currentValue ? 'selected' : ''; 
+    return old($attributes['id'], $value) == $currentValue ? 'selected' : '';
 }
 
 /**
@@ -23,7 +23,7 @@ function arrayToHtmlAttributes(array $attributes = array())
     $attributeString = '';
     if (count($attributes) > 0) {
         foreach ($attributes as $key => $value) {
-            $attributeString .= ' '.$key."=".$value."";
+            $attributeString .= " ".$key."='".$value."'";
         }
     }
     return $attributeString;

@@ -63,6 +63,7 @@
 	<script type="text/javascript" src="{{ asset('vendor/html/js/tagsinput/bootstrap-tagsinput.min.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('vendor/html/js/tagsinput.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/vellum/js/nav.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/vellum/js/utilities.js')}}"></script>
     @stack('scripts')
 </body>
 </html>

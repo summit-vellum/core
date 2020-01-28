@@ -21,7 +21,7 @@ class EditAction extends BaseAction implements Actionable
         if ($this->isLockIcon) {
             return 'javascript:void(0)';
          }
-        
+
         return route($module . '.edit', $id);
     }
 
@@ -30,7 +30,7 @@ class EditAction extends BaseAction implements Actionable
         return collect([
             'normal' => [
                 'mx-1',
-                'd-inline-block', 
+                'd-inline-block',
                 'hover:text-gray-500',
                 ($this->isLockIcon) ? 'cursor-not-allowed text-gray-400' : 'text-teal-400',
                 ($this->isLockIcon) ? 'cursor-not-allowed' : ''
@@ -71,5 +71,10 @@ class EditAction extends BaseAction implements Actionable
     public function permission()
     {
         return 'update';
+    }
+
+    public function withDialog()
+    {
+    	return false;
     }
 }

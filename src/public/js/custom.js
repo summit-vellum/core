@@ -18,6 +18,7 @@ $(function() {
         e.preventDefault();
     });
 });
+
 $(function() {
     $('.btn-unlock').click(function(e) {
         $.ajax({
