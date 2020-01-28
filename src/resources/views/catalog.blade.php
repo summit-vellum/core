@@ -15,6 +15,8 @@
 @endpush
 
 @section('content')
+	@dialog(['id' => 'deleteResourceDialog'])
+
 	@include('vellum::maintenance')
     @include('vellum::search')
     @include('vellum::table', ['collections' => $collections, 'attributes' => $attributes])
