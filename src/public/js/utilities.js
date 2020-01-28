@@ -15,8 +15,6 @@ ajaxModal.on('click', function(event) {
     event.preventDefault();
     submit.data('ajaxButton', params);
 
-    console.log(items);
-
     $.each(items, function(key, val) {
     	var attr = '[data-modal-' + key + ']';
         targetModal.find(attr).text(val);
@@ -25,7 +23,6 @@ ajaxModal.on('click', function(event) {
 });
 
 ajaxButtons.on('click', function(event) {
-	console.log('ajax buttons clicked');
     var
         config = $(this).data('ajaxButton'),
         url    = config.url,
