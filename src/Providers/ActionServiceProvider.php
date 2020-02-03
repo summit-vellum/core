@@ -26,6 +26,7 @@ class ActionServiceProvider extends ServiceProvider
         Blade::include('vellum::button', 'button');
         Blade::include('vellum::icons.icon', 'icon');
         Blade::component('vellum::components.input', 'input');
+        Blade::include('vellum::components.dialog', 'dialog');
     }
 
     public function register() { }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Vellum\Actions; 
+namespace Vellum\Actions;
 
 class BaseAction
 {
@@ -23,7 +23,7 @@ class BaseAction
     }
 
     public function isLock($data, $module)
-    {   
+    {
         if (in_array($module, config('resource_lock'))) {
 
             $resource = $data->resourceLock;
@@ -31,5 +31,10 @@ class BaseAction
             $this->user = $resource;
 
         }
+    }
+
+    public function renderWithDialog()
+    {
+    	return $this->withDialog();
     }
 }

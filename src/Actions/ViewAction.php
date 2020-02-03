@@ -64,4 +64,9 @@ class ViewAction extends BaseAction implements Actionable
     {
         return 'view';
     }
+
+    public function withDialog()
+    {
+    	return false;
+    }
 }

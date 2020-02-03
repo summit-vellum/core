@@ -37,7 +37,7 @@
 
         <!-- arrow left -->
         <?php
-        $url = $paginator->previousPageUrl().'&limit='.$paginator->perPage();
+        $url = $paginator->previousPageUrl();
         $btnStatus = '';
 
         if (empty($paginator->previousPageUrl())) {
@@ -51,7 +51,7 @@
 
         <!-- arrow right -->
         <?php
-        $url = $paginator->nextPageUrl().'&limit='.$paginator->perPage();
+        $url = $paginator->nextPageUrl();
         $btnStatus = '';
 
         if (empty($paginator->nextPageUrl())) {
