@@ -36,6 +36,7 @@ class ResourceRepository implements Resource, HasCrud
                     ->through($this->model->fields())
                     ->thenReturn();
 
+        $this->attributes['collections'] = array_reverse($this->attributes['collections']);
     }
 
     public function getAttributes()
