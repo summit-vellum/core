@@ -17,9 +17,9 @@
 @section('content')
 	@dialog(['id' => 'deleteResourceDialog'])
 
-	@include('vellum::maintenance')
-    @include('vellum::search')
-    @include('vellum::table', ['collections' => $collections, 'attributes' => $attributes])
+	@include(template('maintenance'))
+    @include(template('search'))
+    @include(template('table', ['collections' => $collections, 'attributes' => $attributes]))
 
     @section('actions')
     	@button(['action'=>'create', 'color'=>'blue','label'=>'+ New'])
