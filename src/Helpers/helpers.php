@@ -28,3 +28,17 @@ function arrayToHtmlAttributes(array $attributes = array())
     }
     return $attributeString;
 }
+
+function check_cross_auth() {
+
+    if (auth()->user()) {
+        $currentToken = auth()->user()->cross_token;
+        $sessionToken = session()->get('cross_token');
+
+        if ($currentToken == $sessionToken) {
+            return true;
+        }
+    }
+
+    return false;
+}

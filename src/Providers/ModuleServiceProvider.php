@@ -135,7 +135,7 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../Models/User.php' => app_path('User.php'),
-        ], 'vellum.models');
+        ], 'vellum.user');
 
         if ($this->app->runningInConsole()) {
             $this->commands([
