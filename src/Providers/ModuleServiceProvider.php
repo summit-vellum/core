@@ -88,7 +88,11 @@ class ModuleServiceProvider extends ServiceProvider
 
     public function register()
     {
-        // logic...
+        $file = __DIR__ . '/../Helpers/helpers.php';
+
+        if (file_exists($file)) {
+            require_once($file);
+        }
     }
 
     /**
