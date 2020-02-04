@@ -68,10 +68,12 @@ class DeleteAction extends BaseAction implements Actionable
 
     public function attributes($data = [])
     {
+    	$type = ($this->isLockIcon) ? 'POST' : 'DELETE';
+    	$action = ($this->isLockIcon) ? 'unlock' : 'disable';
         return [
             'data-toggle' => 'modal',
             'data-target' => '#deleteResourceDialog',
-            'data-ajax-modal' => '{"items":{"title":"Are you sure you want to disable this item?","author":"","header":"Disable","dismiss":"Cancel and go back","continue":"Continue and disable","subtext":""},"params":{"url":"'.$this->link($data->id, $data).'","type":"DELETE"}}'
+            'data-ajax-modal' => '{"items":{"title":"Are you sure you want to '.$action.' this item?","author":"","header":"Disable","dismiss":"Cancel and go back","continue":"Continue and '.$action.'","subtext":""},"params":{"url":"'.$this->link($data->id, $data).'","type":"'.$type.'"}}'
         ];
     }
 
