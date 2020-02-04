@@ -33,6 +33,14 @@ class BaseAction
         }
     }
 
+    public function isAutosaved($data, $module)
+    {
+        if (in_array($module, config('autosave'))) {
+            $resource = $data->autosave;
+            $this->isAutosavedLock = ($resource) ? true : false;
+        }
+    }
+
     public function renderWithDialog()
     {
     	return $this->withDialog();

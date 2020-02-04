@@ -17,6 +17,7 @@ class EditAction extends BaseAction implements Actionable
     {
         $module = explode('.', Route::current()->getName())[0];
         $this->isLock($data, $module);
+        $this->isAutosaved($data, $module);
 
         if ($this->isLockIcon) {
             return 'javascript:void(0)';

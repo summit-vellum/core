@@ -18,6 +18,7 @@ class ResourceController extends Controller
 
     protected $resource;
     protected $resourceLock;
+    protected $autosaves;
     public $currentRouteName;
     public $data = [];
     public $module;
@@ -182,20 +183,26 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function autosave(FormRequestContract $request, $id)
+    public function autosave(FormRequestContract $request, int $id = 0)
     {
-        $res['method'] = $request->method();
-        if ($request->method() == 'PUT'){
+        if ($id > 0) {
             $this->authorize('update', $this->resource->getModel());
-            $this->resource->save($request->all(), $id);
-            $res['redirect'] = null;
         } else {
             $this->authorize('create', $this->resource->getModel());
             $validator = $request->validated();
             $data = $this->resource->save($request->all());
-            $res['redirect'] = route($this->module->getName() . '.update', $data->id);
+            $res['id'] = $id = $data->id;
+            $res['newMethod'] = 'PUT';
         }
 
+        if (in_array($this->module->getName(), config('autosave'))) {
+            $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
+                ['autosavable_id' => $id],
+                ['values' => serialize($request->all())]
+            );
+        }
+
+        $res['status'] = 'saved';
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
 }
