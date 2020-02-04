@@ -54,7 +54,7 @@ class ResourceController extends Controller
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['module'] = $this->module;
 
-        return view()->first([$this->module->getName().'::catalog', 'vellum::catalog'], $this->data);
+        return template('catalog', $this->data, $this->module->getName());
     }
 
     /**
@@ -75,7 +75,7 @@ class ResourceController extends Controller
         // $this->data['data']['id'] = null;
         // $this->data['data']['published_at'] = \Carbon\Carbon::now()->toDateTimeString();
 
-        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
+        return template('form', $this->data, $this->module->getName());
     }
 
     /**
@@ -108,7 +108,7 @@ class ResourceController extends Controller
         $this->data['data'] = $this->resource->findById($id);
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
+        return template('form', $this->data, $this->module->getName());
     }
 
     /**
@@ -123,19 +123,17 @@ class ResourceController extends Controller
 
         // Check if module can lock content
         if (in_array($this->module->getName(), config('resource_lock'))) {
-
             $this->resource->getModel()->find($id)->resourceLock()->updateOrCreate([
                 'user_id' => auth()->user()->id,
                 'name' => auth()->user()->name
             ]);
-
         }
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
-        return view()->first([$this->module->getName().'::form', 'vellum::form'], $this->data);
+        return template('form', $this->data, $this->module->getName());
     }
 
     /**
