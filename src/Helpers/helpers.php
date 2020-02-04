@@ -1,10 +1,19 @@
 <?php
 
+function template($blade, $data, $module)
+{
+    return view()->first([
+        $module.'::'.$blade,
+        'vellum::'.$blade,
+        $blade
+        ], $data
+    );
+}
+
 function non_breaking($string)
 {
     return html_entity_decode(str_replace(' ', '&nbsp;', $string));
 }
-
 
 function selected($attributes, $value, $currentValue)
 {
