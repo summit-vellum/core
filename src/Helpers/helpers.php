@@ -1,13 +1,17 @@
 <?php
 
-function template($blade, $data, $module)
+function template($blade, $data = [], $module = '')
 {
-    return view()->first([
-        $module.'::'.$blade,
-        'vellum::'.$blade,
-        $blade
-        ], $data
-    );
+    $blades = [];
+
+    if ($module) {
+        $blades[] = $module.'::'.$blade;
+    }
+
+    $blades[] = 'vellum::'.$blade;
+    $blades[] = $blade;
+
+    return view()->first($blades, $data);
 }
 
 function non_breaking($string)
