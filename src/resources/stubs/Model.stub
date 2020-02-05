@@ -19,4 +19,9 @@ class {{moduleName}} extends BaseModel
         return $this->morphOne('Vellum\Models\ResourceLock', 'resourceable');
     }
 
+    public function autosaves()
+    {
+        return $this->morphOne('Vellum\Models\Autosaves', 'autosavable');
+    }
+
 }
