@@ -13,6 +13,8 @@ use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
 
+use Gate;
+
 class ResourceController extends Controller
 {
 

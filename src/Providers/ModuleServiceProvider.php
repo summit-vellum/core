@@ -148,7 +148,8 @@ class ModuleServiceProvider extends ServiceProvider
                 \Vellum\Commands\ModuleGenerator::class,
                 \Vellum\Commands\FilterGenerator::class,
                 \Vellum\Commands\ActionGenerator::class,
-                \Vellum\Commands\PusherEventGenerator::class
+                \Vellum\Commands\PusherEventGenerator::class,
+                \Vellum\Commands\UamModulePermissionGenerator::class
             ]);
         }
     }
