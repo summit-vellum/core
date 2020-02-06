@@ -4,7 +4,30 @@ var asTimer = null,
     modSegment = $(location).attr('href').split("/"),
     moduleName = modSegment[3];
 
+$(document).on('blur','form input',function(){
+    if ($(this).attr('autoslug')) {
+        var slug = convertToSlug($(this).val()),
+            slugAttrName = 'autoslug-'+$(this).attr('autoslug'),
+            slugField = $('['+slugAttrName+']');
+
+        $.each(slugField, function (sKey, sVal) {
+            if ($(sVal).attr(slugAttrName) == "off") { return; }
+
+            if ($(sVal).attr(slugAttrName) == "once") {
+                $(sVal).attr(slugAttrName, "off");
+            }
+
+            $(sVal).val(slug);
+        });
+    }
+});
+
+$(document).on('input','form input',function(){
+    characterCount($(this));
+});
+
 $(document).on('keyup','form input',function(){
+    characterCount($(this));
     autosave();
 });
 
@@ -37,3 +60,36 @@ function autosave(){
         });
     }, asDelay );
 }
+
+function characterCount(input){
+    if (input.attr('max-characters')) {
+        var countId = input.attr('id'),
+            countNum = input.val().length,
+            helpMsg = $("form").find('#help-'+countId+' > .cf-note');
+            maxMsg = helpMsg.attr('help-maxed');
+        
+        $("form").find('#count-'+countId).text(countNum);
+        
+        if (maxMsg) {
+            if (input.attr('max-characters') < countNum) {
+                helpMsg.text(maxMsg);
+            } else {
+                helpMsg.text(helpMsg.attr('help-original'));
+            }
+        }
+    }
+}
+
+function convertToSlug(string){
+    return string
+        .trim()
+        .toLowerCase()
+        .replace(/[^\w ]+/g,'')
+        .replace(/ +/g,'-');
+}
+
+$(window).on("load", function(){
+    $.each($('form input'), function (v) {
+        characterCount($(this));
+    });
+});
