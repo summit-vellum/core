@@ -11,10 +11,16 @@
     {{ $slot }}
 
     @form
-    	@if(isset($help) && $help != '')
-    	<div class="mt-2">
+    	@if(isset($maxCharacters) && $maxCharacters != '')
+            <small class="cf-note pull-right">
+                <span id="count-{{ $id }}">0</span>/{{ $maxCharacters }}
+            </small>
+        @endif
+
+        @if(isset($help) && $help != '')
+    	<div class="mt-2" id="help-{{ $id }}">
 	    	@icon(['icon' => 'info', 'classes'=>'pull-left'])
-	        <small class="cf-note">{{ $help ?? '' }}</small>
+	        <small class="cf-note" help-original="{{ $help  }}" help-maxed="{{ $maxCharactersHelp ?? '' }}" >{{ $help  }}</small>
 	    </div>
 	    @endif
     @endform
