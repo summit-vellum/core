@@ -45,13 +45,14 @@ function autosave(){
             formId = $("form").find('input[name="id"]'),
             formType = $("form").find('input[name="_method"]');
 
-        formId = formId.val() ? formId.val() : 0;
+        entryId = formId.val() ? formId.val() : 0;
         
         $.ajax({
             type: formType.val(),
-            url: document.location.origin + '/' + moduleName + '/autosave/' + formId,
+            url: document.location.origin + '/' + moduleName + '/autosave/' + entryId,
             data: data,
             success: function (res) {
+                console.log(res);
                 if (res.newMethod) {
                     formId.val(res.id);
                     formType.val(res.newMethod);
@@ -62,17 +63,33 @@ function autosave(){
 }
 
 function characterCount(input){
-    if (input.attr('max-characters')) {
+    if (input.attr('max-count')) {
         var countId = input.attr('id'),
             countNum = input.val().length,
             helpMsg = $("form").find('#help-'+countId+' > .cf-note');
-            maxMsg = helpMsg.attr('help-maxed');
+            maxMsg = helpMsg.attr('help-maxed'),
+            minCount = input.attr('min-count'),
+            maxCount = input.attr('max-count');
         
         $("form").find('#count-'+countId).text(countNum);
-        
+
+        var color = 'green';
+
+        if (countNum == 0) {
+            color = '#e1e1e1';
+        }else if(countNum >= 1 && countNum <= minCount){
+            color = 'green';
+        }else if(countNum >= parseInt(minCount)+1 && countNum <= maxCount){
+            color = 'yellow';
+        }else if (countNum >= parseInt(maxCount)+1){
+            color = 'red';
+        }
+
+        input.css('border-color', color);
+
         if (maxMsg) {
-            if (input.attr('max-characters') < countNum) {
-                helpMsg.text(maxMsg);
+            if (maxCount < countNum) {
+                helpMsg.text(maxMsg);                
             } else {
                 helpMsg.text(helpMsg.attr('help-original'));
             }
