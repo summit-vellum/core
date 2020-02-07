@@ -1,14 +1,18 @@
 var asTimer = null,
-    // asDelay = 2000, //change to 5 minutes (2 seconds for now)
-    asDelay = 5 * 60 * 1000, //5 minutes
+    asDelay = 2000, //change to 5 minutes (2 seconds for now)
+    // asDelay = 5 * 60 * 1000, //5 minutes
     modSegment = $(location).attr('href').split("/"),
-    moduleName = modSegment[3];
+    moduleName = modSegment[3],
+    inputFields = 'form input, form textarea',
+    selectFields = 'form select, form input[type="radio"], form input[type="checkbox"]';
 
-$(document).on('blur','form input',function(){
+$(document).on('blur', inputFields,function(){
     if ($(this).attr('autoslug')) {
         var slug = convertToSlug($(this).val()),
             slugAttrName = 'autoslug-'+$(this).attr('autoslug'),
             slugField = $('['+slugAttrName+']');
+
+        $('#autoslug-warning').remove();
 
         $.each(slugField, function (sKey, sVal) {
             if ($(sVal).attr(slugAttrName) == "off") { return; }
@@ -22,16 +26,22 @@ $(document).on('blur','form input',function(){
     }
 });
 
-$(document).on('input','form input',function(){
+$(document).on('focus',inputFields ,function(){
+    if ($(this).attr('autoslug')) {
+        var warningMsg = '<small id="autoslug-warning" class="cf-note" style="color: orange">Editing this might affect other fields.</small>';
+        $(warningMsg).appendTo('#help-'+$(this).attr('autoslug'));
+    }
+});
+
+$(document).on('input',inputFields ,function(){
     characterCount($(this));
 });
 
-$(document).on('keyup','form input',function(){
-    characterCount($(this));
+$(document).on('keyup',inputFields ,function(){
     autosave();
 });
 
-$(document).on('change','form select, form input[type="radio"], form input[type="checkbox"]',function(){
+$(document).on('change', selectFields,function(){
     autosave();
 });
 
@@ -66,7 +76,7 @@ function characterCount(input){
     if (input.attr('max-count')) {
         var countId = input.attr('id'),
             countNum = input.val().length,
-            helpMsg = $("form").find('#help-'+countId+' > .cf-note');
+            helpMsg = $("form").find('#help-'+countId).find('[help-original]');
             maxMsg = helpMsg.attr('help-maxed'),
             minCount = input.attr('min-count'),
             maxCount = input.attr('max-count');
@@ -107,6 +117,10 @@ function convertToSlug(string){
 
 $(window).on("load", function(){
     $.each($('form input'), function (v) {
+        characterCount($(this));
+    });
+
+    $.each($('form textarea'), function (v) {
         characterCount($(this));
     });
 });

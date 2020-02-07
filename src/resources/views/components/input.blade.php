@@ -4,15 +4,29 @@
         hidden
     @endif
 ">
+    @if(!(isset($customLabel) && $customLabel != ''))
     <label for="{{ $id }}" class="cf-label">
         {{ $label }}
     </label>
+    @endif
 
     @if(isset($required) && $required != '')
         <small class="cf-note pull-right mt-1" style="color:red;"><i>Required!</i></small>
     @endif
 
-    {{ $slot }}
+
+    @if(isset($customLabel) && $customLabel != '')
+        <div class="input-group">
+            <div for="{{ $id }}" class="{{ $customLabel }}">
+                {{ $label }}
+            </div>
+            {{ $slot }}
+        </div>
+    @else
+
+        {{ $slot }}
+
+    @endif
 
     @form
         @if(isset($maxCount) && $maxCount != '')
