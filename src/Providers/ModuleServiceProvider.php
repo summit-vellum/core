@@ -42,6 +42,11 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind(Resource::class, function() use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
 
+            if (isset($this->site['override_module_resource']) &&
+            	in_array($entity, $this->site['override_module_resource'])) {
+				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
+            }
+
             if (class_exists($resource)) {
                 return new ResourceRepository(new $resource);
             }
@@ -55,6 +60,11 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->app->bind(Formable::class, function () use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
+
+            if (isset($this->site['override_module_resource']) &&
+            	in_array($entity, $this->site['override_module_resource'])) {
+				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
+            }
 
             return new $resource;
         });
@@ -149,7 +159,8 @@ class ModuleServiceProvider extends ServiceProvider
                 \Vellum\Commands\FilterGenerator::class,
                 \Vellum\Commands\ActionGenerator::class,
                 \Vellum\Commands\PusherEventGenerator::class,
-                \Vellum\Commands\UamModulePermissionGenerator::class
+                \Vellum\Commands\UamModulePermissionGenerator::class,
+                \Vellum\Commands\OverrideResourceModule::class
             ]);
         }
     }

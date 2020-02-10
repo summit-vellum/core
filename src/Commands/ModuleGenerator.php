@@ -46,6 +46,12 @@ class ModuleGenerator extends Command
     public function handle()
     {
         $this->module = $this->argument('module');
+
+        if ($this->module == 'Resource') {
+        	$this->info('Module name forbidden due to overriding of {Module}Resource feature.');
+        	exit();
+        }
+
         $this->modulePath .= $this->module.'/src/';
         $this->build();
 
