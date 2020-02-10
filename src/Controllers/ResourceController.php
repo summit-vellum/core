@@ -187,6 +187,7 @@ class ResourceController extends Controller
      */
     public function autosave(FormRequestContract $request, int $id = 0)
     {
+        $this->resource->getModel();
         if ($id > 0) {
             $this->authorize('update', $this->resource->getModel());
         } else {
