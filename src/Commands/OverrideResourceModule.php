@@ -51,7 +51,13 @@ class OverrideResourceModule extends Command
     public function handle()
     {
     	$activeModules = array_column(event(Quill::MODULE), 'module');
-    	$modules = $this->site['override_module_resource'];
+
+    	$modules = isset($this->site['override_module_resource']) ? $this->site['override_module_resource'] : [];
+
+    	if (!$modules) {
+    		$this->info('Make sure main_module_slug array exists and has value in config/site.php');
+    		exit();
+    	}
 
     	foreach ($modules as $module) {
     		if (!in_array($module, $activeModules)) {
