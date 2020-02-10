@@ -208,4 +208,25 @@ class ResourceController extends Controller
         $res['status'] = 'saved';
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUnique(Request $request)
+    {
+        $name = $request->input('name', false);
+        $value = $request->input('value', false);
+        $res['count'] = true;
+
+        $data = $this->resource->getModel()->where($name, $value)->count();
+        
+        if ($data) {
+            $res['count'] = false;
+        }
+
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
+    }
 }
