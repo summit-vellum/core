@@ -11,7 +11,13 @@ function template($blade, $data = [], $module = '')
     $blades[] = 'vellum::'.$blade;
     $blades[] = $blade;
 
-    return view()->first($blades, $data);
+    $trace = debug_backtrace();
+
+    if (isset($trace[1]['class'])) {
+        return view()->first($blades, $data);
+    }
+
+    return view()->first($blades, $data)->name();
 }
 
 function non_breaking($string)
