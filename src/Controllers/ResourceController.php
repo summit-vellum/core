@@ -12,12 +12,16 @@ use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
+use Illuminate\Support\Str;
+
+use Gate;
 
 class ResourceController extends Controller
 {
 
     protected $resource;
     protected $resourceLock;
+    protected $autosaves;
     public $currentRouteName;
     public $data = [];
     public $module;
@@ -130,6 +134,7 @@ class ResourceController extends Controller
         }
 
         $this->data['data'] = $this->resource->findById($id);
+        $this->data['isLocked'] = ($this->data['data']->resourceLock) ? true : false;
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
@@ -177,23 +182,68 @@ class ResourceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Autosave form entries
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function autosave(FormRequestContract $request, $id)
+    public function autosave(FormRequestContract $request, int $id = 0)
     {
-        $res['method'] = $request->method();
-        if ($request->method() == 'PUT'){
+        $this->resource->getModel();
+        if ($id > 0) {
             $this->authorize('update', $this->resource->getModel());
-            $this->resource->save($request->all(), $id);
-            $res['redirect'] = null;
         } else {
             $this->authorize('create', $this->resource->getModel());
             $validator = $request->validated();
             $data = $this->resource->save($request->all());
-            $res['redirect'] = route($this->module->getName() . '.update', $data->id);
+            $res['id'] = $id = $data->id;
+            $res['newMethod'] = 'PUT';
+        }
+
+        if (in_array($this->module->getName(), config('autosave'))) {
+            $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
+                ['autosavable_id' => $id],
+                ['values' => serialize($request->all())]
+            );
+        }
+
+        $res['status'] = 'saved';
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    /**
+     * Check if the value of the field is unique
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function checkUnique(Request $request)
+    {
+        $name = $request->input('name', false);
+        $value = $request->input('value', false);
+        $res['count'] = true;
+
+        $data = $this->resource->getModel()->where($name, $value)->count();
+        
+        if ($data) {
+            $res['count'] = false;
+        }
+
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    /**
+     * Convert value to slug
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function toSlug(Request $request)
+    {
+        $value = $request->input('value', false);
+
+        if($value) {
+            $res['slug'] = Str::slug($value);
         }
 
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);

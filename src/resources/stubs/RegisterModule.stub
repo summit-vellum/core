@@ -19,7 +19,9 @@ class Register{{moduleName}}Module
             'class' => 'font-xl text-blue-500',
             'module' => '{{moduleName}}',
             'parent' => '',
-            'model' => \Quill\{{moduleName}}\Models\{{moduleName}}::class
+            'model' => \Quill\{{moduleName}}\Models\{{moduleName}}::class,
+            'permissions' => [],
+            'description' => ''
         ];
     }
 }

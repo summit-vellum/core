@@ -27,12 +27,20 @@ class AuthModuleServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+    	$this->site = config('site');
         $this->registerPolicies();
 
         Gate::guessPolicyNamesUsing(function ($class) {
             $classBaseName = class_basename($class);
             $className = explode('\\', $class)[1];
+
+            //for when {Module}Resource is overriden
+            if ($className == 'Resource') {
+            	$className = explode('\\', $class)[2];
+            }
+
             $path = "Quill\\{$className}\Models\Policies\\{$className}Policy";
+
 
             return $path;
         });

@@ -42,6 +42,11 @@ class ModuleServiceProvider extends ServiceProvider
         $this->app->bind(Resource::class, function() use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
 
+            if (isset($this->site['override_module_resource']) &&
+            	in_array($entity, $this->site['override_module_resource'])) {
+				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
+            }
+
             if (class_exists($resource)) {
                 return new ResourceRepository(new $resource);
             }
@@ -55,6 +60,11 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->app->bind(Formable::class, function () use ($entity) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
+
+            if (isset($this->site['override_module_resource']) &&
+            	in_array($entity, $this->site['override_module_resource'])) {
+				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
+            }
 
             return new $resource;
         });
@@ -120,6 +130,8 @@ class ModuleServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__ . '/../config/shortcodes.php', 'shortcodes');
         $this->mergeConfigFrom(__DIR__ . '/../config/table.php', 'table');
         $this->mergeConfigFrom(__DIR__ . '/../config/resource_lock.php', 'resource_lock');
+        $this->mergeConfigFrom(__DIR__ . '/../config/autosave.php', 'autosave');
+        $this->mergeConfigFrom(__DIR__ . '/../config/form.php', 'form');
 
         $this->publishes([
             __DIR__ . '/../resources/views' => resource_path('views/vendor/vellum'),
@@ -130,6 +142,8 @@ class ModuleServiceProvider extends ServiceProvider
             __DIR__ . '/../config/shortcodes.php' => config_path('shortcodes.php'),
             __DIR__ . '/../config/table.php' => config_path('table.php'),
             __DIR__ . '/../config/resource_lock.php' => config_path('resource_lock.php'),
+            __DIR__ . '/../config/autosave.php' => config_path('autosave.php'),
+            __DIR__ . '/../config/form.php' => config_path('form.php'),
             __DIR__ . '/../config/site.php' => config_path('site.php'),
         ], 'vellum.config');
 
@@ -146,7 +160,9 @@ class ModuleServiceProvider extends ServiceProvider
                 \Vellum\Commands\ModuleGenerator::class,
                 \Vellum\Commands\FilterGenerator::class,
                 \Vellum\Commands\ActionGenerator::class,
-                \Vellum\Commands\PusherEventGenerator::class
+                \Vellum\Commands\PusherEventGenerator::class,
+                \Vellum\Commands\UamModulePermissionGenerator::class,
+                \Vellum\Commands\OverrideResourceModule::class
             ]);
         }
     }

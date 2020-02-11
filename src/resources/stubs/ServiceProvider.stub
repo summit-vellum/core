@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Quill\{{moduleName}}\Listeners\Register{{moduleName}}Module;
 use Quill\{{moduleName}}\Listeners\Register{{moduleName}}PermissionModule;
 use Quill\{{moduleName}}\Resource\{{moduleName}}Resource;
+use App\Resource\{{moduleName}}\{{moduleName}}RootResource;
 use Quill\{{moduleName}}\Models\{{moduleName}}Observer;
 
 class {{moduleName}}ServiceProvider extends ServiceProvider
@@ -23,18 +24,22 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
 
         {{moduleName}}Resource::observe({{moduleName}}Observer::class);
 
+        if (class_exists('App\Resource\{{moduleName}}\{{moduleName}}RootResource')) {
+        	{{moduleName}}RootResource::observe({{moduleName}}Observer::class);
+        }
+
         // $this->publishes([
         //     __DIR__ . '/config/{{moduleNameSingularLowerCase}}.php' => config_path('{{moduleNameSingularLowerCase}}.php'),
-        // ], '{{moduleNamePluralLowerCase}}.config');
+        // ], '{{moduleNameSingularLowerCase}}.config');
 
         // $this->publishes([
         //    __DIR__ . '/views' => resource_path('/vendor/{{moduleNameSingularLowerCase}}'),
-        // ], '{{moduleNamePluralLowerCase}}.views');
+        // ], '{{moduleNameSingularLowerCase}}.views');
 
         $this->publishes([
         	__DIR__ . '/database/factories/{{moduleName}}Factory.php' => database_path('factories/{{moduleName}}Factory.php'),
             __DIR__ . '/database/seeds/{{moduleName}}TableSeeder.php' => database_path('seeds/{{moduleName}}TableSeeder.php'),
-        ], '{{moduleNamePluralLowerCase}}.migration');
+        ], '{{moduleNameSingularLowerCase}}.migration');
     }
 
     public function register()
@@ -47,7 +52,7 @@ class {{moduleName}}ServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->commands([
-                
+
             ]);
         }
     }

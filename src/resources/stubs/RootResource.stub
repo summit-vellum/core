@@ -1,0 +1,34 @@
+<?php
+
+namespace App\Resource\{{moduleName}};
+
+use Quill\Html\Fields\ID;
+use Quill\{{moduleName}}\Models\{{moduleName}};
+use Vellum\Contracts\Formable;
+
+class {{moduleName}}RootResource extends {{moduleName}} implements Formable
+{
+    public function fields()
+    {
+        return [
+            ID::make()->sortable()->searchable(),
+        ];
+    }
+
+    public function filters()
+    {
+        return [
+            //
+        ];
+    }
+
+    public function actions()
+    {
+        return [
+            new \Vellum\Actions\EditAction,
+            new \Vellum\Actions\ViewAction,
+            new \Vellum\Actions\DeleteAction,
+        ];
+    }
+
+}

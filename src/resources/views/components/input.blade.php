@@ -4,17 +4,47 @@
         hidden
     @endif
 ">
+    @if(!(isset($customLabel) && $customLabel != ''))
     <label for="{{ $id }}" class="cf-label">
         {{ $label }}
     </label>
+    @endif
 
-    {{ $slot }}
+    @if(isset($required) && $required != '')
+        <small class="cf-note pull-right mt-1" style="color:red;"><i>Required!</i></small>
+    @endif
+
+
+    @if(isset($customLabel) && $customLabel != '')
+        <div class="input-group">
+            <div for="{{ $id }}" class="{{ $customLabel }}">
+                {{ $label }}
+            </div>
+            {{ $slot }}
+        </div>
+    @else
+
+        {{ $slot }}
+
+    @endif
 
     @form
-    	@if(isset($help) && $help != '')
-    	<div class="mt-2">
-	    	@icon(['icon' => 'info', 'classes'=>'pull-left'])
-	        <small class="cf-note">{{ $help ?? '' }}</small>
+        @if(isset($maxCount) && $maxCount != '')
+            <small class="cf-note pull-right">
+                <span id="count-{{ $id }}">0</span>/{{ $maxCount }}
+            </small>
+        @endif
+
+        @if(isset($help) && $help != '')
+    	<div class="mt-2" id="help-{{ $id }}">
+            @icon(['icon' => 'info', 'classes'=>'help-info pull-left'])
+            @if(isset($uniqueMsg) && $uniqueMsg != '')
+                @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
+            @endif
+	        <small class="cf-note" 
+                help-original="{{ $help  }}"
+                help-maxed="{{ $maxCountHelp ?? '' }}" 
+                >{{ $help  }}</small>
 	    </div>
 	    @endif
     @endform

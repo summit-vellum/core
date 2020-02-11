@@ -20,4 +20,5 @@ return [
     'image_path'                => '',
     'pagination_items'			=> [30, 60, 90],
     'pagination_limit'			=> 30,
+    'main_module_slug'			=> ''
 ];

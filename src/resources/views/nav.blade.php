@@ -15,7 +15,7 @@
 
         <div class="navbar-collapse collapse navbar-left">
         	<ul class="nav navbar-nav">
-        		<li class="active"><a href=""><strong>Content</strong></a></li>
+        		<li class="active"><a href="@if(isset($site['main_module_slug'])) {{ url($site['main_module_slug']) }} @endif"><strong>Content</strong></a></li>
         		<li>
         			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Tools</strong></a>
         			<ul class="dropdown-menu mobile-dropdown-menu">

@@ -16,7 +16,7 @@ class PusherEventGenerator extends Command
      *
      * @var string
      */
-    protected $signature = 'make:pusherEvent {pusherEvent : PusherEvent class name.} {module : The module you want to save the filter.}';
+    protected $signature = 'make:pusherEvent {pusherEvent : PusherEvent class name.} {module : The Module you want to save the pusher event.}';
 
     /**
      * The console command description.

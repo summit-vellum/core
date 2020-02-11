@@ -214,15 +214,20 @@ trait HasStub
         $this->createStubToFile("Models/{$this->module}Observer.php", $observerTemplate);
     }
 
-    protected function resource()
+    protected function resource($cloneToRoot = false)
     {
+    	$resourceStub = ($cloneToRoot) ? $this->getStub('RootResource') : $this->getStub('Resource');
         $resourceTemplate = str_replace(
             ['{{moduleName}}'],
             [$this->module],
-            $this->getStub('Resource')
+            $resourceStub
         );
 
-        $this->createStubToFile("Resource/{$this->module}Resource.php", $resourceTemplate);
+        if ($cloneToRoot) {
+        	$this->createToPath("Resource/{$this->module}/{$this->module}RootResource.php", $resourceTemplate);
+        } else {
+        	$this->createStubToFile("Resource/{$this->module}Resource.php", $resourceTemplate);
+        }
     }
 
     protected function serviceProvider()
@@ -629,6 +634,16 @@ trait HasStub
         );
 
         $this->info("$file created successfuly.");
+    }
+
+    protected function createToPath($file, $template)
+    {
+    	$this->disk->put(
+            $file,
+            $template
+        );
+
+    	$this->info("{$this->disk->getAdapter()->getPathPrefix()}{$file} created successfuly");
     }
 
     protected function build()
