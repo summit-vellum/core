@@ -1,4 +1,4 @@
-<{{ $element ?? 'a' }} 
+<{{ $element ?? 'a' }}
 
 @if(isset($element) && $element == 'button')
 type="submit" value="Submit"
@@ -9,7 +9,7 @@ type="submit" value="Submit"
 href="{{ route($module.'.'.($action ?? 'index')) }}"
 @endif
 
-class="btn btn-primary mr-3 mt-2 px-5">
+class="btn btn-primary mr-3 mt-2 px-5 {{ isset($class) ? $class : '' }}" {!! isset($attr) ? $attr : '' !!}>
 	@if(isset($icon))
     	@icon(['icons' => $icon])
     @endif
