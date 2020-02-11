@@ -1,11 +1,11 @@
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
-@push('css') 
+@push('css')
 
 @foreach(array_unique(Arr::flatten($attributes['assets']['style'])) as $key)
 <link href="{{asset($key)}}" rel="stylesheet">
-@endforeach 
+@endforeach
 @endpush
 @section('content')
 
@@ -59,14 +59,14 @@
     </div>
 
     @foreach($attributes['collections'] as $key=>$field)
-		@includeIf(
-            'field::' . $field['element'],
+		@includeIf(template(
+            $field['element'],
             [
                 'attributes' => $field,
                 'data' => $data,
                 'value' => $data ? ($data->$key) ?? '' : ''
             ]
-        )
+        ), 'field')
     @endforeach
 
 </form>

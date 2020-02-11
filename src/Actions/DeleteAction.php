@@ -14,10 +14,10 @@ class DeleteAction extends BaseAction implements Actionable
 
             $editedBy = (auth()->user()->id == $this->user['user_id']) ? 'You are ' : $this->user['name'] . ' is';
 
-            return view('vellum::icons.icon')->with(['icon' => 'unlock'])->render() . $editedBy . ' currently editing this article.';
+            return template('icons.icon')->with(['icon' => 'unlock'])->render() . $editedBy . ' currently editing this article.';
         }
 
-        return view('vellum::icons.icon')->with(['icon' => 'trash'])->render();
+        return template('vellum::icons.icon')->with(['icon' => 'trash'])->render();
     }
 
     public function link($id, $data = [])

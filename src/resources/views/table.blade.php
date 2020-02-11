@@ -1,4 +1,4 @@
-@includeWhen($collections->total() == 0, 'vellum::empty')
+@includeWhen($collections->total() == 0, template('empty'))
 
 @if($collections->total())
 	<div class="row">
@@ -19,7 +19,7 @@
 					<tr class="">
 						@foreach($attributes['collections'] as $key => $column)
 						<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
-							@include('vellum::cell', ['attributes' => $column, 'data' => $row])
+							@include(template('cell', ['attributes' => $column, 'data' => $row], 'vellum'))
 						</td>
 						@endforeach
 

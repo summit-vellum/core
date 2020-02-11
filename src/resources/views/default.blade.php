@@ -36,7 +36,7 @@
 
     <div>
         <header>
-            @include('vellum::nav')
+            @include(template('nav'))
         </header>
 
         <!-- <sidebar>
@@ -49,7 +49,7 @@
     </div>
 
 
-    @include('vellum::components.modalElement')
+    @include(template('components.modalElement'))
 
 	<script type="text/javascript" src="{{ asset('vendor/vellum/js/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/vellum/js/vendor/popper.min.js') }}"></script>
