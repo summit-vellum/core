@@ -11,5 +11,8 @@
 				<button name="submit" class="btn btn-primary form-controler">Search</button>
 			</div>
 		</div>
+
+        @include(template('filter'))
+
 	</div>
 </form>

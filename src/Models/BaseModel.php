@@ -15,6 +15,12 @@ class BaseModel extends Model
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
     protected $perPage = 5;
+    protected $site = '';
+
+    public function __construct()
+    {
+    	$this->site = config('site');
+    }
 
     /**
      * Retrieves an eloquent relationships nested property
@@ -70,8 +76,7 @@ class BaseModel extends Model
 
     public function allData(array $fields, $request)
     {
-    	$site = config('site');
-    	$pageLimit = ($request && is_numeric($request->get('limit'))) ? $request->get('limit') : $site['pagination_limit'];
+        $pageLimit = request('limit', $this->site['pagination_limit']);
     	$classBaseName = get_class($this);
     	$baseModelClass = $classBaseName::query();
     	$pipeline = app(Pipeline::class)
