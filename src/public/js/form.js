@@ -1,15 +1,16 @@
 var asTimer = null,
-    asDelay = 2000, //change to 5 minutes (2 seconds for now)
-    // asDelay = 5 * 60 * 1000, //5 minutes
+    // asDelay = 2000, //change to 5 minutes (2 seconds for now)
+    asDelay = 5 * 60 * 1000, //5 minutes
     modSegment = $(location).attr('href').split("/"),
     moduleName = modSegment[3],
     inputFields = 'form input, form textarea',
     selectFields = 'form select, form input[type="radio"], form input[type="checkbox"]';
 
 $(document).on('blur', inputFields,function(){
-    if ($(this).attr('autoslug')) {
+    var autoslug = $(this).attr('autoslug');
+    if (autoslug) {
         var slug = convertToSlug($(this).val()),
-            slugAttrName = 'autoslug-'+$(this).attr('autoslug'),
+            slugAttrName = 'autoslug-'+autoslug,
             slugField = $('['+slugAttrName+']');
 
         $('#autoslug-warning').remove();
@@ -24,6 +25,8 @@ $(document).on('blur', inputFields,function(){
             $(sVal).val(slug);
         });
     }
+
+    uniqueChecker($(this));
 });
 
 $(document).on('focus',inputFields ,function(){
@@ -76,7 +79,8 @@ function characterCount(input){
     if (input.attr('max-count')) {
         var countId = input.attr('id'),
             countNum = input.val().length,
-            helpMsg = $("form").find('#help-'+countId).find('[help-original]');
+            info = $("form").find('#help-'+countId),
+            helpMsg = info.find('[help-original]');
             maxMsg = helpMsg.attr('help-maxed'),
             minCount = input.attr('min-count'),
             maxCount = input.attr('max-count');
@@ -95,7 +99,9 @@ function characterCount(input){
             color = 'red';
         }
 
-        input.css('border-color', color);
+        input.css('border-color', color);        
+        info.find('.help-info').removeClass('hide');
+        info.find('.help-validated-check ').addClass('hide');
 
         if (maxMsg) {
             if (maxCount < countNum) {
@@ -113,6 +119,27 @@ function convertToSlug(string){
         .toLowerCase()
         .replace(/[^\w ]+/g,'')
         .replace(/ +/g,'-');
+}
+
+function uniqueChecker(input){
+    if (input.attr('unique-message') && input.attr('autoslug')) {
+        var fieldName = input.attr('name');
+            token = $("form").find('input[name="_token"]').val();
+
+        $.ajax({
+            type:"POST",
+            url: document.location.origin + '/' + moduleName + '/check-unique',
+            data: {"_token": token, "name": fieldName, "value": input.val()},
+            success: function (res) {
+                if (res.count) {
+                    var info = $("form").find('#help-'+input.attr('id'));
+                    info.find('[help-original]').text(input.attr('unique-message'));
+                    info.find('.help-info').addClass('hide');
+                    info.find('.help-validated-check ').removeClass('hide').css('fill', 'green');
+                }
+            },
+        });
+    }
 }
 
 $(window).on("load", function(){

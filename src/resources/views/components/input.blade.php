@@ -36,9 +36,13 @@
         @endif
 
         @if(isset($help) && $help != '')
-    	<div class="mt-2" id="help-{{ $id }}">
-	    	@icon(['icon' => 'info', 'classes'=>'pull-left'])
-	        <small class="cf-note" help-original="{{ $help  }}" help-maxed="{{ $maxCountHelp ?? '' }}" >{{ $help  }}</small>
+    	<div class="mt-2" id="help-{{ $id }}">	    	
+            @icon(['icon' => 'info', 'classes'=>'help-info pull-left'])
+            @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
+	        <small class="cf-note" 
+                help-original="{{ $help  }}"
+                help-maxed="{{ $maxCountHelp ?? '' }}" 
+                >{{ $help  }}</small>
 	    </div>
 	    @endif
     @endform
