@@ -31,7 +31,7 @@ class ModuleServiceProvider extends ServiceProvider
         $modules = event(Quill::MODULE);
         $segment = $this->app->request->segment(1);
         $entity = Str::studly(Str::slug($segment, '_'));
-        $this->site = config('site');
+        $site = config('site');
 
         $moduleDetails = collect($modules)->filter(function ($module) use ($segment) {
                 return $module['name'] == $segment;
@@ -39,11 +39,11 @@ class ModuleServiceProvider extends ServiceProvider
 
         $this->module = $moduleDetails;
 
-        $this->app->bind(Resource::class, function() use ($entity) {
+        $this->app->bind(Resource::class, function() use ($entity, $site) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
 
-            if (isset($this->site['override_module_resource']) &&
-            	in_array($entity, $this->site['override_module_resource'])) {
+            if (isset($site['override_module_resource']) &&
+            	in_array($entity, $site['override_module_resource'])) {
 				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
             }
 
@@ -58,11 +58,11 @@ class ModuleServiceProvider extends ServiceProvider
 
 	    // if ($this->app->request->segment(2)) return;
 
-        $this->app->bind(Formable::class, function () use ($entity) {
+        $this->app->bind(Formable::class, function () use ($entity, $site) {
             $resource = 'Quill\\' . $entity . '\Resource\\' . $entity . 'Resource';
 
-            if (isset($this->site['override_module_resource']) &&
-            	in_array($entity, $this->site['override_module_resource'])) {
+            if (isset($site['override_module_resource']) &&
+            	in_array($entity, $site['override_module_resource'])) {
 				$resource = 'App\Resource\\' . $entity . '\\' . $entity . 'RootResource';
             }
 
@@ -85,11 +85,11 @@ class ModuleServiceProvider extends ServiceProvider
             })->first();
         });
 
-        view()->composer('*', function ($view) use ($segment, $modules, $moduleDetails) {
+        view()->composer('*', function ($view) use ($segment, $modules, $moduleDetails, $site) {
             $view->with('module', $segment);
             $view->with('details', $moduleDetails);
             $view->with('modules', $modules);
-            $view->with('site', $this->site);
+            $view->with('site', $site);
         });
 
         view()->composer('vellum::filter', FilterComposer::class);

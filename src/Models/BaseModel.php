@@ -15,8 +15,6 @@ class BaseModel extends Model
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
     protected $perPage = 5;
-    protected $site = '';
-
 
     /**
      * Retrieves an eloquent relationships nested property
