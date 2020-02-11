@@ -38,7 +38,7 @@
     <div class="clearfix mb-5">
 
         <div class="float-left">
-            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', $data->id)]), 'class' => 'btn-unlock'])
+            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
         </div>
 
         <div class="text-right float-right">
