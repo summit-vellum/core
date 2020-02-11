@@ -133,6 +133,7 @@ class ResourceController extends Controller
         }
 
         $this->data['data'] = $this->resource->findById($id);
+        $this->data['isLocked'] = ($this->data['data']->resourceLock) ? true : false;
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 

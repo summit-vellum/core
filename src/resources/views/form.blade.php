@@ -1,11 +1,11 @@
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
-@push('css') 
+@push('css')
 
 @foreach(array_unique(Arr::flatten($attributes['assets']['style'])) as $key)
 <link href="{{asset($key)}}" rel="stylesheet">
-@endforeach 
+@endforeach
 @endpush
 @section('content')
 
@@ -38,7 +38,7 @@
     <div class="clearfix mb-5">
 
         <div class="float-left">
-            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard'])
+            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', $data->id)]), 'class' => 'btn-unlock'])
         </div>
 
         <div class="text-right float-right">

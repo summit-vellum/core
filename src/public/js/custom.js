@@ -22,7 +22,7 @@ $(function() {
 $(function() {
     $('.btn-unlock').click(function(e) {
         $.ajax({
-            url: $(this).attr('href'),
+            url: $(this).attr('data-url'),
             type: 'POST',
             data: {
                 _method: "post",
@@ -30,12 +30,10 @@ $(function() {
             },
             success: function(response) {
                 console.log(response);
-                window.location.reload();
             },
             error: function(status) {
                 console.log(status);
             }
         });
-        e.preventDefault();
     });
 });
