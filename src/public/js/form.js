@@ -4,28 +4,11 @@ var asTimer = null,
     modSegment = $(location).attr('href').split("/"),
     moduleName = modSegment[3],
     inputFields = 'form input, form textarea',
-    selectFields = 'form select, form input[type="radio"], form input[type="checkbox"]';
+    selectFields = 'form select, form input[type="radio"], form input[type="checkbox"]',
+    token = $("form").find('input[name="_token"]').val();
 
 $(document).on('blur', inputFields,function(){
-    var autoslug = $(this).attr('autoslug');
-    if (autoslug) {
-        var slug = convertToSlug($(this).val()),
-            slugAttrName = 'autoslug-'+autoslug,
-            slugField = $('['+slugAttrName+']');
-
-        $('#autoslug-warning').remove();
-
-        $.each(slugField, function (sKey, sVal) {
-            if ($(sVal).attr(slugAttrName) == "off") { return; }
-
-            if ($(sVal).attr(slugAttrName) == "once") {
-                $(sVal).attr(slugAttrName, "off");
-            }
-
-            $(sVal).val(slug);
-        });
-    }
-
+    convertToSlug($(this));
     uniqueChecker($(this));
 });
 
@@ -113,18 +96,39 @@ function characterCount(input){
     }
 }
 
-function convertToSlug(string){
-    return string
-        .trim()
-        .toLowerCase()
-        .replace(/[^\w ]+/g,'')
-        .replace(/ +/g,'-');
+function convertToSlug(input){ 
+    var autoslug = input.attr('autoslug');
+    if (autoslug) {
+    
+        $.ajax({
+            type:"POST",
+            url: document.location.origin + '/' + moduleName + '/to-slug',
+            data: {"_token": token, "value": input.val()},
+            success: function (res) {
+                if (res.slug) {
+                    var slugAttrName = 'autoslug-'+autoslug,
+                        slugField = $('['+slugAttrName+']');
+                        
+                    $.each(slugField, function (sKey, sVal) {
+                        if ($(sVal).attr(slugAttrName) == "off") { return; }
+            
+                        if ($(sVal).attr(slugAttrName) == "once") {
+                            $(sVal).attr(slugAttrName, "off");
+                        }
+            
+                        $(sVal).val(res.slug);
+                    });
+                }
+            },
+        });
+
+        $('#autoslug-warning').remove();
+    }
 }
 
 function uniqueChecker(input){
     if (input.attr('unique-message') && input.attr('autoslug')) {
         var fieldName = input.attr('name');
-            token = $("form").find('input[name="_token"]').val();
 
         $.ajax({
             type:"POST",

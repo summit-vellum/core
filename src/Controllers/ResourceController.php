@@ -12,6 +12,7 @@ use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
 use Vellum\Module\Module;
+use Illuminate\Support\Str;
 
 use Gate;
 
@@ -180,7 +181,7 @@ class ResourceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Autosave form entries
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -210,9 +211,9 @@ class ResourceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Check if the value of the field is unique
      *
-     * @param  int  $id
+     * 
      * @return \Illuminate\Http\Response
      */
     public function checkUnique(Request $request)
@@ -225,6 +226,23 @@ class ResourceController extends Controller
         
         if ($data) {
             $res['count'] = false;
+        }
+
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
+    }
+
+    /**
+     * Convert value to slug
+     *
+     * 
+     * @return \Illuminate\Http\Response
+     */
+    public function toSlug(Request $request)
+    {
+        $value = $request->input('value', false);
+
+        if($value) {
+            $res['slug'] = Str::slug($value);
         }
 
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
