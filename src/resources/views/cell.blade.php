@@ -1,3 +1,4 @@
+@isset($data)
 
 @if(array_key_exists('relation', $attributes))
 
@@ -16,7 +17,7 @@
     @if(array_key_exists('modify', $attributes))
         {!! call_user_func_array($attributes['modify'], [$data]) !!}
     @else
-        @if($data->{$key})
+        @if(isset($key) && $data->{$key})
            {!! $data->{$attributes['id']} !!}
         @else
             {!! isset($attributes['columns']) ? $data->{$attributes['columns']} : '' !!}
@@ -24,3 +25,6 @@
     @endif
 
 @endif
+
+@endif
+
