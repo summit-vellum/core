@@ -15,8 +15,6 @@
 @endpush
 
 @section('content')
-	@dialog(['id' => 'deleteResourceDialog'])
-
 	@include(template('maintenance'))
     @include(template('search'))
     @include(template('table', ['collections' => $collections, 'attributes' => $attributes]))
