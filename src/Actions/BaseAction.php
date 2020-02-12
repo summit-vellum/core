@@ -25,9 +25,8 @@ class BaseAction
     public function isLock($data, $module)
     {
         if (in_array($module, config('resource_lock'))) {
-
             $resource = $data->resourceLock;
-            $this->isLockIcon = ($resource) ? true : false;
+            $this->isLockIcon = ($resource && $data->resourceLock->user->id != auth()->user()->id) ? true : false;
             $this->user = $resource;
 
         }

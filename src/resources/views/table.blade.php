@@ -1,4 +1,5 @@
 @includeWhen($collections->total() == 0, template('empty'))
+@dialog(['id' => 'unlockResourceDialog'])
 
 @if($collections->total())
 	<div class="row">
@@ -17,10 +18,32 @@
 				<tbody>
 					@foreach($collections as $row)
 					<tr class="">
+						@php
+							$dashboardNotifCount = 1;
+							$colspanCount = count(array_column($attributes['collections'], 'displayDashboardNotif'));
+						@endphp
+
 						@foreach($attributes['collections'] as $key => $column)
-						<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
-							@include(template('cell', ['attributes' => $column, 'data' => $row], 'vellum'))
-						</td>
+							@if(in_array($module, config('resource_lock')) && $row->resourceLock &&
+							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
+
+								@if($dashboardNotifCount == 1)
+									<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} warning text-center middle" colspan="{{ $colspanCount }}">
+										@if(auth()->user()->id == $row->resourceLock->user->id)
+											You are currently editing this article
+										@else
+											{{ $row->resourceLock->user->first_name }} is currently editing this article
+											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"Are you sure you want to unlock this item?","author":"","header":"Unlock","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
+										@endif
+									</td>
+								@endif
+
+								@php $dashboardNotifCount++; @endphp
+							@else
+								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
+									@include(template('cell', ['attributes' => $column, 'data' => $row], 'vellum'))
+								</td>
+							@endif
 						@endforeach
 
 						@actions(['module' => $module, 'actions' => $actions, 'data' => $row])

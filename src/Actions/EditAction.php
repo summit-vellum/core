@@ -33,8 +33,7 @@ class EditAction extends BaseAction implements Actionable
                 'mx-1',
                 'd-inline-block',
                 'hover:text-gray-500',
-                ($this->isLockIcon) ? 'cursor-not-allowed text-gray-400' : 'text-teal-400',
-                ($this->isLockIcon) ? 'cursor-not-allowed' : ''
+                ($this->isLockIcon) ? 'hide cursor-not-allowed text-gray-400' : 'text-teal-400',
             ],
             'button' => [
                 'bg-blue-500',
@@ -47,7 +46,7 @@ class EditAction extends BaseAction implements Actionable
                 'shadow',
                 'inline-flex',
                 'items-center mr-2',
-                ($this->isLockIcon) ? 'cursor-not-allowed' : ''
+                ($this->isLockIcon) ? 'hide cursor-not-allowed' : ''
             ],
         ]);
     }

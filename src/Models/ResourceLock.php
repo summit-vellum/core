@@ -11,6 +11,11 @@ class ResourceLock extends Model
 
     protected $fillable = ['user_id', 'name'];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     public function resourceable()
     {
         return $this->morphTo();
