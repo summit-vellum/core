@@ -7,7 +7,7 @@ function template($blade, $data = [], $module = '')
     if ($module) {
         $blades[] = $module.'::'.$blade;
     }
-
+    
     $blades[] = 'vellum::'.$blade;
     $blades[] = $blade;
 

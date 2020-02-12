@@ -19,9 +19,9 @@ class EditAction extends BaseAction implements Actionable
         $this->isLock($data, $module);
         $this->isAutosaved($data, $module);
 
-        if ($this->isLockIcon) {
+        if ($this->isLockIcon && $this->isAutosaved) {
             return 'javascript:void(0)';
-         }
+        }
 
         return route($module . '.edit', $id);
     }
@@ -53,6 +53,14 @@ class EditAction extends BaseAction implements Actionable
 
     public function attributes()
     {
+        // if($this->isAutosaved) {
+        //     return [
+        //         'data-toggle' => 'modal',
+        //         'data-target' => '#toolModal',
+        //         'data-url' => 'modal',
+        //     ];
+        // }
+
         return [
             //...
         ];
