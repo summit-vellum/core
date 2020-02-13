@@ -5,7 +5,6 @@ namespace Vellum\Actions;
 use Illuminate\Support\Facades\Route;
 use Vellum\Actions\BaseAction;
 use Vellum\Contracts\Actionable;
-use Vellum\Module\Module;
 
 class DeleteAction extends BaseAction implements Actionable
 {
