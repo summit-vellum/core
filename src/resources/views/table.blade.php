@@ -32,7 +32,7 @@
 										@if(auth()->user()->id == $row->resourceLock->user->id)
 											You are currently editing this article
 										@else
-											{{ $row->resourceLock->user->first_name }} is currently editing this article
+											{{ $row->resourceLock->user->name }} is currently editing this article
 											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"Are you sure you want to unlock this item?","author":"","header":"Unlock","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
 										@endif
 									</td>
