@@ -131,6 +131,10 @@ class ResourceController extends Controller
                 'user_id' => auth()->user()->id,
                 'name' => auth()->user()->name
             ]);
+
+            if ($this->resource->getModel()->find($id)->resourceLock->user->id != auth()->user()->id) {
+            	abort('403', $this->resource->getModel()->find($id)->resourceLock->user->name.' is currently editing this article');
+            }
         }
 
         $this->data['data'] = $this->resource->findById($id);
@@ -214,7 +218,7 @@ class ResourceController extends Controller
     /**
      * Check if the value of the field is unique
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function checkUnique(Request $request)
@@ -224,7 +228,7 @@ class ResourceController extends Controller
         $res['count'] = true;
 
         $data = $this->resource->getModel()->where($name, $value)->count();
-        
+
         if ($data) {
             $res['count'] = false;
         }
@@ -235,7 +239,7 @@ class ResourceController extends Controller
     /**
      * Convert value to slug
      *
-     * 
+     *
      * @return \Illuminate\Http\Response
      */
     public function toSlug(Request $request)
