@@ -17,7 +17,7 @@
 				</thead>
 				<tbody>
 					@foreach($collections as $row)
-					<tr class="">
+					<tr class="{{ $row->trashed() ? 'article-disabled' : '' }}">
 						@php
 							$dashboardNotifCount = 1;
 							$colspanCount = count(array_column($attributes['collections'], 'displayDashboardNotif'));
