@@ -10,7 +10,7 @@
                 <h4 class="modal-title text-center">
                     <strong><span data-modal-title></span></strong>
                     <br><small data-modal-author></small>
-                    <small data-modal-sub></small>
+                    <small data-modal-subtext></small>
                 </h4>
 
                 <div class="text-center mt-5">
