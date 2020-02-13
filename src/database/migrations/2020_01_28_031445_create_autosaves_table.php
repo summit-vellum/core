@@ -15,6 +15,7 @@ class CreateAutosavesTable extends Migration
     {
         Schema::create('autosaves', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->bigInteger('user_id');
             $table->bigInteger('autosavable_id');
             $table->string('autosavable_type');
             $table->binary('values');

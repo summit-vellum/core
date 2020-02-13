@@ -182,36 +182,6 @@ class ResourceController extends Controller
     }
 
     /**
-     * Autosave form entries
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function autosave(FormRequestContract $request, int $id = 0)
-    {
-        $this->resource->getModel();
-        if ($id > 0) {
-            $this->authorize('update', $this->resource->getModel());
-        } else {
-            $this->authorize('create', $this->resource->getModel());
-            $validator = $request->validated();
-            $data = $this->resource->save($request->all());
-            $res['id'] = $id = $data->id;
-            $res['newMethod'] = 'PUT';
-        }
-
-        if (in_array($this->module->getName(), config('autosave'))) {
-            $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
-                ['autosavable_id' => $id],
-                ['values' => serialize($request->all())]
-            );
-        }
-
-        $res['status'] = 'saved';
-        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
-    }
-
-    /**
      * Check if the value of the field is unique
      *
      * 

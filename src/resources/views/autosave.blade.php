@@ -1,20 +1,15 @@
-@extends($page ?? 'vellum::no_header')
-<style>
-.nav-tabs>li.active>a {
-    background-color: #008dde!important;
-    color: #fff!important;
-}
-</style>
-<body class="modal-body">
+@extends($page ?? 'vellum::modal_no_header')
+@section('content')
+<div class="modal-body">
     <div class="panel panel-default panel-fullheight">
         <div class="panel-heading clearfix navbar-fixed-top">
-            <button type="button" class="btn btn-outline cf-button close-modal pull-left">Cancel</button>
+            <button type="button" class="btn btn-outline cf-button close-modal pull-left" close-modal>Cancel</button>
             <button type="button" class="btn btn-success cf-button pull-right insert-media">Select This Version</button>
         </div>
         <div class="panel-body mt-7">
             <div class="px-3 panel-fullheight">
                 <div class="px-3">
-                    <input type="hidden" value="http://staging.quill.summitmedia-digital.com/article/67685/edit" id="redirect_url">
+                    <input type="hidden" value="{{$originalRedirect}}" id="redirect_url">
                         <div class="row">
                             <h4 class="text-center"> 
                                 @icon(['icon' => 'info'])
@@ -59,24 +54,36 @@
             </div>
         </div>
     </div>
+</div>
+@endsection
 
-    <script type="text/javascript">
-        var version;
+@push('css')
+<style>
+.nav-tabs>li.active>a {
+    background-color: #008dde!important;
+    color: #fff!important;
+}
+</style>
+@endpush
 
-        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
-          e.target // activated tab
-          e.relatedTarget // previous tab
-          version = $(e.target).attr('href').replace('#', '');
-          if(version=='autosave') {
-            $('#redirect_url').val('{{$autosaveRedirect}}');
-          } else {
-            $('#redirect_url').val('{{$originalRedirect}}');
-          }
-        });
+@push('scripts')
+<script type="text/javascript">
+    var version;
 
-        $('.insert-media').on('click',function(){
-            var url = $('#redirect_url').val();
-            parent.window.location = url;
-        });
-    </script>
-</body>
+    $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        e.target // activated tab
+        e.relatedTarget // previous tab
+        version = $(e.target).attr('href').replace('#', '');
+        if(version=='autosave') {
+        $('#redirect_url').val('{{$autosaveRedirect}}');
+        } else {
+        $('#redirect_url').val('{{$originalRedirect}}');
+        }
+    });
+
+    $('.insert-media').on('click',function(){
+        var url = $('#redirect_url').val();
+        parent.window.location = url;
+    });
+</script>
+@endpush

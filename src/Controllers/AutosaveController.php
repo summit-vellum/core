@@ -52,20 +52,19 @@ class AutosaveController extends Controller
     public function create(FormRequestContract $request)
     {
         $this->resource->getModel();
-        if ($request->input('id', false)) {
-            $this->authorize('update', $this->resource->getModel());
-        } else {
-            $this->authorize('create', $this->resource->getModel());
-            $validator = $request->validated();
-            $data = $this->resource->save($request->all());
-            $res['id'] = $id = $data->id;
-            $res['newMethod'] = 'PUT';
-        }
+        $this->authorize('create', $this->resource->getModel());
+        $validator = $request->validated();
+        $data = $this->resource->save($request->all());
+        $res['id'] = $id = $data->id;
+        $res['newMethod'] = 'PUT';
 
         if (in_array($this->module->getName(), config('autosave'))) {
             $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
                 ['autosavable_id' => $id],
-                ['values' => serialize($request->all())]
+                [
+                    'values' => serialize($request->all()),
+                    'user_id' => auth()->user()->id
+                ]
             );
         }
 
@@ -142,10 +141,22 @@ class AutosaveController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(FormRequestContract $request, $id)
     {
-        dd('update');
-        //
+        $this->authorize('update', $this->resource->getModel());
+        // dd(config('autosave'));
+        if (in_array($this->module->getName(), config('autosave'))) {
+            $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
+                ['autosavable_id' => $id],
+                [
+                    'values' => serialize($request->all()),
+                    'user_id' => auth()->user()->id
+                ]
+            );
+        }
+
+        $res['status'] = 'saved';
+        return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
 
     /**

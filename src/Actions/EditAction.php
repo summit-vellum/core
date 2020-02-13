@@ -19,7 +19,7 @@ class EditAction extends BaseAction implements Actionable
         $this->isLock($data, $module);
         $this->isAutosaved($data, $module);
 
-        if ($this->isLocked && $this->isAutosaved) {
+        if ($this->isLocked || $this->isAutosavedLock) {
             return 'javascript:void(0)';
         }
 
@@ -51,15 +51,16 @@ class EditAction extends BaseAction implements Actionable
         ]);
     }
 
-    public function attributes()
+    public function attributes($data = [])
     {
-        // if($this->isAutosaved) {
-        //     return [
-        //         'data-toggle' => 'modal',
-        //         'data-target' => '#toolModal',
-        //         'data-url' => 'modal',
-        //     ];
-        // }
+        if($this->isAutosavedLock) {
+            $module = explode('.', Route::current()->getName())[0];
+            return [
+                'data-toggle' => 'modal',
+                'data-target' => '#toolModal',
+                'data-url' => route($module.'.autosave.edit', $data->id),
+            ];
+        }
 
         return [
             //...

@@ -6,7 +6,7 @@ class BaseAction
 {
 
     protected $isLocked = false;
-    protected $isAutosaved = false;
+    protected $isAutosavedLock = false;
     protected $user;
     protected $isResourceLocked;
 
@@ -37,8 +37,8 @@ class BaseAction
     public function isAutosaved($data, $module)
     {
         if (in_array($module, config('autosave'))) {
-            $resource = $data->autosave;
-            $this->isAutosavedLock = ($resource) ? true : false;
+            $resource = $data->autosaves;
+            $this->isAutosavedLock = ($resource && $data->autosaves['user_id'] == auth()->user()->id) ? true : false;
         }
     }
 

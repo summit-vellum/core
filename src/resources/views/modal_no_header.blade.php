@@ -26,19 +26,12 @@
 
     <!-- <link href="{{ asset('vendor/html/css/bootstrap.min.css') }}" rel="stylesheet"> -->
 
-
     @stack('css')
-
 </head>
 
-<body>
-    <div>
-        <div class="container px-0 container-max-width">
-            @yield('content')
-        </div>
-    </div>
+<body class="modal-body">
 
-    @include(template('components.modalElement'))
+    @yield('content')
 
 	<script type="text/javascript" src="{{ asset('vendor/vellum/js/vendor/jquery.min.js') }}"></script>
     <script src="{{ asset('vendor/vellum/js/vendor/popper.min.js') }}"></script>

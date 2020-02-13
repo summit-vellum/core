@@ -9,7 +9,7 @@ class Autosaves extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['module', 'form_id', 'values'];
+    protected $fillable = ['user_id', 'values'];
 
     // public function resourceable()
     // {

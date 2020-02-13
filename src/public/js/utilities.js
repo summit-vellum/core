@@ -60,3 +60,10 @@ var ajaxPartialUpdate = function(url, type, params) {
         }
     });
 }
+
+$(document).on('click','[close-modal]' ,function(){
+    var target = $(this).attr('data-target'),
+        url = $(this).attr('data-url');
+
+    $(target).find('iframe').attr('src', url);
+});
