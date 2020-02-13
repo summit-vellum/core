@@ -27,7 +27,6 @@ class DeleteAction extends BaseAction implements Actionable
                 'pt-1',
                 'flex',
                 'whitespace-no-wrap',
-                'btn-unlock',
             ],
             'button' => [
                 'rounded',
@@ -42,14 +41,19 @@ class DeleteAction extends BaseAction implements Actionable
                 'icon-link',
                 'd-inline-block',
                 'mx-2',
-                'btn-unlock',
             ],
         ]);
     }
 
     public function attributes($data = [])
     {
-        return [];
+    	$type = 'DELETE';
+    	$action = 'disable';
+        return [
+            'data-toggle' => 'modal',
+            'data-target' => '#deleteResourceDialog',
+            'data-ajax-modal' => '{"items":{"title":"Are you sure you want to '.$action.' this item?","author":"","header":"Disable","dismiss":"Cancel and go back","continue":"Continue and '.$action.'","subtext":""},"params":{"url":"'.$this->link($data->id, $data).'","type":"'.$type.'"}}'
+        ];
     }
 
     public function tooltip()

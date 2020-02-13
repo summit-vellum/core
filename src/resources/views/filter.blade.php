@@ -1,7 +1,7 @@
 
 @if(isset($filters))
 
-<div class="float-right rounded border p-1 shadow bg-gray-100 relative">
+<div class="float-right rounded border p-1 shadow bg-gray-100">
     <input type="checkbox" value="1" class="hidden" id="filter">
 
     <label class="flex item-center relative cursor-pointer" for="filter">
