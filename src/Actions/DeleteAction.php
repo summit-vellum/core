@@ -38,6 +38,7 @@ class DeleteAction extends BaseAction implements Actionable
     public function link($id, $data = [])
     {
         $module = explode('.', Route::current()->getName())[0];
+        $this->isLock($data, $module);
         return route($module . '.destroy', $id);
     }
 
@@ -50,6 +51,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'flex',
                 'whitespace-no-wrap',
                 (!$this->with_dialog) ? 'btn-delete' : '',
+                ($this->isLockIcon) ? 'hide cursor-not-allowed text-gray-400' : 'text-teal-400'
             ],
             'button' => [
                 'rounded',
@@ -65,6 +67,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'd-inline-block',
                 'mx-2',
                 (!$this->with_dialog) ? 'btn-delete' : '',
+                ($this->isLockIcon) ? 'hide cursor-not-allowed' : ''
             ],
         ]);
     }
