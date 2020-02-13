@@ -5,9 +5,10 @@ namespace Vellum\Actions;
 class BaseAction
 {
 
-    protected $isLockIcon = false;
+    protected $isLocked = false;
     protected $isAutosaved = false;
     protected $user;
+    protected $isResourceLocked;
 
     public function getAttributes($data)
     {
@@ -27,9 +28,9 @@ class BaseAction
     {
         if (in_array($module, config('resource_lock'))) {
             $resource = $data->resourceLock;
-            $this->isLockIcon = ($resource && $data->resourceLock->user->id != auth()->user()->id) ? true : false;
+            $this->isLocked = ($resource && $data->resourceLock->user->id != auth()->user()->id) ? true : false;
+            $this->isResourceLocked = ($resource) ? true : false;
             $this->user = $resource;
-
         }
     }
 

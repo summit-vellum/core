@@ -51,7 +51,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'flex',
                 'whitespace-no-wrap',
                 (!$this->with_dialog) ? 'btn-delete' : '',
-                ($this->isLockIcon) ? 'hide cursor-not-allowed text-gray-400' : 'text-teal-400'
+                ($this->isResourceLocked) ? 'disabled icon-disabled cursor-not-allowed text-gray-400' : 'text-teal-400'
             ],
             'button' => [
                 'rounded',
@@ -67,7 +67,7 @@ class DeleteAction extends BaseAction implements Actionable
                 'd-inline-block',
                 'mx-2',
                 (!$this->with_dialog) ? 'btn-delete' : '',
-                ($this->isLockIcon) ? 'hide cursor-not-allowed' : ''
+                ($this->isResourceLocked) ? 'disabled icon-disabled cursor-not-allowed' : ''
             ],
         ]);
     }

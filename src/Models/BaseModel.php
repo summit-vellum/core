@@ -78,6 +78,7 @@ class BaseModel extends Model
     		->send($baseModelClass->select($fields))
     		->through(array_merge(config('filters'), $this->filters()))
     		->thenReturn()
+    		->withTrashed()
     		->paginate($pageLimit);
 
     	return $pipeline;
