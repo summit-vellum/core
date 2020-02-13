@@ -30,9 +30,9 @@
 								@if($dashboardNotifCount == 1)
 									<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} warning text-center middle" colspan="{{ $colspanCount }}">
 										@if(auth()->user()->id == $row->resourceLock->user->id)
-											You are currently editing this article
+											You are currently editing this {{ $module }}
 										@else
-											{{ $row->resourceLock->user->name }} is currently editing this article
+											{{ $row->resourceLock->user->name }} is currently editing this {{ $module }}
 											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"Are you sure you want to unlock this item?","author":"","header":"Unlock","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
 										@endif
 									</td>
