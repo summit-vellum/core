@@ -62,6 +62,10 @@ var ajaxPartialUpdate = function(url, type, params) {
 }
 
 $(document).on('click','[close-modal]' ,function(){
+    $('#toolModal', window.parent.document).trigger('click');
+});
+
+$(document).on('click','[data-toggle]' ,function(){
     var target = $(this).attr('data-target'),
         url = $(this).attr('data-url');
 
