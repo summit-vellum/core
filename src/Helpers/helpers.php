@@ -7,16 +7,18 @@ function template($blade, $data = [], $module = '')
     if ($module) {
         $blades[] = $module.'::'.$blade;
     }
-    
+
     $blades[] = 'vellum::'.$blade;
     $blades[] = $blade;
 
     $trace = debug_backtrace();
 
+    //for when the method is called in controller
     if (isset($trace[1]['class'])) {
         return view()->first($blades, $data);
     }
 
+    //for when the method is called in blades
     return view()->first($blades, $data)->name();
 }
 

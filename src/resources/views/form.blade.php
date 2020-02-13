@@ -59,14 +59,12 @@
     </div>
 
     @foreach($attributes['collections'] as $key=>$field)
-		@includeIf(template(
-            $field['element'],
-            [
+		@includeIf(template($field['element'],[],'field'),
+			[
                 'attributes' => $field,
                 'data' => $data,
                 'value' => $data ? ($data->$key) ?? '' : ''
-            ]
-        ), 'field')
+            ])
     @endforeach
 
 </form>

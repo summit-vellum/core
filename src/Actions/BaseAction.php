@@ -6,6 +6,7 @@ class BaseAction
 {
 
     protected $isLockIcon = false;
+    protected $isAutosaved = false;
     protected $user;
 
     public function getAttributes($data)

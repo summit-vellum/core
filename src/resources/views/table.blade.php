@@ -41,7 +41,7 @@
 								@php $dashboardNotifCount++; @endphp
 							@else
 								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
-									@include(template('cell', ['attributes' => $column, 'data' => $row], 'vellum'))
+									@include(template('cell', [], 'vellum'), ['attributes' => $column, 'data' => $row])
 								</td>
 							@endif
 						@endforeach
