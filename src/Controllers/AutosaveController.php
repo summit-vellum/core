@@ -51,14 +51,16 @@ class AutosaveController extends Controller
      */
     public function create(FormRequestContract $request)
     {
-        $this->resource->getModel();
-        $this->authorize('create', $this->resource->getModel());
-        $validator = $request->validated();
-        $data = $this->resource->save($request->all());
-        $res['id'] = $id = $data->id;
-        $res['newMethod'] = 'PUT';
-
+        $res['status'] = 'not in config';
+        
         if (in_array($this->module->getName(), config('autosave'))) {
+            $this->authorize('create', $this->resource->getModel());
+            $validator = $request->validated();
+            $data = $this->resource->save($request->all());
+            $res['id'] = $id = $data->id;
+            $res['newMethod'] = 'PUT';
+            $res['status'] = 'saved';
+
             $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
                 ['autosavable_id' => $id],
                 [
@@ -67,8 +69,6 @@ class AutosaveController extends Controller
                 ]
             );
         }
-
-        $res['status'] = 'saved';
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
 
@@ -143,9 +143,9 @@ class AutosaveController extends Controller
      */
     public function update(FormRequestContract $request, $id)
     {
-        $this->authorize('update', $this->resource->getModel());
-        // dd(config('autosave'));
+        $res['status'] = 'not in config';
         if (in_array($this->module->getName(), config('autosave'))) {
+            $this->authorize('update', $this->resource->getModel());
             $this->resource->getModel()->find($id)->autosaves()->updateOrCreate(
                 ['autosavable_id' => $id],
                 [
@@ -153,9 +153,8 @@ class AutosaveController extends Controller
                     'user_id' => auth()->user()->id
                 ]
             );
+            $res['status'] = 'saved';
         }
-
-        $res['status'] = 'saved';
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);
     }
 
