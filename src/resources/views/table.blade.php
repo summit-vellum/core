@@ -33,7 +33,7 @@
 											You are currently editing this {{ $module }}
 										@else
 											{{ $row->resourceLock->user->name }} is currently editing this {{ $module }}
-											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"Are you sure you want to unlock this item?","author":"","header":"Unlock","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
+											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"","author":"","header":"Are you sure you want to unlock this {{ $module }}? {{ $row->resourceLock->user->name }} is currently editing it.","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
 										@endif
 									</td>
 								@endif
