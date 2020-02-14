@@ -9,7 +9,7 @@
         <div class="panel-body mt-7">
             <div class="px-3 panel-fullheight">
                 <div class="px-3">
-                    <input type="hidden" value="{{$originalRedirect}}" id="redirect_url">
+                    <input type="hidden" value="{{$autosaveRedirect}}" id="redirect_url">
                         <div class="row">
                             <h4 class="text-center"> 
                                 @icon(['icon' => 'info'])

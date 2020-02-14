@@ -24,7 +24,20 @@
 						@endphp
 
 						@foreach($attributes['collections'] as $key => $column)
-							@if(in_array($module, config('resource_lock')) && $row->resourceLock &&
+
+						@foreach($attributes['collections'] as $key => $column)
+							@if(in_array($module, config('autosave')) && $row->autosaves &&
+							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
+								@if($dashboardNotifCount == 1)
+									@if(auth()->user()->id == $row->resourceLock->user->id)
+									<td colspan="{{ $colspanCount }}" class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} danger text-center middle">
+										You were not able to close this {{ $module }} correctly. Auto-save has been enabled.
+									</td>
+									@endif
+								@endif
+
+								@php $dashboardNotifCount++; @endphp
+							@elseif(in_array($module, config('resource_lock')) && $row->resourceLock &&
 							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
 
 								@if($dashboardNotifCount == 1)
