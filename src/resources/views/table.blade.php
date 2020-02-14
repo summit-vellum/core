@@ -24,8 +24,6 @@
 						@endphp
 
 						@foreach($attributes['collections'] as $key => $column)
-
-						@foreach($attributes['collections'] as $key => $column)
 							@if(in_array($module, config('autosave')) && $row->autosaves &&
 							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
 								@if($dashboardNotifCount == 1)
