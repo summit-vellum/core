@@ -27,7 +27,7 @@
 							@if(in_array($module, config('autosave')) && $row->autosaves &&
 							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
 								@if($dashboardNotifCount == 1)
-									@if(auth()->user()->id == $row->resourceLock->user->id)
+									@if(auth()->user()->id == $row->autosaves->user->id)
 									<td colspan="{{ $colspanCount }}" class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} danger text-center middle">
 										You were not able to close this {{ $module }} correctly. Auto-save has been enabled.
 									</td>

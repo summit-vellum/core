@@ -11,6 +11,11 @@ class Autosaves extends Model
 
     protected $fillable = ['user_id', 'values'];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
     // public function resourceable()
     // {
     //     return $this->morphTo();
