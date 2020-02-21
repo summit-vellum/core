@@ -54,6 +54,11 @@ class ResourceRepository implements Resource, HasCrud
         return $this->model->actions();
     }
 
+     public function getModalActions()
+    {
+        return $this->model->modalActions();
+    }
+
     public function getFilterFields()
     {
         return $this->model->filters();

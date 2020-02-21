@@ -27,5 +27,8 @@ interface Resource
     public function getActions();
 
 
+    public function getModalActions();
+
+
     public function getFilterFields();
 }
