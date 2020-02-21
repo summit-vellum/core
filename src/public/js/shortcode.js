@@ -1,73 +1,16 @@
-var d = document;
-var shortcode_field = d.querySelector('#shortcode');
-var shortcode_value = shortcode_field.value;
-var shortcode_regex = /\[(\w+):((\d+)|(\[{.+?}\])|({.+?})|(.+?))\]/;
-var parameters;
+var d = document,
+	shortcode_field = d.querySelector('#shortcode'),
+ 	shortcode_value = shortcode_field.value,
+	shortcode_regex = /\[(\w+):((\d+)|(\[{.+?}\])|({.+?})|(.+?))\]/,
+	parameters,
+	shortcode_trigger = shortcode_field.dataset.shortcodeTrigger,
+	checkbox_validation = shortcode_field.dataset.checkboxValidation,
+	checkbox_max = shortcode_field.dataset.checkboxMax,
+	checkbox_min = shortcode_field.dataset.checkboxMin,
+	shortcode_route = shortcode_field.dataset.shortcodeRoute,
+	cookie_length = checkBoxLength = 0,
+	shortcode_key;
 
-function setCookie(cname, cvalue, exdays) {
-    var date = new Date();
-    date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
-    var expires = "expires=" + date.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-}
-
-function getCookie(cname) {
-    var name = cname + "=";
-    var ca = document.cookie.split(';');
-    for (var i = 0; i < ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0) == ' ') {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
-}
-
-function checkCookie() {
-    var user = getCookie("username");
-    if (user != "") {
-        alert("Welcome again " + user);
-    } else {
-        user = prompt("Please enter your name:", "");
-        if (user != "" && user != null) {
-            setCookie("username", user, 365);
-        }
-    }
-}
-
-function registerCookieToLaravel(url, data) {
-    // fetch(url, {
-    //     method: 'post',
-    //     headers: {
-    //         // "Content-type": "application/json;",
-    //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    //     },
-    //     body: encodeURI('shortcode=' + value)
-    //     // {
-    //     // 'shortcode': value
-    //     // } //'shortcode='+ value
-    // }).then(function(response) {
-    //     response.json();
-    // }).then(function(data) {
-    //     console.log('Request succeeded with JSON response', data);
-    // }).catch(function(error) {
-    //     console.log('Request failed', error);
-    // });
-    $.extend(data, {_token: $('meta[name="csrf-token"]').attr('content')});
-    console.log(data);
-    $.ajax({
-        type: "POST",
-        url: url,
-        dataType: "json",
-        data: data,
-        success: function(data) {
-            //do success
-        }
-    });
-}
 shortcode_value.replace(shortcode_regex, function(match, code, param) {
     param = JSON.parse(param);
     parameters = {
@@ -75,12 +18,96 @@ shortcode_value.replace(shortcode_regex, function(match, code, param) {
         value: param
     };
 });
-var elements = d.querySelectorAll('[data-shortcode]');
-var values = parameters.value;
+
+var elements = d.querySelectorAll('[data-shortcode]'),
+	values = parameters.value;
+
+updateCookieInLaravel(shortcode_route, {}, true);
+
+function updateCookieInLaravel(url, data, init) {
+    $.extend(data, {_token: $('meta[name="csrf-token"]').attr('content')});
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        data: data,
+        success: function(data) {
+        	$('[data-selected]').empty();
+            $.each(data['data'], function(index, value) {
+            	$.each(value, function(index, item) {
+            		var selectedItemContainer = $('[data-selected-item]').clone();
+
+        			selectedItemContainer.removeClass('hide')
+	            	.removeAttr('data-selected-item')
+	            	.attr('data-id', item.id)
+	            	.find('[data-title]').text(item.title);
+	            	$('[data-selected]').removeClass('hide').append(selectedItemContainer);
+
+	            	if (init) {
+	            		$('[table-row][data-id="'+item.id+'"] td [data-shortcode]').attr('data-init', true).click();
+	            	}
+
+            	});
+            });
+
+            if (data.removedId && data.deleteCookie) {
+    			values[shortcode_key] = values[shortcode_key].filter(value => value !== JSON.stringify(data.removedId));
+    			shortcode_field.value = "[" + parameters.code + ":" + JSON.stringify(parameters.value) + "]";
+    		}
+
+    		if (init) {
+    			$.each($('[data-selected] [selected-item]'), function(index, item) {
+	        		if ($('[table-row][data-id="'+$(item).data('id')+'"] td [data-shortcode]').length == 0) {
+	        			if ($.inArray(JSON.stringify($(item).data('id')), values[shortcode_key]) == -1){
+	        				$(this).attr('data-no-el', true);
+	        				values[shortcode_key].push(JSON.stringify($(item).data('id')));
+	        				cookie_length++;
+	        			}
+						shortcode_field.value = "[" + parameters.code + ":" + JSON.stringify(parameters.value) + "]";
+	        		}
+	            });
+    		}
+
+            if (values[shortcode_key].length >= checkbox_min && values[shortcode_key].length <= checkbox_max) {
+            	$(shortcode_trigger).removeAttr('disabled');
+            }
+
+        }
+    });
+}
+
+
+$(document).on('click', '[remove-selected]', function(){
+	var selectedId = $(this).parent().attr('data-id'),
+		el = $('[table-row][data-id="'+selectedId+'"] td [data-shortcode]');
+
+	if (el.is(':radio')) {
+		el.attr('data-delete-item', true);
+	}
+
+	updateCookieInLaravel(shortcode_route, {input:{0:{id:selectedId}}, deleteCookie:1});
+	el.click();
+
+	console.log('checkboxcookie '+(checkBoxLength + cookie_length));
+	if ((checkBoxLength + cookie_length) <= checkbox_min || (checkBoxLength + cookie_length) >= checkbox_max) {
+		$(shortcode_trigger).attr('disabled', 'disabled');
+	}
+
+	cookie_length--;
+
+	$('[selected-item][data-id="'+selectedId+'"]').remove();
+});
 
 function objectShortcodes(key, field, currentValue) {
     if (field.checked) {
-        values[key].push(currentValue);
+    	if ($(field).is(':radio')) {
+    		values[key].length = [];
+		}
+
+    	if ($.inArray(currentValue, values[key]) == -1){
+    		values[key].push(currentValue);
+		}
+
     } else {
         values[key] = values[key].filter(value => value !== currentValue);
     }
@@ -102,14 +129,42 @@ function mutationObserverShortcodes(key, element) {
 var observer = new MutationObserver(refreshShortcodeValue);
 
 function refreshShortcodeValue(item, observer) {
+	var onInitialize = this.dataset.init ? this.dataset.init : false,
+		deleteCookie = isRadio = 0;
+
+	checkBoxLength = $(this).parent().parent().parent().find('input:checked').length;
+
+	$(this).removeAttr('data-init');
+
+	isRadio = ($(this).is(':radio')) ? 1 : isRadio;
+    deleteCookie = ($(this).prop('checked') == false) ? 1 : deleteCookie;
+
+    if (($(this).is(':checkbox') && (checkBoxLength + cookie_length) >= checkbox_min && (checkBoxLength + cookie_length) <= checkbox_max) ||
+    	(isRadio && $(this).prop('checked') == true)) {
+		$(shortcode_trigger).removeAttr('disabled');
+	} else {
+
+		if ((checkBoxLength + cookie_length) > checkbox_max) {
+			alert(checkbox_validation);
+			item.preventDefault();
+
+			return false;
+		}
+
+		if (!this.dataset.validationBypass) {
+			$(shortcode_trigger).attr('disabled', 'disabled');
+		}
+	}
+
     if (this instanceof MutationObserver) {
-        var key = item[0].target.dataset.shortcode;
-        var tagName = 'OBSERVE';
+        var key = item[0].target.dataset.shortcode,
+        	tagName = 'OBSERVE';
     } else {
-        var key = this.dataset.shortcode;
-        var currentValue = this.value;
-        var tagName = this.tagName;
+        var key = this.dataset.shortcode,
+        	currentValue = (this.dataset.defaultValue && this.value == '') ? this.dataset.defaultValue : this.value,
+        	tagName = this.tagName;
     }
+
     switch (tagName) {
         case 'INPUT':
             var methodName = (this.type !== 'text') ? objectShortcodes : nonObjectShortcodes;
@@ -122,30 +177,45 @@ function refreshShortcodeValue(item, observer) {
             console.log(this);
     }
 
-    var shortcode = "[" + parameters.code + ":" + JSON.stringify(parameters.value) + "]";
-    // var input = JSON.stringify(getTextfromCells(this));
-    var input = getTextfromCells(this);
-    console.log(input);
+    var shortcode = "[" + parameters.code + ":" + JSON.stringify(parameters.value) + "]",
+    	input = getTextfromCells(this);
 
-    registerCookieToLaravel('/article-reco', {shortcode, input});
+    if ($(this).is(':radio') && $(this).attr('data-delete-item')) {
+    	deleteCookie = 1;
+    	$(this).prop('checked', false);
+    	shortcode = '';
+    	$(this).removeAttr('data-delete-item');
+    }
+
+    if (!onInitialize) {
+    	updateCookieInLaravel(shortcode_route, {shortcode, input, deleteCookie, isRadio}, false);
+    }
+
     shortcode_field.value = shortcode;
 }
 
 function getTextfromCells(item)
 {
-	var cells = $(item).parent().parent().find('.table-cell');
-	var textFromCells = [];
+	var cells = $(item).parent().parent().find('td'),
+		textFromCells = [];
 
-	for(var i = 0; i<cells.length;i++) {
-		var cell = cells[i].textContent.trim();
-		if(cell === '') continue;
-		textFromCells.push(cell);
+	for (var i = 0; i<cells.length;i++) {
+		if (cells[i].getAttribute('data-field-selected')) {
+			var cell = cells[i].textContent.trim();
+			if(cell === '') continue;
+			textFromCells.push({id: $(cells[i]).parent().attr('data-id'),
+								title: cell});
+		}
 	}
 
 	return textFromCells;
 }
 
 for (var i = 0; i < elements.length; i++) {
+	if ($(elements[i]).is(':radio') || $(elements[i]).is(':checkbox')) {
+		shortcode_key = elements[i].dataset.shortcode;
+	}
+
     var listener = elements[i].dataset.shortcodeListen ? elements[i].dataset.shortcodeListen : false;
     if (listener === 'observe') {
         // call `observe` on that MutationObserver instance,
