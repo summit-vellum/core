@@ -21,7 +21,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Quill\\Post\\PostServiceProvider"
+                //"Quill\\Post\\PostServiceProvider"
             ]
         }
     }
