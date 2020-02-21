@@ -94,7 +94,7 @@ trait HasStub
 
     protected function getStub($type)
     {
-        return File::get(base_path("core/src/resources/stubs/$type.stub"));
+        return File::get(base_path("vendor/vellum/core/src/resources/stubs/$type.stub"));
     }
 
     protected function model()
