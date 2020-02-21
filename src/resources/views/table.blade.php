@@ -21,6 +21,7 @@
 						@php
 							$dashboardNotifCount = 1;
 							$colspanCount = count(array_column($attributes['collections'], 'displayDashboardNotif'));
+							$resourceLocked = (in_array($module, config('resource_lock')) && $row->resourceLock) ? true : false;
 						@endphp
 
 						@foreach($attributes['collections'] as $key => $column)
@@ -35,16 +36,16 @@
 								@endif
 
 								@php $dashboardNotifCount++; @endphp
-							@elseif(in_array($module, config('resource_lock')) && $row->resourceLock &&
-							(isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
-
+							@elseif($resourceLocked && (isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
 								@if($dashboardNotifCount == 1)
 									<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} warning text-center middle" colspan="{{ $colspanCount }}">
 										@if(auth()->user()->id == $row->resourceLock->user->id)
 											You are currently editing this {{ $module }}
 										@else
 											{{ $row->resourceLock->user->name }} is currently editing this {{ $module }}
+											@can('update')
 											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"","author":"","header":"Are you sure you want to unlock this {{ $module }}? {{ $row->resourceLock->user->name }} is currently editing it.","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
+											@endcan
 										@endif
 									</td>
 								@endif
@@ -52,8 +53,30 @@
 								@php $dashboardNotifCount++; @endphp
 							@else
 								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
-									@include(template('cell', [], 'vellum'), ['attributes' => $column, 'data' => $row])
+									@if(isset($column['displayAsEdit']) && $column['displayAsEdit'])
+										@php
+											$editRoute = route($module.'.edit', $row->id);
+											$disabled = '';
+										@endphp
+
+										@can('update')
+											@if($resourceLocked && auth()->user()->id != $row->resourceLock->user->id)
+												<?php $disabled = 'disabled'; ?>
+											@endif
+										@endcan
+
+										@cannot('update')
+											<?php $disabled = 'disabled'; ?>
+										@endcan
+
+										<a href="{{ $editRoute }}" class="{{ $disabled}}">
+											<strong>@include(template('cell', [], 'vellum'), ['attributes' => $column, 'data' => $row])</strong>
+										</a>
+									@else
+										@include(template('cell', [], 'vellum'), ['attributes' => $column, 'data' => $row])
+									@endif
 								</td>
+
 							@endif
 						@endforeach
 
