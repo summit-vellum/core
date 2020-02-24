@@ -99,7 +99,7 @@ trait HasStub
     		$vendorPath = 'vendor/vellum/';
     	}
 
-        return File::get(base_path($vendorPath."/core/src/resources/stubs/$type.stub"));
+        return File::get(base_path($vendorPath."core/src/resources/stubs/$type.stub"));
     }
 
     protected function model()
