@@ -120,28 +120,3 @@ function commaAndOrSeperator($arr)
 
 	return $line;
 }
-
-
-        // $authorLine = '';
-        // $jumpOff = '';
-
-        // if ($ref) {
-        //     $jumpOff = '?ref=';
-        //     $jumpOff .= "{$ref}_author";
-        // }
-
-        // foreach ($authors as $key => $author) {
-        //     $customByLine = !empty($author['byline']) ? $author['byline'].' ' : '';
-
-        //     $authorLine .= (!empty($customByLine) || $key != 0  ? '' : 'by ');
-
-        //     if ($key > 0 && $key != (count($authors) - 1)) {
-        //         $authorLine .= ', ';
-        //     } else if($key != 0 && count($authors) > 1){
-        //         $authorLine .= ' and ';
-        //     }
-
-        //     $authorLine .= $customByLine.'<a class="b-auth" href="'.$author['url'].$jumpOff.'">'.$author['name'].'</a>';
-        // }
-
-        // return $authorLine;
