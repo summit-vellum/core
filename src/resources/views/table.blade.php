@@ -12,7 +12,10 @@
 							{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}
 							"> {!! display_column($column) !!} </th>
 						@endforeach
-						<th class="text-center border-left-0" width="22%">Actions</th>
+
+						@if($actions)
+							<th class="text-center border-left-0" width="22%">Actions</th>
+						@endif
 					</tr>
 				</thead>
 				<tbody>
@@ -80,7 +83,9 @@
 							@endif
 						@endforeach
 
-						@actions(['module' => $module, 'actions' => $actions, 'data' => $row])
+						@if($actions)
+							@actions(['module' => $module, 'actions' => $actions, 'data' => $row])
+						@endif
 
 					</tr>
 	    			@endforeach
