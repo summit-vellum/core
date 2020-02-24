@@ -29,22 +29,23 @@
     @endif
 
     @form
-        @if(isset($maxCount) && $maxCount != '')
-            <small class="cf-note pull-right">
-                <span id="count-{{ $id }}">0</span>/{{ $maxCount }}
-            </small>
-        @endif
-
-        @if(isset($help) && $help != '')
+        @if((isset($help) && $help != '') || isset($maxCount) && $maxCount != '')
     	<div class="mt-2" id="help-{{ $id }}">
-            @icon(['icon' => 'info', 'classes'=>'help-info pull-left'])
-            @if(isset($uniqueMsg) && $uniqueMsg != '')
-                @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
+    		@if(isset($help) && $help != '')
+	            @icon(['icon' => 'info', 'classes'=>'help-info pull-left'])
+	            @if(isset($uniqueMsg) && $uniqueMsg != '')
+	                @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
+	            @endif
+		        <small class="cf-note"
+	                help-original="{{ $help  }}"
+	                help-maxed="{{ $maxCountHelp ?? '' }}"
+	                >{{ $help  }}</small>
             @endif
-	        <small class="cf-note" 
-                help-original="{{ $help  }}"
-                help-maxed="{{ $maxCountHelp ?? '' }}" 
-                >{{ $help  }}</small>
+            @if(isset($maxCount) && $maxCount != '')
+	            <small class="cf-note pull-right">
+	                <span id="count-{{ $id }}">0</span>/{{ $maxCount }}
+	            </small>
+	        @endif
 	    </div>
 	    @endif
     @endform
