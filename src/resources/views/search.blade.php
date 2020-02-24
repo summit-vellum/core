@@ -1,9 +1,10 @@
 <form role="form" class="form-horizontal">
 	<div class="row mb-2">
+		@if($searchables)
 		<div class="col-md-3">
 			<div>
                 <label class="sr-only" for="search">Search</label>
-                <input type="text" class="form-control" id="search" name="search" placeholder="Search Article by ID or Title" value="">
+                <input type="text" class="form-control" id="search" name="search" placeholder="Search {{ ucfirst($module) }} {{ isset($searchables) ? 'by '.commaAndOrSeperator($searchables) : '' }}" value="">
             </div>
 		</div>
 		<div class="col-md-1">
@@ -11,8 +12,10 @@
 				<button name="submit" class="btn btn-primary form-controler">Search</button>
 			</div>
 		</div>
+		@endif
 
         @include(template('filter'))
 
 	</div>
 </form>
+
