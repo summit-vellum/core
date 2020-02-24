@@ -104,6 +104,16 @@
         cursor: default;
       }
     }
+    
+    &.active.autosave-tab > a {
+      &,
+      &:hover,
+      &:focus {
+        background-color: #008dde!important;
+        color: #fff!important;
+      }
+    }
+    
   }
   // pulling this in mainly for less shorthand
   &.nav-justified {

@@ -130,7 +130,7 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request, $id)
     {
         $this->authorize('update', $this->resource->getModel()->find($id));
 
@@ -145,9 +145,37 @@ class ResourceController extends Controller
             	abort('403', $this->resource->getModel()->find($id)->resourceLock->user->name.' is currently editing this article');
             }
         }
+        
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['isLocked'] = ($this->data['data']->resourceLock) ? true : false;
+
+        // Check if module can lock autosaved content
+        if (in_array($this->module->getName(), config('autosave'))) {
+
+            if($request['autosave']){
+                $autosave = $this->resource->getModel()
+                    ->find($id)
+                    ->autosaves()
+                    ->where('autosavable_id', $id)
+                    ->first();
+                
+                if($autosave){
+                    $autosaveData = json_decode(json_encode(unserialize($autosave['values'])));
+                    $this->data['data'] = $autosaveData;
+                
+                    $this->resource->getModel()
+                        ->find($id)
+                        ->autosaves()
+                        ->forceDelete();
+                }
+            }
+
+            if ($this->resource->getModel()->find($id)->autosaves && $this->resource->getModel()->find($id)->autosaves->user_id != auth()->user()->id) {
+            	abort('403', 'This form is currently autosaved');
+            }
+        }
+
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['routeUrl'] = route($this->module->getName() . '.update', $id);
 
