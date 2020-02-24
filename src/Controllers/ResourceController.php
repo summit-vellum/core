@@ -58,6 +58,15 @@ class ResourceController extends Controller
         $this->data['attributes'] = $this->resource->getAttributes();
         $this->data['module'] = $this->module;
 
+        $searchables = [];
+        // if (isset($this->data['attributes']['searchable'])) {
+        // 	foreach ($this->data['attributes']['searchable'] as $key => $searchable) {
+        // 		$searchables[] = $this->data['attributes']['name'][$searchable];
+        // 	}
+        // }
+
+        $this->data['searchables'] = $searchables;
+
         return template('catalog', $this->data, $this->module->getName());
     }
 

@@ -13,7 +13,7 @@ class Search extends Filter
 
 	public function __construct(Resource $resource)
 	{
-		$this->searchFields = collect($resource->attributes['searchable']);
+		$this->searchFields = isset($resource->attributes['searchable']) ? collect($resource->attributes['searchable']) : [];
 	}
 
 	protected function applyFilter(Builder $builder)
