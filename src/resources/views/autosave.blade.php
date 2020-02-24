@@ -14,8 +14,8 @@
         </h4>
         <div class="col-md-12">
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#autosave" data-toggle="tab">Auto Saved<i> - {{ $timestamp }}</i></a></li>
-                <li><a href="#previous" data-toggle="tab">Previously Saved<i></i></a></li>
+                <li class="active autosave-tab"><a href="#autosave" data-toggle="tab">Auto Saved<i> - {{ $timestamp }}</i></a></li>
+                <li class="autosave-tab"><a href="#previous" data-toggle="tab">Previously Saved<i></i></a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content mt-5">
@@ -48,15 +48,6 @@
     </div>
 </div>
 @endsection
-
-@push('css')
-<style>
-.nav-tabs>li.active>a {
-    background-color: #008dde!important;
-    color: #fff!important;
-}
-</style>
-@endpush
 
 @push('scripts')
 <script type="text/javascript">
