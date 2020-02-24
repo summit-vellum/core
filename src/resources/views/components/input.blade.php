@@ -4,9 +4,9 @@
         hidden
     @endif
 ">
-    @if(!(isset($customLabel) && $customLabel != ''))
+    @if(!(isset($customLabel) && $customLabel != '') && isset($label))
     <label for="{{ $id }}" class="cf-label">
-        {{ $label }}
+        {{ $label ?? '' }}
     </label>
     @endif
 
