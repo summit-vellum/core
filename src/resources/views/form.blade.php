@@ -76,6 +76,12 @@
 <script type="text/javascript" src="{{asset($key)}}"></script>
 @endforeach
 
+@if(in_array($module, config('autosave')))
+<script type="text/javascript">
+    var asDelay = {{config('form.autosave') ?? 'false'}};
+</script>
+@endif
+
 <script type="text/javascript" src="{{asset('vendor/vellum/js/custom.js')}}"></script>
 <script type="text/javascript" src="{{asset('vendor/vellum/js/form.js')}}"></script>
 @endpush
