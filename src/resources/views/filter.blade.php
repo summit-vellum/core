@@ -28,6 +28,8 @@
 		        	</select>
 		        </div>
 		        @endforeach
+		        <input type="submit" class="btn btn-primary btn-sm btn-apply" value="Apply">
+				<a href="#" class="btn btn-default btn-sm btn-cancel-filter">Cancel</a>
 		   	</div>
 		</div>
 	@endif
