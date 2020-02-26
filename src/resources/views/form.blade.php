@@ -33,9 +33,11 @@
 
 	    <div class="clearfix mb-5">
 
+	    	@if(in_array($module, config('autosave')))
 	        <div class="float-left">
 	            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
 	        </div>
+	        @endif
 
 	        <div class="text-right float-right">
 	            @form

@@ -105,7 +105,7 @@ class ResourceController extends Controller
         $validator = $request->validated();
         $data = $this->resource->save($request->all());
 
-        return redirect()->route($this->module->getName() . '.show', $data['id']);
+        return redirect()->route($this->module->getName() . '.index');
     }
 
     /**
@@ -146,7 +146,7 @@ class ResourceController extends Controller
             	abort('403', $this->resource->getModel()->find($id)->resourceLock->user->name.' is currently editing this article');
             }
         }
-        
+
 
         $this->data['data'] = $this->resource->findById($id);
         $this->data['isLocked'] = ($this->data['data']->resourceLock) ? true : false;
@@ -160,11 +160,11 @@ class ResourceController extends Controller
                     ->autosaves()
                     ->where('autosavable_id', $id)
                     ->first();
-                
+
                 if($autosave){
                     $autosaveData = json_decode(json_encode(unserialize($autosave['values'])));
                     $this->data['data'] = $autosaveData;
-                
+
                     $this->resource->getModel()
                         ->find($id)
                         ->autosaves()
@@ -195,12 +195,12 @@ class ResourceController extends Controller
         $this->authorize('update', $this->resource->getModel());
 
         $data = $this->resource->save($request->all(), $id);
-
+        
         if (in_array($this->module->getName(), config('autosave'))) {
             $autosave->destroy($id);
         }
 
-        return redirect()->route($this->module->getName() . '.show', $id);
+        return redirect()->route($this->module->getName() . '.index');
     }
 
     /**
