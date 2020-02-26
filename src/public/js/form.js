@@ -1,6 +1,5 @@
 var asTimer = null,
-    asDelay = asDelay ? asDelay : false, //change to 5 minutes (2 seconds for now)
-    // asDelay = 5 * 60 * 1000, //5 minutes
+    asDelay = asDelay ? asDelay : false,
     modSegment = $(location).attr('href').split("/"),
     moduleName = modSegment[3],
     inputFields = 'form input, form textarea',

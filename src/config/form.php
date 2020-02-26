@@ -6,5 +6,5 @@ return [
 		'readonly',
 		'disabled',
 	],
-	// 'autosave' => 2000
+	'autosave' => 5 * 60 * 1000
 ];
