@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Route;
 use Quill\Post\Models\Post;
+use Vellum\Controllers\AutosaveController;
 use Vellum\Contracts\FormRequestContract;
 use Vellum\Contracts\Formable;
 use Vellum\Contracts\Resource;
@@ -189,11 +190,15 @@ class ResourceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(FormRequestContract $request, $id)
+    public function update(FormRequestContract $request, AutosaveController $autosave, $id)
     {
         $this->authorize('update', $this->resource->getModel());
 
         $data = $this->resource->save($request->all(), $id);
+        
+        if (in_array($this->module->getName(), config('autosave'))) {
+            $autosave->destroy($id);
+        }
 
         return redirect()->route($this->module->getName() . '.index');
     }

@@ -166,7 +166,18 @@ class AutosaveController extends Controller
      */
     public function destroy($id)
     {
-        dd('delete');
-        //
+        // Check if module can lock autosaved content
+        $autosave = $this->resource->getModel()
+            ->find($id)
+            ->autosaves()
+            ->where('autosavable_id', $id)
+            ->first();
+        
+        if($autosave){        
+            $this->resource->getModel()
+                ->find($id)
+                ->autosaves()
+                ->forceDelete();
+        }
     }
 }
