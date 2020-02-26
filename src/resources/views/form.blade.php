@@ -13,14 +13,6 @@
 
 @section('content')
 <div class="container px-0 container-max-width">
-    <h1 class="text-4xl font-bold mb-5 mt-10">
-        @form
-            Edit
-        @else
-            Details
-        @endform
-    </h1>
-
 	<form
 		id="form-{{$module}}"
 	    class="needs-validation
