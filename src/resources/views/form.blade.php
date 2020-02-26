@@ -1,3 +1,6 @@
+
+
+
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
@@ -7,69 +10,63 @@
 <link href="{{asset($key)}}" rel="stylesheet">
 @endforeach
 @endpush
+
 @section('content')
+<div class="container px-0 container-max-width">
+	<form
+		id="form-{{$module}}"
+	    class="needs-validation
+	    @if($errors->any()) {{ 'was-validated' }} @endif"
+	    novalidate
+	    action="{{ $routeUrl }}"
+	    method="post"
+	    enctype="multipart/form-data"
+	    >
 
-    <h1 class="text-4xl font-bold mb-5 mt-10">
-        @form
-            Edit
-        @else
-            Details
-        @endform
-    </h1>
+	    @csrf
 
-<form
-	id="form-{{$module}}"
-    class="needs-validation
-    @if($errors->any()) {{ 'was-validated' }} @endif"
-    novalidate
-    action="{{ $routeUrl }}"
-    method="post"
-    enctype="multipart/form-data"
-    >
+	    @empty($data)
+	        @method('POST')
+	     @else
+	        @method('PUT')
+	    @endempty
 
-    @csrf
+	    <div class="clearfix mb-5">
 
-    @empty($data)
-        @method('POST')
-     @else
-        @method('PUT')
-    @endempty
+	        <div class="float-left">
+	            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
+	        </div>
 
-    <div class="clearfix mb-5">
+	        <div class="text-right float-right">
+	            @form
 
-        <div class="float-left">
-            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
-        </div>
+	            	@section('actions')
+		        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
 
-        <div class="text-right float-right">
-            @form
+		        	@append
 
-            	@section('actions')
-	        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
+	            @else
 
-	        	@append
+	                @actions(['module' => $module, 'actions' => $actions, 'data' => $data])
 
-            @else
+	            @endform
 
-                @actions(['module' => $module, 'actions' => $actions, 'data' => $data])
+	        </div>
+	    </div>
 
-            @endform
+	    @foreach($attributes['collections'] as $key=>$field)
+			@includeIf(template($field['element'],[],'field'),
+				[
+	                'attributes' => $field,
+	                'data' => $data,
+	                'value' => $data ? ($data->$key) ?? '' : ''
+	            ])
+	    @endforeach
 
-        </div>
-    </div>
-
-    @foreach($attributes['collections'] as $key=>$field)
-		@includeIf(template($field['element'],[],'field'),
-			[
-                'attributes' => $field,
-                'data' => $data,
-                'value' => $data ? ($data->$key) ?? '' : ''
-            ])
-    @endforeach
-
-</form>
-
+	</form>
+</div>
 @endsection
+
 @push('scripts')
 
 @foreach(array_unique(Arr::flatten($attributes['assets']['script'])) as $key)
