@@ -1,6 +1,5 @@
 var asTimer = null,
-    asDelay = 2000, //change to 5 minutes (2 seconds for now)
-    // asDelay = 5 * 60 * 1000, //5 minutes
+    asDelay = asDelay ? asDelay : false,
     modSegment = $(location).attr('href').split("/"),
     moduleName = modSegment[3],
     inputFields = 'form input, form textarea',
@@ -32,30 +31,32 @@ $(document).on('change', selectFields,function(){
 });
 
 function autosave(){
-    if (asTimer) {
-        clearTimeout(asTimer);
+    if  (asDelay) {
+        if (asTimer) {
+            clearTimeout(asTimer);
+        }
+    
+        asTimer = setTimeout(function () {
+            var data = $("form").serialize(),
+                formId = $("form").find('input[name="id"]'),
+                formType = $("form").find('input[name="_method"]');
+    
+            entryId = formId.val() ? formId.val() : 0;
+            
+            $.ajax({
+                type: formType.val(),
+                url: document.location.origin + '/' + moduleName + '/autosave/' + entryId,
+                data: data,
+                success: function (res) {
+                    console.log(res);
+                    if (res.newMethod) {
+                        formId.val(res.id);
+                        formType.val(res.newMethod);
+                    }
+                },
+            });
+        }, asDelay );
     }
-
-    asTimer = setTimeout(function () {
-        var data = $("form").serialize(),
-            formId = $("form").find('input[name="id"]'),
-            formType = $("form").find('input[name="_method"]');
-
-        entryId = formId.val() ? formId.val() : 0;
-        
-        $.ajax({
-            type: formType.val(),
-            url: document.location.origin + '/' + moduleName + '/autosave/' + entryId,
-            data: data,
-            success: function (res) {
-                console.log(res);
-                if (res.newMethod) {
-                    formId.val(res.id);
-                    formType.val(res.newMethod);
-                }
-            },
-        });
-    }, asDelay );
 }
 
 function characterCount(input){
