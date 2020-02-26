@@ -43,7 +43,6 @@
             @include('vellum::sidebar')
         </sidebar> -->
 
-        <div class="container px-0 container-max-width">
             @yield('content')
         </div>
     </div>
