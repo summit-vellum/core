@@ -55,8 +55,9 @@
 
 								@php $dashboardNotifCount++; @endphp
 							@else
-								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}">
-									@if(isset($column['displayAsEdit']) && $column['displayAsEdit'])
+								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}
+									{{ array_key_exists('dashboardContainerClass', $column) ? $column['dashboardContainerClass'] : '' }}">
+									@if(array_key_exists('displayAsEdit', $column))
 										@php
 											$editRoute = route($module.'.edit', $row->id);
 											$disabled = '';
