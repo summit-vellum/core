@@ -104,7 +104,7 @@ class ResourceController extends Controller
         $validator = $request->validated();
         $data = $this->resource->save($request->all());
 
-        return redirect()->route($this->module->getName() . '.index', $data['id']);
+        return redirect()->route($this->module->getName() . '.index');
     }
 
     /**
@@ -195,7 +195,7 @@ class ResourceController extends Controller
 
         $data = $this->resource->save($request->all(), $id);
 
-        return redirect()->route($this->module->getName() . '.index', $id);
+        return redirect()->route($this->module->getName() . '.index');
     }
 
     /**
