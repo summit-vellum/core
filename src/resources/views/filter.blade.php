@@ -14,13 +14,14 @@
 						Filter
 		            </span>
 		        </div>
+
 		        @foreach($filters as $filter => $values)
 		        <div class="btn-group btn-group-sm btn-block mb-2">
 		        	<select class="selectpicker form-control" name="{{ $filter }}">
-		        		<option value="0">-- Select {{ $filter }} --</option>
+		        		<option value="">-- Select {{ $filter }} --</option>
 		                @foreach($values as $id=>$value)
 		                    <option value="{{ $id }}"
-		                    @if(request($filter) == $id)
+		                    @if(request($filter) != null && request($filter) == $id)
 		                    selected
 		                    @endif
 		                    >{{ $value }}</option>
