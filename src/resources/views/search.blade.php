@@ -4,7 +4,7 @@
 		<div class="col-md-3">
 			<div>
                 <label class="sr-only" for="search">Search</label>
-                <input type="text" class="form-control" id="search" name="search" placeholder="Search {{ ucfirst($module) }} {{ isset($searchables) ? 'by '.commaAndOrSeperator($searchables) : '' }}" value="">
+                <input type="text" class="form-control" id="search" name="search" placeholder="Search {{ ucfirst($module) }} {{ isset($searchables) ? 'by '.commaAndOrSeperator($searchables) : '' }}" value="{{ request()->get('search') }}">
             </div>
 		</div>
 		<div class="col-md-1">
