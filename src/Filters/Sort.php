@@ -9,10 +9,14 @@ class Sort extends Filter
 {
 	protected function applyFilter(Builder $builder)
 	{
-		return $builder->orderBy(
-			request($this->sortFieldName()), 
-			request($this->filterName())
-		);
+		if (request($this->filterName()) != null) {
+			$builder->orderBy(
+				request($this->sortFieldName()),
+				request($this->filterName())
+			);
+		}
+
+		return $builder;
 	}
 
 	protected function sortFieldName()
