@@ -11,7 +11,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-    	"laravelcollective/html": "^6.0"
+    	"laravelcollective/html": "^6.0",
+    	"quill/html": "dev-master"
     },
     "autoload": {
         "psr-4": {
