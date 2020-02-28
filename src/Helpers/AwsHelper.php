@@ -35,7 +35,7 @@ class AwsHelper
      */
     public function uploadToS3($key, $body, $attr)
     {
-        $s3 = AWS::get('s3');
+        $s3 = AWS::createClient('s3');
         $test = $s3->putObject(array(
             'Bucket' => $this->aws_bucket,
             'Key'    => $key,
@@ -52,11 +52,12 @@ class AwsHelper
      * @param      string  $sourceFile  local path
      * @param      string  $ext         The extention
      */
-    public function uploadFileToS3($key, $sourceFile, $ext, $site)
+    public function uploadFileToS3($key, $sourceFile, $ext)
     {
+    	$siteImgFolder = $this->site['code_name'];
         $key = $siteImgFolder.'/'.$key;
 
-        $s3 = AWS::get('s3');
+        $s3 = AWS::createClient('s3');
         $result = $s3->putObject(array(
             'Bucket'       => $this->aws_bucket_images,
             'Key'          => $key,

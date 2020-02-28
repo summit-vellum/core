@@ -148,6 +148,10 @@ class ModuleServiceProvider extends ServiceProvider
         ], 'vellum.config');
 
         $this->publishes([
+        	__DIR__ . '/../config/aws_site.php' => config_path('aws_site.php')
+        ], 'vellum.config.aws_site');
+
+        $this->publishes([
             __DIR__ . '/../public' => public_path('vendor/vellum'),
         ], 'vellum.public');
 
