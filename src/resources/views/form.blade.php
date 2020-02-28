@@ -33,7 +33,7 @@
 
 	    <div class="clearfix mb-5">
 
-	    	@if(in_array($module, config('autosave')))
+	    	@if(in_array($module, config('resource_lock')))
 	        <div class="float-left">
 	            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
 	        </div>
