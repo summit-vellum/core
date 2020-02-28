@@ -76,7 +76,7 @@ class ResourceRepository implements Resource, HasCrud
 
     public function save(array $data, int $id = 0)
     {
-        // $data = FileUploadService::make($data);
+        $data = FileUploadService::make($data);
         $class = get_class($this->model);
         $instance = $class::updateOrCreate(
             ['id' => $data['id'] ?? 0],
