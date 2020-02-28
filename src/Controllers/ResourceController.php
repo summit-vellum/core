@@ -149,7 +149,7 @@ class ResourceController extends Controller
 
 
         $this->data['data'] = $this->resource->findById($id);
-        $this->data['isLocked'] = ($this->data['data']->resourceLock) ? true : false;
+        $this->data['isLocked'] = isset($this->data['data']->resourceLock) ? true : false;
 
         // Check if module can lock autosaved content
         if (in_array($this->module->getName(), config('autosave'))) {
@@ -195,7 +195,7 @@ class ResourceController extends Controller
         $this->authorize('update', $this->resource->getModel());
 
         $data = $this->resource->save($request->all(), $id);
-        
+
         if (in_array($this->module->getName(), config('autosave'))) {
             $autosave->destroy($id);
         }
