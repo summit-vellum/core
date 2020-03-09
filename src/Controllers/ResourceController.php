@@ -103,7 +103,8 @@ class ResourceController extends Controller
         $this->authorize('create', $this->resource->getModel());
 
         $validator = $request->validated();
-        $data = $this->resource->save($request->all());
+        $fields = $request->except($this->resource->getExcludedFields());
+        $data = $this->resource->save($fields);
 
         return redirect()->route($this->module->getName() . '.index');
     }
@@ -194,13 +195,14 @@ class ResourceController extends Controller
     {
         $this->authorize('update', $this->resource->getModel());
 
-        $data = $this->resource->save($request->all(), $id);
+        $fields = $request->except($this->resource->getExcludedFields());
+        $data = $this->resource->save($fields, $id);
 
         if (in_array($this->module->getName(), config('autosave'))) {
             $autosave->destroy($id);
         }
 
-        return redirect()->route($this->module->getName() . '.index');
+        return redirect()->route($this->module->getName().'.edit', $id);
     }
 
     /**

@@ -31,4 +31,7 @@ interface Resource
 
 
     public function getFilterFields();
+
+
+    public function getExcludedFields();
 }

@@ -64,6 +64,11 @@ class ResourceRepository implements Resource, HasCrud
         return $this->model->filters();
     }
 
+    public function getExcludedFields()
+    {
+    	return $this->model->excludedFields();
+    }
+
     public function getRowsData($request = [])
     {
     	return $this->model->allData(array_keys($this->attributes['collections']), $request);

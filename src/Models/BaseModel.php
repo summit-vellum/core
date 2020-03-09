@@ -2,10 +2,13 @@
 
 namespace Vellum\Models;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Quill\Status\Models\Status;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
 
 class BaseModel extends Model
 {
@@ -70,6 +73,15 @@ class BaseModel extends Model
 
     public function allData(array $fields, $request)
     {
+    	$module = explode('.', Route::current()->getName())[0];
+    	$tableName = ($module) ? Str::plural($module) : '';
+
+    	foreach ($fields as $key => $field) {
+    		if (!Schema::hasColumn($tableName, $field)) {
+	    		unset($fields[$key]);
+			}
+    	}
+
     	$site = config('site');
         $pageLimit = request('limit', $site['pagination_limit']);
     	$classBaseName = get_class($this);

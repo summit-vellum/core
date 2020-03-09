@@ -31,4 +31,10 @@ class {{moduleName}}Resource extends {{moduleName}} implements Formable
         ];
     }
 
+    public function excludedFields()
+    {
+    	return [
+    		//
+    	];
+    }
 }

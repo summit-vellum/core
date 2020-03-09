@@ -39,7 +39,7 @@
 		        <small class="cf-note"
 	                help-original="{{ $help  }}"
 	                help-maxed="{{ $maxCountHelp ?? '' }}"
-	                >{{ $help  }}</small>
+	                >{!! html_entity_decode($help)  !!}</small>
             @endif
             @if(isset($maxCount) && $maxCount != '')
 	            <small class="cf-note pull-right">
