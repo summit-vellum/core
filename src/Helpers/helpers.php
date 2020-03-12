@@ -1,4 +1,8 @@
 <?php
+function compressHTML($html)
+{
+    return trim(preg_replace('/\s+/', ' ', $html));
+}
 
 function template($blade, $data = [], $module = '')
 {

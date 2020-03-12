@@ -35,14 +35,14 @@ function autosave(){
         if (asTimer) {
             clearTimeout(asTimer);
         }
-    
+
         asTimer = setTimeout(function () {
             var data = $("form").serialize(),
                 formId = $("form").find('input[name="id"]'),
                 formType = $("form").find('input[name="_method"]');
-    
+
             entryId = formId.val() ? formId.val() : 0;
-            
+
             $.ajax({
                 type: formType.val(),
                 url: document.location.origin + '/' + moduleName + '/autosave/' + entryId,
@@ -68,7 +68,7 @@ function characterCount(input){
             maxMsg = helpMsg.attr('help-maxed'),
             minCount = input.attr('min-count'),
             maxCount = input.attr('max-count');
-        
+
         $("form").find('#count-'+countId).text(countNum);
 
         var color = 'green';
@@ -83,13 +83,13 @@ function characterCount(input){
             color = 'red';
         }
 
-        input.css('border-color', color);        
+        input.css('border-color', color);
         info.find('.help-info').removeClass('hide');
         info.find('.help-validated-check ').addClass('hide');
 
         if (maxMsg) {
             if (maxCount < countNum) {
-                helpMsg.text(maxMsg);                
+                helpMsg.text(maxMsg);
             } else {
                 helpMsg.text(helpMsg.attr('help-original'));
             }
@@ -97,10 +97,10 @@ function characterCount(input){
     }
 }
 
-function convertToSlug(input){ 
+function convertToSlug(input){
     var autoslug = input.attr('autoslug');
     if (autoslug) {
-    
+
         $.ajax({
             type:"POST",
             url: document.location.origin + '/' + moduleName + '/to-slug',
@@ -109,14 +109,14 @@ function convertToSlug(input){
                 if (res.slug) {
                     var slugAttrName = 'autoslug-'+autoslug,
                         slugField = $('['+slugAttrName+']');
-                        
+
                     $.each(slugField, function (sKey, sVal) {
                         if ($(sVal).attr(slugAttrName) == "off") { return; }
-            
+
                         if ($(sVal).attr(slugAttrName) == "once") {
                             $(sVal).attr(slugAttrName, "off");
                         }
-            
+
                         $(sVal).val(res.slug);
                     });
                 }
@@ -156,3 +156,31 @@ $(window).on("load", function(){
         characterCount($(this));
     });
 });
+
+/* tinymce word count */
+var wordCount = function (editor) {
+	var words = editor.replace(/(\r\n|\n|\r)/gm, " ")
+                    .replace(/<div class="credits">(.*?)<\/div>/ig,"")
+                    .replace(/<span class="credits"(.*?)<\/span>/ig,"")
+                    .replace(/\[(gallery|gallerylistview|poll|quiz|video|ArticleReco|facebook|twitter|pin|instagram|previous|page|next|mobilestripad|youtube|survey|ImageFlip|CustomButton|spotify):((\d+)|(\[{.+?}\])|({.+?})|(.+?))\]/g,' ')
+                    .replace(/\[(searchbox)\]/,' ')
+                    .replace('/&#?[a-z0-9]{2,8};/i', '')
+                    .replace(/(&nbsp;|<([^>]+)>)/ig,"")
+                    .replace(',',"")
+                    .replace(':',"")
+                    .replace(/-/g, '')
+                    .replace(/\s\s+/g, ' ');
+
+    var count = 0;
+    if ($.trim(words) != '') {
+        words = words.split(/(\s+)/);
+        $.each(words, function(i, str){
+            str = $.trim(str);
+            if (str) {
+                count++;
+            }
+        });
+    }
+
+    return count;
+}

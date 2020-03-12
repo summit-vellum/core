@@ -73,7 +73,7 @@ class BaseModel extends Model
 
     public function allData(array $fields, $request)
     {
-    	$module = explode('.', Route::current()->getName())[0];
+    	$module = request()->segment(1);
     	$tableName = ($module) ? Str::plural($module) : '';
 
     	foreach ($fields as $key => $field) {
