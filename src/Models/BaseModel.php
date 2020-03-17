@@ -74,7 +74,8 @@ class BaseModel extends Model
     public function allData(array $fields, $request)
     {
     	$module = request()->segment(1);
-    	$tableName = ($module) ? Str::plural($module) : '';
+    	$module = Str::studly(Str::slug($module, '_'));
+    	$tableName = ($module) ? Str::snake(Str::plural($module)) : '';
 
     	foreach ($fields as $key => $field) {
     		if (!Schema::hasColumn($tableName, $field)) {

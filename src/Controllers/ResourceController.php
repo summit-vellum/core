@@ -173,7 +173,7 @@ class ResourceController extends Controller
                 }
             }
 
-            if ($this->resource->getModel()->find($id)->autosaves && $this->resource->getModel()->find($id)->autosaves->user_id != auth()->user()->id) {
+            if (isset($this->resource->getModel()->find($id)->autosaves) && $this->resource->getModel()->find($id)->autosaves->user_id != auth()->user()->id) {
             	abort('403', 'This form is currently autosaved');
             }
         }

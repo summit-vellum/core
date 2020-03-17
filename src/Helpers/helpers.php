@@ -1,4 +1,8 @@
 <?php
+function isHTML($string){
+   return preg_match("/<[^<]+>/", $string, $m) != 0;
+}
+
 function compressHTML($html)
 {
     return trim(preg_replace('/\s+/', ' ', $html));

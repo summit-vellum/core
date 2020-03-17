@@ -43,6 +43,10 @@
 	            @form
 
 	            	@section('actions')
+	            		@if($module=='post')
+	            			@include(template('checkSeo',[],'post'))
+		        		@endif
+
 		        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
 
 		        	@append

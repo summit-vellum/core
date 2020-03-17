@@ -20,11 +20,18 @@ class FilterComposer
         foreach ($resource->getFilterFields() as $filter) {
             $class = new $filter;
             $className = $class->options();
-            $key = 'select_'.$class->key();
-            $options = Cache::remember($key, 60, function() use($className){
-                return (new $className)->all()->pluck('name', 'id')->toArray();
-            });
-            $this->filters[$class->key()] = $options;
+
+            if (!is_array($className) && class_exists($className)) {
+            	$key = 'select_'.$class->key();
+	            $options = Cache::remember($key, 1, function() use($className){
+	                return (new $className)->all()->pluck('name', 'id')->toArray();
+	            });
+
+            	$this->filters[$class->key()] = $options;
+            } else {
+            	$this->filters[$class->key()] = $className;
+            }
+
         }
     }
 
