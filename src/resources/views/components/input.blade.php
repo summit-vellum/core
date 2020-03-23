@@ -24,7 +24,19 @@
         </div>
     @else
 
+    	@if(isset($attributes['container']) && $attributes['container']['sectionName'])
+			@section($attributes['container']['sectionName'])
+		@endif
+
         {{ $slot }}
+
+        @if(isset($attributes['container']) && $attributes['container']['sectionName'])
+        	@stop
+        @endif
+
+        @if(isset($attributes['container']) && $attributes['container']['view'])
+        	{!! $attributes['container']['view'] !!}
+        @endif
 
     @endif
 
@@ -33,8 +45,8 @@
     	<div class="mt-2" id="help-{{ $id }}">
     		@if(isset($help) && $help != '')
 	            @icon(['icon' => 'info', 'classes'=>'help-info pull-left'])
-	            @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
-	            @icon(['icon' => 'validated-error', 'classes'=>'help-validated-error pull-left hide'])
+                @icon(['icon' => 'validated-check', 'classes'=>'help-validated-check pull-left hide'])
+                @icon(['icon' => 'validated-error', 'classes'=>'help-validated-error pull-left hide'])
 		        <small class="cf-note"
 	                help-original="{{ $help  }}"
 	                help-maxed="{{ $maxCountHelp ?? '' }}"
