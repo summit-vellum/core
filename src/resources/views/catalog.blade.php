@@ -28,7 +28,9 @@
 	</section>
 
     @section('actions')
-    	@button(['action'=>'create', 'color'=>'blue','label'=>'+ New'])
+    	<li>
+	    	@button(["element"=>"button", "onclick"=>"window.location='".route($module.'.create')."'", "color"=>"blue", "label"=>"+ New", "class"=>"btn btn-primary mr-3 mt-2 px-5"])
+	    </li>
     @append
 
 @endsection

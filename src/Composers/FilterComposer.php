@@ -12,6 +12,10 @@ class FilterComposer
 {
 
     protected $filters = [];
+    protected $js = [];
+    protected $css = [];
+    protected $renderAsHtml = [];
+    protected $label = [];
 
     public function __construct(?Resource $resource)
     {
@@ -20,23 +24,35 @@ class FilterComposer
         foreach ($resource->getFilterFields() as $filter) {
             $class = new $filter;
             $className = $class->options();
+            $this->js[] = $class->js();
+            $this->css[] = $class->css();
+            $this->label[$class->key()] = $class->label();
 
-            if (!is_array($className) && class_exists($className)) {
-            	$key = 'select_'.$class->key();
-	            $options = Cache::remember($key, 1, function() use($className){
-	                return (new $className)->all()->pluck('name', 'id')->toArray();
-	            });
-
-            	$this->filters[$class->key()] = $options;
+            if ($class->html() != '') {
+            	$this->filters[$class->key()] = $class->html();
+            	$this->renderAsHtml[$class->key()] = true;
             } else {
-            	$this->filters[$class->key()] = $className;
-            }
+            	$this->renderAsHtml[$class->key()] = false;
+            	if (!is_array($className) && class_exists($className)) {
+	            	$key = 'select_'.$class->key();
+		            $options = Cache::remember($key, 1, function() use($className){
+		                return (new $className)->all()->pluck('name', 'id')->toArray();
+		            });
 
+	            	$this->filters[$class->key()] = $options;
+	            } else {
+	            	$this->filters[$class->key()] = $className;;
+	            }
+            }
         }
     }
 
     public function compose(View $view)
     {
-        $view->with('filters', $this->filters);
+        $view->with('filters', $this->filters)
+        	->with('filtersJs', $this->js)
+        	->with('filtersCss', $this->css)
+        	->with('filtersLabel', $this->label)
+        	->with('renderAsHtml', $this->renderAsHtml);
     }
 }

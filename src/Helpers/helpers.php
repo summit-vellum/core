@@ -1,4 +1,8 @@
 <?php
+function onEditForm(){
+
+}
+
 function isHTML($string){
    return preg_match("/<[^<]+>/", $string, $m) != 0;
 }

@@ -16,30 +16,52 @@
 		        </div>
 
 		        @foreach($filters as $filter => $values)
-		        <div class="btn-group btn-group-sm btn-block mb-2">
-		        	<select class="selectpicker form-control" name="{{ $filter }}">
-		        		<option value="">-- Select {{ $filter }} --</option>
-		                @foreach($values as $id=>$value)
-		                    <option value="{{ $id }}"
-		                    @if(request($filter) != null && request($filter) == $id)
-		                    selected
-		                    @endif
-		                    >{{ $value }}</option>
-		                @endforeach
-		        	</select>
-		        </div>
+
+		        	@if($renderAsHtml[$filter] == 1)
+		        		{{ $filtersLabel[$filter] }}
+		        		{!! html_entity_decode($values)  !!}
+		        	@else
+		        		<div class="btn-group btn-group-sm btn-block mb-2">
+		        			{{ $filtersLabel[$filter] }}
+				        	<select class="selectpicker form-control" name="{{ $filter }}">
+				        		<option value="">{{ ucfirst(str_replace('_', ' ', $filter)) }}</option>
+				                @foreach($values as $id=>$value)
+				                    <option value="{{ $id }}"
+				                    @if(request($filter) != null && request($filter) == $id)
+				                    selected
+				                    @endif
+				                    >{{ $value }}</option>
+				                @endforeach
+				        	</select>
+				        </div>
+		        	@endif
+
 		        @endforeach
+
 		        <input type="submit" class="btn btn-primary btn-sm btn-apply" value="Apply">
 				<a href="#" class="btn btn-default btn-sm btn-cancel-filter">Cancel</a>
+
 		   	</div>
 		</div>
 	@endif
+
 </div>
 
+@push('css')
 
+@foreach(array_unique(Arr::flatten($filtersCss)) as $key)
+<link href="{{asset($key)}}" rel="stylesheet">
+@endforeach
+
+@endpush
 
 
 @push('scripts')
+
+@foreach(array_unique(Arr::flatten($filtersJs)) as $key)
+<script type="text/javascript" src="{{asset($key)}}"></script>
+@endforeach
+
 <script type="text/javascript">
 	$('.btn-filter').on('click', function(){
    		$('.dropdown-filter').addClass('show');
@@ -49,5 +71,6 @@
         $('.dropdown-filter').removeClass('show');
     });
 </script>
+
 @endpush
 

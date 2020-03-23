@@ -68,7 +68,7 @@ class BaseModel extends Model
 
     public function status()
     {
-        return $this->hasOne(Status::class, 'id', 'status_id');
+        return $this->hasOne(Status::class, 'id', 'status');
     }
 
     public function allData(array $fields, $request)

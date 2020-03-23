@@ -61,6 +61,10 @@ var ajaxPartialUpdate = function(url, type, params) {
     });
 }
 
+$(document).on('click','#toolModal' ,function(){
+	$(this).find('iframe').attr('src', '')
+});
+
 $(document).on('click','[close-modal]' ,function(){
     $('#toolModal', window.parent.document).trigger('click');
 });

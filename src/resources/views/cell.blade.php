@@ -27,7 +27,7 @@ $data
 {!!call_user_func_array($attributes['modify'], [$data])!!}
 @else
 
-@if(isset($key) && $data->{$key})
+@if(isset($key) && !is_null($data->{$key}))
 {!!$data->{$attributes['id']}!!}
 @else
 {!!isset($attributes['columns']) ? $data->{$attributes['columns']} : ''!!}

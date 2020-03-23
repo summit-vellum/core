@@ -6,12 +6,16 @@ type="submit" value="Submit"
 		onclick="{{ $onclick }}"
 	@endif
 @else
-href="{{ route($module.'.'.($action ?? 'index')) }}"
+	@if(isset($link))
+	href="{{ $link }}"
+	@else
+	href="{{ route($module.'.'.($action ?? 'index')) }}"
+	@endif
 @endif
 
-class="btn btn-primary mr-3 mt-2 px-5 {{ isset($class) ? $class : '' }}" {!! isset($attr) ? $attr : '' !!}>
+class="{{ isset($class) ? $class : '' }}" {!! isset($attr) ? $attr : '' !!}>
 	@if(isset($icon))
-    	@icon(['icons' => $icon])
+    	@icon(['icons' => $icon, 'classes' => ($iconClasses) ?? '' ])
     @endif
-    <span>{{ $label }}</span>
+    <span class="{{ $spanClass ?? '' }}">{{ $label }}</span>
 </{{ $element ?? 'a' }}>

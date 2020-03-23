@@ -16,4 +16,5 @@ Route::group(['middleware' => 'web'], function () {
 		Route::post($module['name'] . '/autosave/{id}', 'Vellum\Controllers\AutosaveController@create')->name($module['name'] . '.autosave.create');
 		Route::put($module['name'] . '/autosave/{id}', 'Vellum\Controllers\AutosaveController@update')->name($module['name'] . '.autosave.update');
 	}
+
 });

@@ -46,12 +46,30 @@
 						@endforeach
         			</ul>
         		</li>
+        		@yield('left_actions')
         	</ul>
         </div>
 
         <div id="navbar" class="navbar-collapse collapse navbar-right">
         	<ul class="nav navbar-nav">
-			    @yield('actions')
+        		@yield('actions')
+        		<li class="hide-mobile">
+                    <a href="{{ url('history') }}" class="icon-link" title="Activity History">
+                        @icon(['icon' => 'history'])
+                    </a>
+                </li>
+			    <li class="hide-mobile dropdown">
+                    <a href="#" class="dropdown-toggle nav-border-left" data-toggle="dropdown" aria-expanded="false">
+			            @icon(['icon' => 'user'])
+	             		<b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                    	@if(env('UAM_URL'))
+                      	<li><a href="#" data-toggle="modal" data-target="#toolModal" data-url="{{ env('UAM_URL').'/profile/'.Auth::user()->id.'?modal=1' }}">Edit Profile</a></li>
+                      	@endif
+                       	<li><a href="{{ url('logout') }}">Log out</a></li>
+                    </ul>
+                </li>
         	</ul>
         </div>
     </div>

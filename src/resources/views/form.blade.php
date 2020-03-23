@@ -31,12 +31,27 @@
 	        @method('PUT')
 	    @endempty
 
+	    @foreach($attributes['collections'] as $key=>$field)
+	    	@section(isset($field['yieldAt']) ? $field['yieldAt'] : 'formFields')
+				@includeIf(template($field['element'],[],'field'),
+					[
+		                'attributes' => $field,
+		                'data' => $data,
+		                'value' => $data ? ($data->$key) ?? '' : ''
+		            ])
+	        @append
+	    @endforeach
+
 	    <div class="clearfix mb-5">
 
 	    	@if(in_array($module, config('resource_lock')))
-	        <div class="float-left">
-	            @button(['action'=>'index', 'color'=>'gray','label'=>'Back to dashboard', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock'])
-	        </div>
+		       @section('left_actions')
+		       		@if(isset($data) && !empty($data))
+		       			<li>
+				            @button(["element"=>"button", "onclick"=>"window.location='".route($module.'.index')."'", 'color'=>'red','label'=>'Exit', 'attr'=>arrayToHtmlAttributes(['data-url' => route($module . '.unlock', isset($data->id) ? $data->id : '')]), 'class' => 'btn-unlock btn-danger btn btn-primary mr-3 mt-2 px-5'])
+				        </li>
+			        @endif
+		        @append
 	        @endif
 
 	        <div class="text-right float-right">
@@ -44,11 +59,20 @@
 
 	            	@section('actions')
 	            		@if($module=='post')
-	            			@include(template('checkSeo',[],'post'))
+	            			@include(template('checkSeo',[],'seoscore'))
+
+	            			@if(isset($data) && !empty($data))
+
+					        @else
+					        	@include(template('syndicate.actionButton',[],'post'))
+					        @endif
+
+					        @include(template('publishBtns', ['data' => $data], 'post'))
+					    @else
+					    	<li>
+						    	@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()', 'class'=>'btn btn-primary mr-3 mt-2 px-5'])
+						    </li>
 		        		@endif
-
-		        		@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()' ])
-
 		        	@append
 
 	            @else
@@ -60,14 +84,7 @@
 	        </div>
 	    </div>
 
-	    @foreach($attributes['collections'] as $key=>$field)
-			@includeIf(template($field['element'],[],'field'),
-				[
-	                'attributes' => $field,
-	                'data' => $data,
-	                'value' => $data ? ($data->$key) ?? '' : ''
-	            ])
-	    @endforeach
+	    @yield('formFields')
 
 	</form>
 </div>
