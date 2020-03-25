@@ -31,7 +31,15 @@
         @method('PUT')
     @endempty
 
-    @foreach($attributes['collections'] as $key=>$field)
+    @foreach($attributes['collections'] as $key => $field)
+    	@php
+    		$hasTemplate = isset($field['template']) ? true : false;
+
+    		if ($hasTemplate && !isset($template)) {
+    			$template = $field['template'];
+    		}
+    	@endphp
+
     	@section(isset($field['yieldAt']) ? $field['yieldAt'] : 'formFields')
 			@includeIf(template($field['element'],[],'field'),
 				[
@@ -42,8 +50,9 @@
         @append
     @endforeach
 
+    @if(!isset($template))
     <div class="container px-0 container-max-width">
-	    <div class="clearfix mb-5">
+    @endif
 
 	    	@if(in_array($module, config('resource_lock')))
 		       @section('left_actions')
@@ -68,13 +77,13 @@
 					        	@include(template('syndicate.actionButton',[],'post'))
 					        @endif
 
-					        @include(template('publishBtns', ['data' => $data], 'post'))
-					    @else
-					    	<li>
-						    	@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()', 'class'=>'btn btn-primary mr-3 mt-2 px-5'])
-						    </li>
-		        		@endif
-		        	@append
+				        @include(template('publishBtns', [], 'post'), ['data'=>$data, 'status'=>config('status')])
+				    @else
+				    	<li>
+					    	@button(['element'=>'button', 'color'=>'blue','label'=>'Save', 'onclick'=>'$("#form-'.$module.'").submit()', 'class'=>'btn btn-primary mr-3 mt-2 px-5'])
+					    </li>
+	        		@endif
+	        	@append
 
 	            @else
 
@@ -82,11 +91,15 @@
 
 	            @endform
 
-	        </div>
-	    </div>
+        </div>
 
 	    @yield('formFields')
+
+	    {!! $template ?? '' !!}
+
+	@if(!isset($template))
 	</div>
+	@endif
 
 </form>
 
