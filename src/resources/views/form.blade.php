@@ -12,36 +12,37 @@
 @endpush
 
 @section('content')
-<div class="container px-0 container-max-width">
-	<form
-		id="form-{{$module}}"
-	    class="needs-validation
-	    @if($errors->any()) {{ 'was-validated' }} @endif"
-	    novalidate
-	    action="{{ $routeUrl }}"
-	    method="post"
-	    enctype="multipart/form-data"
-	    >
 
-	    @csrf
+<form
+	id="form-{{$module}}"
+    class="needs-validation
+    @if($errors->any()) {{ 'was-validated' }} @endif"
+    novalidate
+    action="{{ $routeUrl }}"
+    method="post"
+    enctype="multipart/form-data"
+    >
 
-	    @empty($data)
-	        @method('POST')
-	     @else
-	        @method('PUT')
-	    @endempty
+    @csrf
 
-	    @foreach($attributes['collections'] as $key=>$field)
-	    	@section(isset($field['yieldAt']) ? $field['yieldAt'] : 'formFields')
-				@includeIf(template($field['element'],[],'field'),
-					[
-		                'attributes' => $field,
-		                'data' => $data,
-		                'value' => $data ? ($data->$key) ?? '' : ''
-		            ])
-	        @append
-	    @endforeach
+    @empty($data)
+        @method('POST')
+     @else
+        @method('PUT')
+    @endempty
 
+    @foreach($attributes['collections'] as $key=>$field)
+    	@section(isset($field['yieldAt']) ? $field['yieldAt'] : 'formFields')
+			@includeIf(template($field['element'],[],'field'),
+				[
+	                'attributes' => $field,
+	                'data' => $data,
+	                'value' => $data ? ($data->$key) ?? '' : ''
+	            ])
+        @append
+    @endforeach
+
+    <div class="container px-0 container-max-width">
 	    <div class="clearfix mb-5">
 
 	    	@if(in_array($module, config('resource_lock')))
@@ -85,9 +86,10 @@
 	    </div>
 
 	    @yield('formFields')
+	</div>
 
-	</form>
-</div>
+</form>
+
 @endsection
 
 @push('scripts')

@@ -1,5 +1,6 @@
 <div class="row">
-	<div class="col-md-6 cf-select-container">
+	<div class="col-md-6 {{ $colClass ?? '' }}">
 		@yield($yieldName)
 	</div>
 </div>
+
