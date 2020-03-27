@@ -362,6 +362,11 @@ thead.borderless-header {
 }
 
 /* filter */
+.dshbrd-filter {
+	.bootstrap-tagsinput {
+		padding: 6px 12px;
+	}
+}
 .dropdown-filter {
     @extend .absolute;
     background-color: #f0f0f0;
