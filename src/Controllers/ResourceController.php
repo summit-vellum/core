@@ -195,6 +195,10 @@ class ResourceController extends Controller
     {
         $this->authorize('update', $this->resource->getModel());
 
+        if (in_array($this->module->getName(), config('resource_lock'))) {
+	        $this->unlock($id);
+	    }
+
         $fields = $request->except($this->resource->getExcludedFields());
         $data = $this->resource->save($fields, $id);
 
