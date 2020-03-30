@@ -1,4 +1,8 @@
 <div class="col-md-8 text-right">
+	@if($isFiltered)
+	<a href="{{ url($module) }}" class="label label-danger mr-2">CLEAR FILTER X</a>
+	@endif
+
 	<strong>{{ $collections->total() }} results</strong>
 
 	@if(isset($filters) && !empty($filters))

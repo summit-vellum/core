@@ -16,10 +16,12 @@ class FilterComposer
     protected $css = [];
     protected $renderAsHtml = [];
     protected $label = [];
+    protected $isFiltered = false;
 
     public function __construct(?Resource $resource)
     {
         if(!$resource) return null;
+        $isFiltered = false;
 
         foreach ($resource->getFilterFields() as $filter) {
             $class = new $filter;
@@ -27,6 +29,10 @@ class FilterComposer
             $this->js[] = $class->js();
             $this->css[] = $class->css();
             $this->label[$class->key()] = $class->label();
+
+            if (!$this->isFiltered && request($class->key()) != '') {
+            	$this->isFiltered = true;
+            }
 
             if ($class->html() != '') {
             	$this->filters[$class->key()] = $class->html();
@@ -38,7 +44,6 @@ class FilterComposer
 		            $options = Cache::remember($key, 1, function() use($className){
 		                return (new $className)->all()->pluck('name', 'id')->toArray();
 		            });
-
 	            	$this->filters[$class->key()] = $options;
 	            } else {
 	            	$this->filters[$class->key()] = $className;;
@@ -53,6 +58,7 @@ class FilterComposer
         	->with('filtersJs', $this->js)
         	->with('filtersCss', $this->css)
         	->with('filtersLabel', $this->label)
-        	->with('renderAsHtml', $this->renderAsHtml);
+        	->with('renderAsHtml', $this->renderAsHtml)
+        	->with('isFiltered', $this->isFiltered);
     }
 }
