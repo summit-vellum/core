@@ -202,7 +202,7 @@ class ResourceController extends Controller
             $autosave->destroy($id);
         }
 
-        return redirect()->route($this->module->getName().'.edit', $id);
+        return redirect()->route($this->module->getName().'.index');
     }
 
     /**
