@@ -50,6 +50,10 @@ class FilterComposer
 	            }
             }
         }
+
+        if (request('search') != '') {
+        	$this->isFiltered = true;
+        }
     }
 
     public function compose(View $view)
