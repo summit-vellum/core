@@ -24,7 +24,6 @@
     >
 
     @csrf
-    <input type="hidden" name="has_error" id="has_error">
 
     @empty($data)
         @method('POST')
