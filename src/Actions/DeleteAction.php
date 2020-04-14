@@ -87,7 +87,7 @@ class DeleteAction extends BaseAction implements Actionable
 	        $attributes = [
 	            'data-toggle' => 'modal',
 	            'data-target' => '#deleteResourceDialog',
-	            'data-ajax-modal' => '{"items":{"title":"'.$title.'","header":"'.$this->dialog_details['header'].'","dismiss":"'.$this->dialog_details['dismiss'].'","continue":"'.$this->dialog_details['continue'].'","subtext":"'.$subText.'"},"params":{"url":"'.$this->link($data->id, $data).'","type":"'.$type.'"}}'
+	            'data-ajax-modal' => '{"items":{"title":"'.htmlspecialchars($title, ENT_QUOTES, 'UTF-8').'","header":"'.$this->dialog_details['header'].'","dismiss":"'.$this->dialog_details['dismiss'].'","continue":"'.$this->dialog_details['continue'].'","subtext":"'.$subText.'"},"params":{"url":"'.$this->link($data->id, $data).'","type":"'.$type.'"}}'
 	        ];
     	}
 
