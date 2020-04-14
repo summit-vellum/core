@@ -113,13 +113,14 @@ function characterCount(input){
 }
 
 function convertToSlug(input){
-    var autoslug = input.attr('autoslug');
+    var autoslug = input.attr('autoslug'),
+    	val = input.val();
     if (autoslug) {
 
         $.ajax({
             type:"POST",
             url: document.location.origin + '/' + moduleName + '/to-slug',
-            data: {"_token": token, "value": input.val()},
+            data: {"_token": token, "value": val},
             success: function (res) {
                 if (res.slug) {
                     var slugAttrName = 'autoslug-'+autoslug,
@@ -143,10 +144,11 @@ function convertToSlug(input){
 }
 
 function uniqueChecker(input){
-	var uniqueMsg = input.attr('unique-message');
-    if (uniqueMsg && input.attr('autoslug')) {
+	var uniqueMsg = input.attr('unique-message'),
+		val = input.val();
+
+    if (val != '' && uniqueMsg && input.attr('autoslug')) {
         var fieldName = input.attr('name'),
-        	val = input.val(),
         	valSlug = slug(val);
 
         uniqueMsg = JSON.parse(uniqueMsg);
