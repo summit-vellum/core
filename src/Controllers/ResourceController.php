@@ -243,12 +243,17 @@ class ResourceController extends Controller
     {
         $name = $request->input('name', false);
         $value = $request->input('value', false);
+        $slug = $request->input('slug', '');
         $res['count'] = true;
 
-        $data = $this->resource->getModel()->where($name, $value)->count();
-
+    	$data = $this->resource->getModel()->where($name, $value)->count();
         if ($data) {
             $res['count'] = false;
+        } else {
+        	$data = $this->resource->getModel()->where('slug', $slug)->count();
+        	if ($data) {
+        		$res['count'] = false;
+        	}
         }
 
         return response()->json($res, 200, [], JSON_NUMERIC_CHECK);

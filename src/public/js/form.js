@@ -30,6 +30,18 @@ $(document).on('change', selectFields,function(){
     autosave();
 });
 
+var slug = function(str) {
+    var $slug = '';
+
+    var trimmed = $.trim(str);
+
+    $slug = trimmed.replace(/[^a-z0-9-]/gi, '-').
+    replace(/-+/g, '-').
+    replace(/^-|-$/g, '');
+
+    return $slug.toLowerCase();
+}
+
 function autosave(){
     if  (asDelay) {
         if (asTimer) {
@@ -85,7 +97,8 @@ function characterCount(input){
 
         input.css('border-color', color);
         info.find('.help-info').removeClass('hide');
-        info.find('.help-validated-check ').addClass('hide');
+        info.find('.help-validated-check').addClass('hide');
+        info.find('.help-validated-error').addClass('hide');
 
         if (maxMsg) {
             if (maxCount < countNum) {
@@ -94,6 +107,8 @@ function characterCount(input){
                 helpMsg.text(helpMsg.attr('help-original'));
             }
         }
+
+        helpMsg.removeAttr('style');
     }
 }
 
@@ -128,19 +143,30 @@ function convertToSlug(input){
 }
 
 function uniqueChecker(input){
-    if (input.attr('unique-message') && input.attr('autoslug')) {
-        var fieldName = input.attr('name');
+	var uniqueMsg = input.attr('unique-message');
+    if (uniqueMsg && input.attr('autoslug')) {
+        var fieldName = input.attr('name'),
+        	val = input.val(),
+        	valSlug = slug(val);
+
+        uniqueMsg = JSON.parse(uniqueMsg);
 
         $.ajax({
             type:"POST",
             url: document.location.origin + '/' + moduleName + '/check-unique',
-            data: {"_token": token, "name": fieldName, "value": input.val()},
+            data: {"_token": token, "name": fieldName, "value": val, "slug": valSlug},
             success: function (res) {
+            	var info = $("form").find('#help-'+input.attr('id'));
                 if (res.count) {
-                    var info = $("form").find('#help-'+input.attr('id'));
-                    info.find('[help-original]').text(input.attr('unique-message'));
+                	$('#article-status button').attr('disabled', false);
+                    info.find('[help-original]').text(uniqueMsg.unique).css('color', 'green');
                     info.find('.help-info').addClass('hide');
-                    info.find('.help-validated-check ').removeClass('hide').css('fill', 'green');
+                    info.find('.help-validated-check').removeClass('hide').css('fill', 'green');
+                } else {
+                	$('#article-status button').attr('disabled', true);
+                    info.find('[help-original]').text(uniqueMsg.hasDuplicate).css('color', 'red');
+                    info.find('.help-info').addClass('hide');
+                    info.find('.help-validated-error').removeClass('hide').css('fill', 'red');
                 }
             },
         });
