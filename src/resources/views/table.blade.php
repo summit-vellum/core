@@ -56,24 +56,24 @@
 
 								@php $dashboardNotifCount++; @endphp
 							@else
+								@php
+									$editRoute = route($module.'.edit', $row->id);
+									$disabled = '';
+								@endphp
+
+								@can('update')
+									@if($resourceLocked && auth()->user()->id != $row->resourceLock->user->id)
+										<?php $disabled = 'disabled'; ?>
+									@endif
+								@endcan
+
+								@cannot('update')
+									<?php $disabled = 'disabled'; ?>
+								@endcan
 								<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }}
+								{{ $disabled}}
 								{{ array_key_exists('dashboardContainerClass', $column) ? $column['dashboardContainerClass'] : '' }}">
 									@if(array_key_exists('displayAsEdit', $column))
-										@php
-											$editRoute = route($module.'.edit', $row->id);
-											$disabled = '';
-										@endphp
-
-										@can('update')
-											@if($resourceLocked && auth()->user()->id != $row->resourceLock->user->id)
-												<?php $disabled = 'disabled'; ?>
-											@endif
-										@endcan
-
-										@cannot('update')
-											<?php $disabled = 'disabled'; ?>
-										@endcan
-
 										<a href="{{ $editRoute }}" class="{{ $disabled}}">
 											<strong>@include(template('cell', [], 'vellum'), ['attributes' => $column, 'data' => $row])</strong>
 										</a>
