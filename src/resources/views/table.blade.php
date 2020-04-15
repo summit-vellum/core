@@ -43,12 +43,21 @@
 							@elseif($resourceLocked && (isset($column['displayDashboardNotif']) && $column['displayDashboardNotif']))
 								@if($dashboardNotifCount == 1)
 									<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} warning text-center middle" colspan="{{ $colspanCount }}">
+										@php
+											$moduleConfig = config($module);
+
+											if (isset($moduleConfig['resource_lock'])) {
+												$resourceLckAttr = $moduleConfig['resource_lock'];
+											}
+
+										@endphp
+
 										@if(auth()->user()->id == $row->resourceLock->user->id)
 											You are currently editing this {{ $module }}
 										@else
 											{{ $row->resourceLock->user->name }} is currently editing this {{ $module }}
 											@can('update')
-											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"","author":"","header":"Are you sure you want to unlock this {{ $module }}? {{ $row->resourceLock->user->name }} is currently editing it.","dismiss":"Cancel and go back","continue":"Continue and unlock","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
+											<a href="" class="pull-right unlock" data-toggle="modal" data-target="#unlockResourceDialog" data-ajax-modal='{"items":{"title":"{{ isset($resourceLckAttr) ? $row->{$resourceLckAttr["title"]} : "" }}","author":"{{ isset($resourceLckAttr) ? $resourceLckAttr["pre_author_txt"] : "" }} {{ isset($resourceLckAttr) ? $row->{$resourceLckAttr["author"]} : "" }}","header":"Are you sure you want to unlock this {{ $overrideModule?:$module }}? {{ $row->resourceLock->user->name }} is currently editing it.","dismiss":"Cancel and go back","continue":"Continue and unlock {{ $overrideModule?:$module }}","subtext":""},"params":{"url":"{{ route($module.".unlock", $row->id) }}","type":"POST"}}'>@icon(['icon' => 'unlock'])</a>
 											@endcan
 										@endif
 									</td>
