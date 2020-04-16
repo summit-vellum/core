@@ -7,7 +7,7 @@ var ajaxModal = $('[data-ajax-modal]'),
 var url = function(channel, slug, element) {
 	var segments = postConfig.protocol+postConfig.domain;
 		segments += '/';
-        segments += (channel != '') ? channel : '/channel/subcannel/';
+        segments += (channel != '') ? channel : 'channel/subcannel/';
         segments += slug;
 
     $(element).val(segments);
