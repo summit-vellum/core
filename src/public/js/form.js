@@ -115,6 +115,7 @@ function characterCount(input){
 function convertToSlug(input){
     var autoslug = input.attr('autoslug'),
     	val = input.val();
+
     if (autoslug) {
 
         $.ajax({
@@ -127,13 +128,16 @@ function convertToSlug(input){
                         slugField = $('['+slugAttrName+']');
 
                     $.each(slugField, function (sKey, sVal) {
+                    	var slugReadOnly = ($(sVal).attr('readonly')) ? true : false;
                         if ($(sVal).attr(slugAttrName) == "off") { return; }
 
                         if ($(sVal).attr(slugAttrName) == "once") {
                             $(sVal).attr(slugAttrName, "off");
                         }
 
-                        $(sVal).val(res.slug);
+                        if (!slugReadOnly) {
+                        	$(sVal).val(res.slug).trigger('change');
+                        }
                     });
                 }
             },
@@ -145,9 +149,11 @@ function convertToSlug(input){
 
 function uniqueChecker(input){
 	var uniqueMsg = input.attr('unique-message'),
-		val = input.val();
+		val = input.val(),
+		slugId = (input.attr('slugId')) ? '#'+input.attr('slugId') : '',
+		slugReadOnly = ($(slugId).attr('readonly')) ? true : false;
 
-    if (val != '' && uniqueMsg && input.attr('autoslug')) {
+    if (val != '' && uniqueMsg && input.attr('autoslug') && !slugReadOnly) {
         var fieldName = input.attr('name'),
         	valSlug = slug(val);
 

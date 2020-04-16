@@ -16,6 +16,7 @@ return [
     'rss_section' => [],
     'site_logo' => '',
     'image_domain' => '',
+    'protocol' => '',
     'image_library' => '',
     'image_path' => 'images/',
     'pagination_items' => [30, 60, 90],

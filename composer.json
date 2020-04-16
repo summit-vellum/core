@@ -13,7 +13,8 @@
     "require": {
     	"laravelcollective/html": "^6.0",
     	"quill/html": "dev-master",
-    	"aws/aws-sdk-php-laravel": "^3.4"
+    	"aws/aws-sdk-php-laravel": "^3.4",
+    	"phanan/cascading-config": "^2.0"
     },
     "autoload": {
         "psr-4": {

@@ -1,6 +1,17 @@
-
 var ajaxModal = $('[data-ajax-modal]'),
-	ajaxButtons = $('[data-ajax-button]');
+	ajaxButtons = $('[data-ajax-button]')
+	postConfig = ($('#post_config').length != 0) ? JSON.parse($('#post_config').val()) : '';
+
+	console.log(postConfig);
+
+var url = function(channel, slug, element) {
+	var segments = postConfig.protocol+postConfig.domain;
+		segments += '/';
+        segments += (channel != '') ? channel : '/channel/subcannel/';
+        segments += slug;
+
+    $(element).val(segments);
+}
 
 ajaxModal.on('click', function(event) {
 	var
