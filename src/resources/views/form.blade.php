@@ -11,18 +11,29 @@
 @php
 	$currentModule = $modules[array_search($module, array_column($modules, 'name'))];
 	$navHeader = isset($currentModule['navHeader'])?$currentModule['navHeader']:'';
+	$navHeaderField = isset($data->{$navHeader['field']}) ? $data->{$navHeader['field']} : '';
 @endphp
 
 @if($navHeader)
 	@section('nav')
+	@dialog(['id' => 'navHeaderExit',
+			 'dialogClass'=> 'modal-confirm-idle',
+			 'dismissStyle' => 'btn-success',
+			 'dialogContClass' => 'hide',
+			 'dialogTitleClass' => 'hide'
+			])
 	<li>
+		@if(in_array($module, config('resource_lock')) && $navHeaderField)
+		<a href="" data-toggle="modal" data-target="#navHeaderExit" data-ajax-modal='{"items":{"dismiss":"OK","header":"Exit this {{ $overrideModule?:$module }} first"}}'>
+		@else
 		<a href="{{ route($currentModule['name'].'.index') }}">
+		@endif
 			<span><strong>{{ $navHeader['left'] }}</strong></span>
 			@icon(['icon' => 'arrow-right'])
 			<span>
 				<strong class="color-azure-radiance" nav-header-right>
-					@if(isset($data) && isset($data->{$navHeader['field']}))
-						{{ $data->{$navHeader['field']} }}
+					@if($navHeaderField)
+						{{ $navHeaderField }}
 					@else
 						{{ $navHeader['right'] }}
 					@endif
