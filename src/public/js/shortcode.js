@@ -25,6 +25,7 @@ var elements = d.querySelectorAll('[data-shortcode]'),
 updateCookieInLaravel(shortcode_route, {}, true);
 
 function updateCookieInLaravel(url, data, init) {
+	var origData = data;
     $.extend(data, {_token: $('meta[name="csrf-token"]').attr('content')});
     $.ajax({
         type: "POST",
@@ -70,6 +71,10 @@ function updateCookieInLaravel(url, data, init) {
 
             if (values[shortcode_key].length >= checkbox_min && values[shortcode_key].length <= checkbox_max) {
             	$(shortcode_trigger).removeAttr('disabled');
+            }
+
+            if (origData.deleteAllCookie) {
+            	removeModalSrc();
             }
 
         }

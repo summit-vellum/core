@@ -71,10 +71,20 @@ var ajaxPartialUpdate = function(url, type, params) {
         }
     });
 }
+var removeModalSrc = function(){
+	var toolModal = $('#toolModal', window.parent.document);
+	toolModal.find('iframe').attr('src', '');
 
-$(document).on('click','#toolModal' ,function(){
-	$(this).find('iframe').attr('src', '')
-});
+	 if (toolModal.hasClass('preventUniversalClick')) {
+		toolModal.removeClass('preventUniversalClick');
+	}
+}
+
+$('#toolModal', window.parent.document).click(function(){
+	if (!$(this).hasClass('preventUniversalClick')) {
+		removeModalSrc();
+	}
+ });
 
 $(document).on('click','[close-modal]' ,function(){
     $('#toolModal', window.parent.document).trigger('click');
