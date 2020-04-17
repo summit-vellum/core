@@ -21,7 +21,7 @@
 			@icon(['icon' => 'arrow-right'])
 			<span>
 				<strong class="color-azure-radiance" nav-header-right>
-					@if(isset($data))
+					@if(isset($data) && isset($data->{$navHeader['field']}))
 						{{ $data->{$navHeader['field']} }}
 					@else
 						{{ $navHeader['right'] }}
