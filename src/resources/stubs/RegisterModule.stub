@@ -21,7 +21,12 @@ class Register{{moduleName}}Module
             'parent' => '',
             'model' => \Quill\{{moduleName}}\Models\{{moduleName}}::class,
             'permissions' => [],
-            'description' => ''
+            'description' => '',
+            'navHeader' => [
+            	'left' => '',
+            	'right' => '',
+            	'field' => '' //field to be rendered on the right side of the navheader on edit
+            ]
         ];
     }
 }

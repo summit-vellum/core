@@ -1,6 +1,3 @@
-
-
-
 @extends($page ?? 'vellum::default')
 
 @section('title', 'Create New '. $details['title'])
@@ -10,6 +7,31 @@
 <link href="{{asset($key)}}" rel="stylesheet">
 @endforeach
 @endpush
+
+@php
+	$currentModule = $modules[array_search($module, array_column($modules, 'name'))];
+	$navHeader = isset($currentModule['navHeader'])?$currentModule['navHeader']:'';
+@endphp
+
+@if($navHeader)
+	@section('nav')
+	<li>
+		<a href="{{ route($currentModule['name'].'.index') }}">
+			<span><strong>{{ $navHeader['left'] }}</strong></span>
+			@icon(['icon' => 'arrow-right'])
+			<span>
+				<strong class="color-azure-radiance" nav-header-right>
+					@if(isset($data))
+						{{ $data->{$navHeader['field']} }}
+					@else
+						{{ $navHeader['right'] }}
+					@endif
+				</strong>
+			</span>
+		</a>
+	</li>
+	@stop
+@endif
 
 @section('content')
 
