@@ -15,6 +15,7 @@
 
         <div class="navbar-collapse collapse navbar-left">
         	<ul class="nav navbar-nav">
+        		@section('nav')
         		<li class="active"><a href="@if(isset($site['main_module_slug'])) {{ url($site['main_module_slug']) }} @endif"><strong>Content</strong></a></li>
         		<li>
         			<a href="#" class="dropdown-toggle" data-toggle="dropdown"><strong>Tools</strong></a>
@@ -46,6 +47,7 @@
 						@endforeach
         			</ul>
         		</li>
+        		@show
         		@yield('left_actions')
         	</ul>
         </div>
