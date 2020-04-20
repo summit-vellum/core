@@ -26,5 +26,9 @@ return [
     'in_article_label' => [
     	'single' => '',
     	'multiple' => ''
+    ],
+    'pusher' => [
+    	'allow' => false, //please make sure to follow all the guidelines on how to properly install a pusher once you update this to true
+    	'timeout' => '', //1 second = 1000 millisecond
     ]
 ];

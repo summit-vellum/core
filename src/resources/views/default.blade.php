@@ -57,5 +57,18 @@
     <script type="text/javascript" src="{{ asset('vendor/vellum/js/nav.js')}}"></script>
     <script type="text/javascript" src="{{ asset('vendor/vellum/js/utilities.js')}}"></script>
     @stack('scripts')
+
+    <!-- pusher -->
+    @if(isset($site['pusher']['allow']))
+    @include(template('pusherNotif', [], 'vellum'), [])
+    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+    <script type="text/javascript">
+    	var pusher = '';
+    		pusherTimeout = '{{ $site["pusher"]["timeout"] }}';
+    </script>
+	<script type="text/javascript" src="{{ asset('js/pusher-main.js') }}"></script>
+	<script type="text/javascript">initPusher('{{ env('PUSHER_APP_KEY') }}', '{{ env('PUSHER_APP_CLUSTER') }}', true);</script>
+	<script type="text/javascript" src="{{ asset('vendor/post/js/pusher/post-published.js') }}"></script>
+	@endif
 </body>
 </html>
