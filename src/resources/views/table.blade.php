@@ -44,8 +44,6 @@
 								@if($dashboardNotifCount == 1)
 									<td class="{{ array_key_exists('hideFromIndex', $column) ? 'hidden' : '' }} warning text-center middle" colspan="{{ $colspanCount }}">
 										@php
-											$moduleConfig = config($module);
-
 											if (isset($moduleConfig['resource_lock'])) {
 												$resourceLckAttr = $moduleConfig['resource_lock'];
 											}

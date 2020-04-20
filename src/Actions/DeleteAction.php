@@ -75,14 +75,16 @@ class DeleteAction extends BaseAction implements Actionable
     public function attributes($data = [])
     {
     	$type = 'DELETE';
-    	$dataAttr = $data->getAttributes();
+    	$dataAttr = $data;
     	$attributes = [];
 
     	if ($this->with_dialog && isset($this->dialog_details) && !empty($this->dialog_details)) {
     		$title = isset($this->dialog_details['valueDisplayedIn']['title']) &&
     				 isset($dataAttr[$this->dialog_details['valueDisplayedIn']['title']]) ? $dataAttr[$this->dialog_details['valueDisplayedIn']['title']] : '';
+    		$preSubText = isset($this->dialog_details['valueDisplayedIn']['preSubText']) ? $this->dialog_details['valueDisplayedIn']['preSubText'] : '';
 	    	$subText = isset($this->dialog_details['valueDisplayedIn']['subText']) &&
 	    			   isset($dataAttr[$this->dialog_details['valueDisplayedIn']['subText']]) ? $dataAttr[$this->dialog_details['valueDisplayedIn']['subText']] : '';
+	    	$subText = ($preSubText) ? $preSubText.' '.$subText : $subText;
 
 	        $attributes = [
 	            'data-toggle' => 'modal',

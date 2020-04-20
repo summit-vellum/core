@@ -46,14 +46,22 @@ ajaxButtons.on('click', function(event) {
 
     ajaxPartialUpdate(url, type, params).then(function(response){
         // if (response.status.code == 200) {
-            if(typeof callback !== 'undefined') {
-                window[callback](response);
+            if (typeof callback !== 'undefined') {
+            	if (callback == 'directToUrl') {
+            		directToUrl(config.link);
+            	} else {
+            		window[callback](response);
+            	}
             } else {
-                location.reload();
+               location.reload();
             }
         // }
     });
 });
+
+var directToUrl = function(url) {
+	window.location.href = url;
+}
 
 var ajaxPartialUpdate = function(url, type, params) {
     var data = { '_token': $('meta[name="csrf-token"]').attr('content') };

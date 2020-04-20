@@ -92,6 +92,7 @@ class ModuleServiceProvider extends ServiceProvider
         	}
         	$view->with('overrideModule', $overrideModule);
             $view->with('module', $segment);
+            $view->with('moduleConfig', config($segment));
             $view->with('details', $moduleDetails);
             $view->with('modules', $modules);
             $view->with('site', $site);

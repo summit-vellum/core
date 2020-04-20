@@ -15,8 +15,6 @@
 @endpush
 
 @section('content')
-	@dialog(['id' => 'deleteResourceDialog'])
-
 	<section class="container">
 		@include(template('maintenance'))
 	    @include(template('search'))

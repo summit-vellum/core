@@ -32,6 +32,7 @@
 </head>
 
 <body>
+	@dialog(['id' => 'deleteResourceDialog'])
     <!-- <div class="container-fluid"> -->
 
     <div>
