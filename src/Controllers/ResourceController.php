@@ -207,7 +207,10 @@ class ResourceController extends Controller
             $autosave->destroy($id);
         }
 
-        return redirect()->route($this->module->getName().'.index');
+        $overrideModule = isset($this->module->overrideModule) ? $this->module->overrideModule : ucfirst(str_replace('-', ' ', $this->module->module));
+        session()->flash('flash_message', ucfirst($overrideModule).' saved!');
+
+        return redirect()->route($this->module->getName().'.edit', $id);
     }
 
     /**

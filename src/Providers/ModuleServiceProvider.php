@@ -86,10 +86,9 @@ class ModuleServiceProvider extends ServiceProvider
         });
 
         view()->composer('*', function ($view) use ($segment, $modules, $moduleDetails, $site) {
-        	$overrideModule = '';
-        	if ($segment == 'post') {
-        		$overrideModule = 'article';
-        	}
+
+        	$overrideModule = isset($moduleDetails['overrideModule']) ? $moduleDetails['overrideModule'] : '';
+
         	$view->with('overrideModule', $overrideModule);
             $view->with('module', $segment);
             $view->with('moduleConfig', config($segment));
