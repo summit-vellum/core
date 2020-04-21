@@ -105,8 +105,10 @@ class ResourceController extends Controller
         $validator = $request->validated();
         $fields = $request->except($this->resource->getExcludedFields());
         $data = $this->resource->save($fields);
+        $id = $data->id;
 
-        return redirect()->route($this->module->getName() . '.index');
+        //return redirect()->route($this->module->getName() . '.index');
+        return redirect()->route($this->module->getName().'.edit', $id);
     }
 
     /**
