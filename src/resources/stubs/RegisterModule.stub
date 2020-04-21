@@ -20,6 +20,7 @@ class Register{{moduleName}}Module
             'module' => '{{moduleName}}',
             'parent' => '',
             'model' => \Quill\{{moduleName}}\Models\{{moduleName}}::class,
+            'overrideModule' => '',
             'permissions' => [],
             'description' => '',
             'navHeader' => [
