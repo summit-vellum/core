@@ -11,7 +11,7 @@
 @php
 	$currentModule = $modules[array_search($module, array_column($modules, 'name'))];
 	$navHeader = isset($currentModule['navHeader'])?$currentModule['navHeader']:'';
-	$navHeaderField = isset($data->{$navHeader['field']}) ? $data->{$navHeader['field']} : '';
+	$navHeaderField = (isset($currentModule['navHeader']) && isset($data->{$navHeader['field']})) ? $data->{$navHeader['field']} : '';
 @endphp
 
 @if($navHeader)
