@@ -30,5 +30,8 @@ return [
     'pusher' => [
     	'allow' => false, //please make sure to follow all the guidelines on how to properly install a pusher once you update this to true
     	'timeout' => '', //1 second = 1000 millisecond
+    ],
+    'history' => [
+    	'selected_activity_codes' => ''
     ]
 ];

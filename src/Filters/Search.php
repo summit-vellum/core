@@ -5,6 +5,7 @@ namespace Vellum\Filters;
 use Illuminate\Database\Eloquent\Builder;
 use Vellum\Contracts\Resource;
 use Vellum\Filters\Filter;
+use Illuminate\Support\Str;
 
 class Search extends Filter
 {
@@ -20,15 +21,20 @@ class Search extends Filter
 	{
 		$firstField = $this->searchFields->shift();
 
+		$module = request()->segment(1);
+    	$module = Str::slug($module, '_');
 
-		$builder->where(function($builder) use($firstField){
-			$builder->where($firstField, 'like', "%".request($this->filterName())."%");
+    	if ($module == 'history') {
+    		$builder->whereTitleLike(request($this->filterName()));
+    	} else {
+    		$builder->where(function($builder) use($firstField){
+				$builder->where($firstField, 'like', "%".request($this->filterName())."%");
 
-			$this->searchFields->map(function($field) use($builder) {
-	            $builder->orWhere($field, 'like', "%".request($this->filterName())."%");
-	        });
-		});
-
+				$this->searchFields->map(function($field) use($builder) {
+		            $builder->orWhere($field, 'like', "%".request($this->filterName())."%");
+		        });
+			});
+    	}
 
 		return $builder;
 	}
