@@ -55,7 +55,7 @@ class AwsHelper
     public function uploadFileToS3($key, $sourceFile, $ext)
     {
     	$siteImgFolder = $this->site['code_name'];
-        $key = $siteImgFolder.'/'.$key;
+        $key = $siteImgFolder.$key;
 
         $s3 = AWS::createClient('s3');
         $result = $s3->putObject(array(

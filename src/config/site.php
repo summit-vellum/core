@@ -18,7 +18,7 @@ return [
     'image_domain' => '',
     'protocol' => '',
     'image_library' => '',
-    'image_path' => 'images/',
+    'image_path' => '/images/',
     'pagination_items' => [30, 60, 90],
     'pagination_limit' => 30,
     'main_module_slug' => '',
